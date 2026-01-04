@@ -1,0 +1,31 @@
+name: suivi_budget
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  
+  floor: ^1.5.0
+  
+  flutter:
+    sdk: flutter
+  gap: ^3.0.1
+  google_fonts: ^6.3.3
+  provider: ^6.1.5+1
+  shared_preferences: ^2.5.4
+  sqflite: ^2.4.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  floor_generator: ^1.5.0
+  build_runner: ^2.4.13
+
+flutter:
+  uses-material-design: true
+  assets:
+    [assets/images/]
