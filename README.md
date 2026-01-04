@@ -24,7 +24,7 @@ L'objectif est de créer une application mobile de gestion de finances personnel
 
 
 ## Aperçu du design
-[Écran accueil](assets/images/Accueil)
+[Écran accueil](assets/images/Accueil.png)
 
 
 ## Technologies utilisées 
