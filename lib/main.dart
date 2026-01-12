@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suivi_budget/database/suivi_budget_database.dart';
 import 'package:suivi_budget/ecran/accueil.dart';
 import 'package:suivi_budget/providers.dart';
@@ -8,6 +9,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final database = await SuiviBudgetDatabase.initialiser();
   final dao = database.transactionDao;
+  final prefs = await SharedPreferences.getInstance();
+  final nom = prefs.getString("nom_utilisateur");
   runApp(
     MultiProvider(
       providers: [
@@ -16,7 +19,7 @@ void main() async {
           create: (context) => DatabaseProvider(dao: dao)..lireTransactions(),
         ),
         ChangeNotifierProvider(
-          create: (context) => UtilisateurInfoProvider()..lireNom(),
+          create: (context) => UtilisateurInfoProvider(nom: nom)..lireNom(),
         ),
       ],
       child: MainApp(),

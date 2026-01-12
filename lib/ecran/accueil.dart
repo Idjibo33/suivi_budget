@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/providers.dart';
@@ -32,7 +31,7 @@ class _AccueilState extends State<Accueil> {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (context) => OnboardingWidget(),
+      builder: (context) => const OnboardingWidget(),
     );
   }
 
@@ -46,14 +45,14 @@ class _AccueilState extends State<Accueil> {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            Gap(22),
+            const SizedBox(height: 22),
             Align(
               alignment: AlignmentGeometry.topLeft,
               child: FittedBox(
                 child: Text("Suivi budget", style: Styles.texteEnTete),
               ),
             ),
-            Gap(20),
+            const SizedBox(height: 20),
             Align(
               alignment: Alignment.topLeft,
               child: Column(
@@ -67,21 +66,21 @@ class _AccueilState extends State<Accueil> {
                 ],
               ),
             ),
-            Gap(22),
+            const SizedBox(height: 22),
             const SoldeWidget(),
-            Gap(12),
+            const SizedBox(height: 12),
             Align(
               alignment: Alignment.topLeft,
               child: Text("Statistiques", style: Styles.texteTitre),
             ),
-            Gap(4),
+            const SizedBox(height: 4),
             Row(
               children: [
                 Expanded(child: const RevenusWidgets()),
                 Expanded(child: const DepensesWidgets()),
               ],
             ),
-            Gap(12),
+            const SizedBox(height: 12),
             Align(
               alignment: AlignmentGeometry.topLeft,
               child: Text("Transactions récents", style: Styles.texteTitre),

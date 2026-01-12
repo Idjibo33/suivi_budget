@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/providers.dart';
@@ -24,12 +23,12 @@ class _SoldeWidgetState extends State<SoldeWidget> {
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
+          spacing: 8,
           children: [
             Align(
               alignment: AlignmentGeometry.topLeft,
               child: Text("Solde", style: Styles.texteTitre),
             ),
-            Gap(4),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

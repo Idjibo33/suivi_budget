@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/providers.dart';
-import 'package:suivi_budget/widgets/ajouter_transaction.dart';
+import 'package:suivi_budget/widgets/ajouter_transaction_widget.dart';
 
 class DepensesWidgets extends StatelessWidget {
   const DepensesWidgets({super.key});
@@ -23,13 +22,13 @@ class DepensesWidgets extends StatelessWidget {
               style: Styles.texteCorps.copyWith(color: Colors.white),
             ),
             Row(
+              spacing: 8,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   sommesDepenses.toString(),
                   style: Styles.texteTitre.copyWith(color: Colors.white),
                 ),
-                Gap(8),
                 IconButton.filled(
                   onPressed: () {
                     showModalBottomSheet(

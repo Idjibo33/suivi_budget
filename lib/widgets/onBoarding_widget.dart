@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/providers.dart';
@@ -18,21 +17,19 @@ class OnboardingWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
+            spacing: 8,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Bienvenue !", style: Styles.texteEnTete),
-              Gap(12),
+              SizedBox(height: 4),
               Text(
                 "Juste quelques étapes rapides pour commencer. Votre vie privée est notre priorité. Nous ne stockons vos données sur aucun serveur externe. Tout reste sur votre appareil.",
                 style: Styles.texteCorps,
                 textAlign: TextAlign.center,
               ),
-              Gap(8),
               Align(
                 alignment: AlignmentGeometry.topLeft,
                 child: Text("Nom complet", style: Styles.texteTitre),
               ),
-              Gap(8),
               TextField(
                 controller: texte,
                 autofocus: true,
@@ -51,7 +48,6 @@ class OnboardingWidget extends StatelessWidget {
                 style: Styles.texteCorps,
                 textAlign: TextAlign.center,
               ),
-              Gap(8),
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
@@ -73,10 +69,9 @@ class OnboardingWidget extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text("Continuer"),
+                  child: const Text("Continuer"),
                 ),
               ),
-              Gap(8),
               Text(
                 "En continuant, vous confirmez que vous avez lu et accepté nos conditions",
                 style: Styles.texteCorps,

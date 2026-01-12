@@ -18,6 +18,12 @@ class DatabaseProvider extends ChangeNotifier {
 
   //Ajouter la transaction
   Future<void> ajouterTransaction(Transaction nouvelleTransaction) async {
+    if (nouvelleTransaction.type == TypeTransaction.depenses) {
+      int soldeActuel = calculerSolde();
+      if (nouvelleTransaction.montant > soldeActuel) {
+        throw "Votre solde est insuffisant";
+      }
+    }
     await dao.ajouterTransaction(nouvelleTransaction);
     await lireTransactions();
   }
@@ -66,8 +72,9 @@ class DatabaseProvider extends ChangeNotifier {
 }
 
 class UtilisateurInfoProvider extends ChangeNotifier {
-  String? nom = "UtilisateurD";
+  String? nom;
   static const String key = "nom_utilisateur";
+  UtilisateurInfoProvider({required this.nom});
 
   //Ajouter nom de l'utilisateur
   void ajouterNom(String n) async {
@@ -80,7 +87,7 @@ class UtilisateurInfoProvider extends ChangeNotifier {
   //Lire nom de l'utilisateur
   Future<void> lireNom() async {
     final prefs = await SharedPreferences.getInstance();
-    nom = prefs.getString(key);
+    nom = prefs.getString(key) ?? "Utilisateur";
     notifyListeners();
   }
 }

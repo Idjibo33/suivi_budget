@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/database/transaction.dart';
 
@@ -17,6 +16,7 @@ class TransactionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
+              spacing: 8,
               children: [
                 Container(
                   decoration: BoxDecoration(
@@ -28,7 +28,6 @@ class TransactionCard extends StatelessWidget {
                     child: Icon(Icons.money, color: Colors.grey, size: 20),
                   ),
                 ),
-                Gap(8),
                 Text(transaction.category, style: Styles.texteTitre),
               ],
             ),
