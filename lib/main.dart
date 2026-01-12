@@ -9,8 +9,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final database = await SuiviBudgetDatabase.initialiser();
   final dao = database.transactionDao;
-  final prefs = await SharedPreferences.getInstance();
-  final nom = prefs.getString("nom_utilisateur");
   runApp(
     MultiProvider(
       providers: [
@@ -19,7 +17,7 @@ void main() async {
           create: (context) => DatabaseProvider(dao: dao)..lireTransactions(),
         ),
         ChangeNotifierProvider(
-          create: (context) => UtilisateurInfoProvider(nom: nom)..lireNom(),
+          create: (context) => UtilisateurInfoProvider()..lireNom(),
         ),
       ],
       child: MainApp(),

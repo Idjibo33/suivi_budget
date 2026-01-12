@@ -74,7 +74,6 @@ class DatabaseProvider extends ChangeNotifier {
 class UtilisateurInfoProvider extends ChangeNotifier {
   String? nom;
   static const String key = "nom_utilisateur";
-  UtilisateurInfoProvider({required this.nom});
 
   //Ajouter nom de l'utilisateur
   void ajouterNom(String n) async {

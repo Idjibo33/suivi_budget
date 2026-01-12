@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/providers.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class OnboardingWidget extends StatelessWidget {
   const OnboardingWidget({super.key});
@@ -56,16 +58,10 @@ class OnboardingWidget extends StatelessWidget {
                       texte.text,
                     );
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          "Nom enregistré avec succès",
-                          style: Styles.texteTitre.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                        backgroundColor: Styles.couleurRevenu,
-                        behavior: SnackBarBehavior.floating,
+                    showTopSnackBar(
+                      Overlay.of(context),
+                      CustomSnackBar.success(
+                        message: "Succès: Transaction enregistrée",
                       ),
                     );
                   },

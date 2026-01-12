@@ -43,58 +43,59 @@ class _AccueilState extends State<Accueil> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            const SizedBox(height: 22),
-            Align(
-              alignment: AlignmentGeometry.topLeft,
-              child: FittedBox(
-                child: Text("Suivi budget", style: Styles.texteEnTete),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Align(
+                alignment: AlignmentGeometry.topLeft,
+                child: FittedBox(
+                  child: Text("Suivi budget", style: Styles.texteEnTete),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              const SizedBox(height: 20),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Bienvenue",
+                      style: TextStyle(fontSize: 20, color: Colors.grey),
+                    ),
+                    Text(monNom.toString(), style: Styles.texteTitre),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 22),
+              const SoldeWidget(),
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text("Statistiques", style: Styles.texteTitre),
+              ),
+              const SizedBox(height: 4),
+              Row(
                 children: [
-                  Text(
-                    "Bienvenue",
-                    style: TextStyle(fontSize: 20, color: Colors.grey),
-                  ),
-                  Text(monNom.toString(), style: Styles.texteTitre),
+                  Expanded(child: const RevenusWidgets()),
+                  Expanded(child: const DepensesWidgets()),
                 ],
               ),
-            ),
-            const SizedBox(height: 22),
-            const SoldeWidget(),
-            const SizedBox(height: 12),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text("Statistiques", style: Styles.texteTitre),
-            ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                Expanded(child: const RevenusWidgets()),
-                Expanded(child: const DepensesWidgets()),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Align(
-              alignment: AlignmentGeometry.topLeft,
-              child: Text("Transactions récents", style: Styles.texteTitre),
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.all(0),
-                itemCount: mesTransactions.length,
-                itemBuilder: (context, index) {
-                  return TransactionCard(transaction: mesTransactions[index]);
-                },
+              const SizedBox(height: 12),
+              Align(
+                alignment: AlignmentGeometry.topLeft,
+                child: Text("Transactions récents", style: Styles.texteTitre),
               ),
-            ),
-          ],
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.all(0),
+                  itemCount: mesTransactions.length,
+                  itemBuilder: (context, index) {
+                    return TransactionCard(transaction: mesTransactions[index]);
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
