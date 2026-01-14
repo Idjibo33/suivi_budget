@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/features/Accueil/widgets/filtrage_choice_chip_widget.dart';
+import 'package:suivi_budget/features/Accueil/widgets/list_transactions_widgets.dart';
 import 'package:suivi_budget/providers.dart';
-import 'package:suivi_budget/widgets/depenses_widgets.dart';
-import 'package:suivi_budget/widgets/onBoarding_widget.dart';
-import 'package:suivi_budget/widgets/revenus_widgets.dart';
-import 'package:suivi_budget/widgets/solde_widget.dart';
-import 'package:suivi_budget/widgets/transaction_card.dart';
+import 'package:suivi_budget/features/Accueil/widgets/depenses_widgets.dart';
+import 'package:suivi_budget/features/Onboarding/onBoarding_widget.dart';
+import 'package:suivi_budget/features/Accueil/widgets/revenus_widgets.dart';
+import 'package:suivi_budget/features/Accueil/widgets/solde_widget.dart';
 
-class Accueil extends StatefulWidget {
-  const Accueil({super.key});
+class AccueilScreen extends StatefulWidget {
+  const AccueilScreen({super.key});
 
   @override
-  State<Accueil> createState() => _AccueilState();
+  State<AccueilScreen> createState() => _AccueilScreenState();
 }
 
-class _AccueilState extends State<Accueil> {
+class _AccueilScreenState extends State<AccueilScreen> {
   @override
   void initState() {
     super.initState();
@@ -38,8 +39,6 @@ class _AccueilState extends State<Accueil> {
   @override
   Widget build(BuildContext context) {
     final monNom = context.watch<UtilisateurInfoProvider>().nom;
-    final mesTransactions = context.watch<DatabaseProvider>().transactions;
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(12),
@@ -85,15 +84,8 @@ class _AccueilState extends State<Accueil> {
                 alignment: AlignmentGeometry.topLeft,
                 child: Text("Transactions récents", style: Styles.texteTitre),
               ),
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.all(0),
-                  itemCount: mesTransactions.length,
-                  itemBuilder: (context, index) {
-                    return TransactionCard(transaction: mesTransactions[index]);
-                  },
-                ),
-              ),
+              const FiltrageChoiceChipWidget(),
+              const ListTransactionsWidgets(),
             ],
           ),
         ),

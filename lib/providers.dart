@@ -7,12 +7,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DatabaseProvider extends ChangeNotifier {
   final TransactionDao dao;
   List<Transaction> transactions = [];
+  List<Transaction> transactionsRevenus = [];
+  List<Transaction> transactionsDepenses = [];
+  String filtre = "toutes";
 
   DatabaseProvider({required this.dao});
 
   //Lire les transactions
   Future<void> lireTransactions() async {
     transactions = await dao.toutesLesTransactions();
+    transactionsRevenus = transactions
+        .where((element) => element.type == TypeTransaction.revenus)
+        .toList();
+    transactionsDepenses = transactions
+        .where((element) => element.type == TypeTransaction.depenses)
+        .toList();
     notifyListeners();
   }
 
@@ -38,6 +47,12 @@ class DatabaseProvider extends ChangeNotifier {
   Future<void> misAJourTransaction(Transaction transaction) async {
     await dao.misAJourtransaction(transaction);
     await lireTransactions();
+  }
+
+  //Changer la valeur du filtre
+  void changerFiltre(String nouveauFiltre) {
+    filtre = nouveauFiltre;
+    notifyListeners();
   }
 
   //Calculer la somme des revenus
