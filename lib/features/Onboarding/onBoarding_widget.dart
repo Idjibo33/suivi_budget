@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/providers.dart';
+import 'package:suivi_budget/utilisateur_provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -54,9 +54,7 @@ class OnboardingWidget extends StatelessWidget {
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: () {
-                    context.read<UtilisateurInfoProvider>().ajouterNom(
-                      texte.text,
-                    );
+                    context.read<UtilisateurProvider>().misAJourNom(texte.text);
                     Navigator.pop(context);
                     showTopSnackBar(
                       Overlay.of(context),

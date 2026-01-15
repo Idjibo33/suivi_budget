@@ -8,6 +8,7 @@ Ce projet est une mini application de suivi budget pour jeune actif
 - **Gestion et Suivi des transactions:** Enregistrement et affichage des revenus, dépenses et calcul de solde en temps réel.
 - **Persistance des données:** Enregistrement stockage des données légères avec **Shared_Preferences** et l'utilisation de **sqflite** pour le stockage des données de transactions.
 - **Gestion d'État Réactive:** Mise à jour instantanée de l'interface utilisateur lors de l'ajout d'informations sans recharger la page.
+- **Filtrage des transaction** sur l'écran d'accueil
 
 ## Statut de l'application :
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/database/transaction.dart';
 import 'package:suivi_budget/database/transaction_dao.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DatabaseProvider extends ChangeNotifier {
   final TransactionDao dao;
@@ -83,25 +82,5 @@ class DatabaseProvider extends ChangeNotifier {
     int depenses = totalDepenses();
     int soldeTotal = revenus - depenses;
     return soldeTotal;
-  }
-}
-
-class UtilisateurInfoProvider extends ChangeNotifier {
-  String? nom;
-  static const String key = "nom_utilisateur";
-
-  //Ajouter nom de l'utilisateur
-  void ajouterNom(String n) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, n);
-    nom = n;
-    notifyListeners();
-  }
-
-  //Lire nom de l'utilisateur
-  Future<void> lireNom() async {
-    final prefs = await SharedPreferences.getInstance();
-    nom = prefs.getString(key) ?? "Utilisateur";
-    notifyListeners();
   }
 }

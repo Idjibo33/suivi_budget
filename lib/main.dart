@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:suivi_budget/database/suivi_budget_database.dart';
 import 'package:suivi_budget/features/Accueil/accueil_screen.dart';
 import 'package:suivi_budget/providers.dart';
+import 'package:suivi_budget/utilisateur_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +18,7 @@ void main() async {
         ),
 
         ChangeNotifierProvider(
-          create: (context) => UtilisateurInfoProvider()..lireNom(),
+          create: (context) => UtilisateurProvider()..initialiserNom(),
         ),
       ],
       child: MainApp(),

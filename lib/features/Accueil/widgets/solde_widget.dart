@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/providers.dart';
+import 'package:suivi_budget/utilisateur_provider.dart';
 
 class SoldeWidget extends StatefulWidget {
   const SoldeWidget({super.key});
@@ -15,7 +16,7 @@ class _SoldeWidgetState extends State<SoldeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final monNom = context.watch<UtilisateurInfoProvider>().nom;
+    final monNom = context.watch<UtilisateurProvider>().nom;
     int monSolde = context.watch<DatabaseProvider>().calculerSolde();
 
     return Card(

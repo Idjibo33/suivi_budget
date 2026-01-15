@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/features/Accueil/widgets/filtrage_choice_chip_widget.dart';
 import 'package:suivi_budget/features/Accueil/widgets/list_transactions_widgets.dart';
-import 'package:suivi_budget/providers.dart';
 import 'package:suivi_budget/features/Accueil/widgets/depenses_widgets.dart';
 import 'package:suivi_budget/features/Onboarding/onBoarding_widget.dart';
 import 'package:suivi_budget/features/Accueil/widgets/revenus_widgets.dart';
 import 'package:suivi_budget/features/Accueil/widgets/solde_widget.dart';
+import 'package:suivi_budget/utilisateur_provider.dart';
 
 class AccueilScreen extends StatefulWidget {
   const AccueilScreen({super.key});
@@ -21,7 +21,7 @@ class _AccueilScreenState extends State<AccueilScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final nom = context.read<UtilisateurInfoProvider>().nom;
+      final nom = context.read<UtilisateurProvider>().nom;
       if (nom == "Utilisateur") {
         return entrerInfos();
       }
@@ -38,7 +38,7 @@ class _AccueilScreenState extends State<AccueilScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final monNom = context.watch<UtilisateurInfoProvider>().nom;
+    final monNom = context.watch<UtilisateurProvider>().nom;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(12),
