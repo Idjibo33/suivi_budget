@@ -22,12 +22,15 @@ class _AccueilScreenState extends State<AccueilScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final nom = context.read<UtilisateurProvider>().nom;
+
+      //Vérifier si l'utilisateur a déjà enregistrer son nom
       if (nom == "Utilisateur") {
         return entrerInfos();
       }
     });
   }
 
+  //Afficher le widget d'entrée du nom de l'utilisateur
   void entrerInfos() {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -36,8 +39,17 @@ class _AccueilScreenState extends State<AccueilScreen> {
     );
   }
 
+  //Aficher le widget d'affichage de toutes les transactions
+  void voirTransactions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => ListTransactionsWidgets(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    //Récuperer le nom de l'utilisateur
     final monNom = context.watch<UtilisateurProvider>().nom;
     return Scaffold(
       body: Padding(
@@ -80,9 +92,17 @@ class _AccueilScreenState extends State<AccueilScreen> {
                 ],
               ),
               const SizedBox(height: 12),
-              Align(
-                alignment: AlignmentGeometry.topLeft,
-                child: Text("Transactions récents", style: Styles.texteTitre),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Transactions récents", style: Styles.texteTitre),
+                  TextButton(
+                    onPressed: () {
+                      voirTransactions();
+                    },
+                    child: Text("voir tout", style: Styles.texteTitre),
+                  ),
+                ],
               ),
               const FiltrageChoiceChipWidget(),
               const ListTransactionsWidgets(),

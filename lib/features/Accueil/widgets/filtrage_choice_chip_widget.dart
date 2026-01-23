@@ -7,38 +7,41 @@ class FiltrageChoiceChipWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String filtre = context.watch<DatabaseProvider>().filtre;
-    return Row(
-      spacing: 12,
-      children: [
-        ChoiceChip(
-          onSelected: (value) =>
-              context.read<DatabaseProvider>().changerFiltre("toutes"),
-          label: Text("Toutes"),
-          selected: filtre == "toutes",
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadiusGeometry.circular(24),
-          ),
-        ),
-        ChoiceChip(
-          onSelected: (value) =>
-              context.read<DatabaseProvider>().changerFiltre("revenus"),
-          label: Text("Revenus"),
-          selected: filtre == "revenus",
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadiusGeometry.circular(24),
-          ),
-        ),
-        ChoiceChip(
-          onSelected: (value) =>
-              context.read<DatabaseProvider>().changerFiltre("depenses"),
-          label: Text("Dépenses"),
-          selected: filtre == "depenses",
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadiusGeometry.circular(24),
-          ),
-        ),
-      ],
+    return Consumer<DatabaseProvider>(
+      builder: (context, value, child) {
+        return Row(
+          spacing: 12,
+          children: [
+            ChoiceChip(
+              onSelected: (value) =>
+                  context.read<DatabaseProvider>().changerFiltre("toutes"),
+              label: Text("Toutes ${value.transactions.length}"),
+              selected: value.filtre == "toutes",
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(24),
+              ),
+            ),
+            ChoiceChip(
+              onSelected: (value) =>
+                  context.read<DatabaseProvider>().changerFiltre("revenus"),
+              label: Text("Revenus ${value.transactionsRevenus.length}"),
+              selected: value.filtre == "revenus",
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(24),
+              ),
+            ),
+            ChoiceChip(
+              onSelected: (value) =>
+                  context.read<DatabaseProvider>().changerFiltre("depenses"),
+              label: Text("Dépenses ${value.transactionsDepenses.length}"),
+              selected: value.filtre == "depenses",
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(24),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

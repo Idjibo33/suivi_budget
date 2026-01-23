@@ -8,19 +8,17 @@ class ListTransactionsWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String monFiltre = context.watch<DatabaseProvider>().filtre;
-
     return Expanded(
       child: Consumer<DatabaseProvider>(
         builder: (context, value, child) {
-          if (monFiltre == "revenus") {
+          if (value.filtre == "revenus") {
             return ListView.builder(
               itemCount: value.transactionsRevenus.length,
               itemBuilder: (context, index) => TransactionCard(
                 transaction: value.transactionsRevenus[index],
               ),
             );
-          } else if (monFiltre == "depenses") {
+          } else if (value.filtre == "depenses") {
             return ListView.builder(
               itemCount: value.transactionsDepenses.length,
               itemBuilder: (context, index) => TransactionCard(
