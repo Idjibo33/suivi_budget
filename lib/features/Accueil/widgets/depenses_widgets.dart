@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_budget/Providers/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/providers.dart';
 import 'package:suivi_budget/features/Accueil/widgets/ajouter_transaction_widget.dart';
 
 class DepensesWidgets extends StatelessWidget {

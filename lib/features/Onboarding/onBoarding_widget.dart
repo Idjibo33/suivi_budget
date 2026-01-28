@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_budget/Services/Notifications/snackbar_services.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/utilisateur_provider.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:suivi_budget/Providers/utilisateur_provider.dart';
 
 class OnboardingWidget extends StatelessWidget {
   const OnboardingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    //Le controlleur du champ d'entrée du nom de l'utilisateur
     TextEditingController texte = TextEditingController();
     return Padding(
       padding: EdgeInsets.only(
@@ -54,13 +54,14 @@ class OnboardingWidget extends StatelessWidget {
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: () {
+                    //Enregistrement du nom de l'utilisateur
                     context.read<UtilisateurProvider>().misAJourNom(texte.text);
                     Navigator.pop(context);
-                    showTopSnackBar(
-                      Overlay.of(context),
-                      CustomSnackBar.success(
-                        message: "Succès: Transaction enregistrée",
-                      ),
+
+                    //Affichage du message de succès
+                    SnackbarServices.successSnackbar(
+                      context,
+                      "Succès: Nom d'utilisateur enregistré",
                     );
                   },
                   child: const Text("Continuer"),

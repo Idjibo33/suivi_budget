@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_budget/Providers/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/features/Accueil/widgets/ajouter_transaction_widget.dart';
-import 'package:suivi_budget/providers.dart';
 
 class RevenusWidgets extends StatelessWidget {
   const RevenusWidgets({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:suivi_budget/Services/transaction.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/database/transaction.dart';
 
 class TransactionCard extends StatelessWidget {
   final Transaction transaction;

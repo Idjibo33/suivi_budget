@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_budget/Providers/database_provider.dart';
 import 'package:suivi_budget/features/Accueil/widgets/transaction_card.dart';
-import 'package:suivi_budget/providers.dart';
 
 class ListTransactionsWidgets extends StatelessWidget {
   const ListTransactionsWidgets({super.key});

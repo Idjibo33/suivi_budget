@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/providers.dart';
+import 'package:suivi_budget/Providers/database_provider.dart';
 
 class FiltrageChoiceChipWidget extends StatelessWidget {
   const FiltrageChoiceChipWidget({super.key});

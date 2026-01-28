@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_budget/Features/Accueil/widgets/custom_textfield_widget.dart';
+import 'package:suivi_budget/Features/Accueil/widgets/depenses_categories_dropdown_widget.dart';
+import 'package:suivi_budget/Features/Accueil/widgets/revenus_categories_dropdown_widget.dart';
+import 'package:suivi_budget/Providers/depenses_categories_dropdown_provider.dart';
+import 'package:suivi_budget/Providers/revenus_categories_dropdown_provider.dart';
+import 'package:suivi_budget/Services/Notifications/snackbar_services.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/database/transaction.dart';
-import 'package:suivi_budget/providers.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:suivi_budget/Services/transaction.dart';
+import 'package:suivi_budget/Providers/database_provider.dart';
 
-class AjouterTransaction extends StatefulWidget {
+class AjouterTransaction extends StatelessWidget {
   final TypeTransaction typeTransaction;
   const AjouterTransaction({super.key, required this.typeTransaction});
 
   @override
-  State<AjouterTransaction> createState() => _AjouterTransactionState();
-}
-
-class _AjouterTransactionState extends State<AjouterTransaction> {
-  final now = DateTime.now().toString();
-  TextEditingController montanttexte = TextEditingController();
-  String revenuesCategorie = "salaire";
-  String depensesCategorie = "courses";
-
-  @override
   Widget build(BuildContext context) {
+    final String categorieRevenu =
+        RevenusCategoriesDropdownProvider().categorie;
+    final String categorieDepense =
+        DepensesCategoriesDropdownProvider().categorie;
+    // Lire l'heure actuelle
+    final now = DateTime.now().toString();
+    // le controlleur du champ d'entrée du montant
+    TextEditingController montanttexte = TextEditingController();
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -39,7 +41,7 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.typeTransaction == TypeTransaction.revenus
+                      typeTransaction == TypeTransaction.revenus
                           ? "Nouveau revenu"
                           : "Nouvelle dépense",
                     ),
@@ -61,21 +63,12 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
                     Text("(F cfa)", style: Styles.texteCorps),
                   ],
                 ),
-
-                TextField(
-                  keyboardType: TextInputType.numberWithOptions(),
-                  controller: montanttexte,
-                  decoration: InputDecoration(
-                    label: Text("ex : 10000", style: Styles.texteCorps),
-                    border: UnderlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[300],
-                  ),
-                  onChanged: (value) => montanttexte.text = value,
+                CustomTextfieldWidget(
+                  controlleurChamp: montanttexte,
+                  label: "ex : 10000",
+                  typeInput: TextInputType.numberWithOptions(),
                 ),
+
                 Text("Catégorie", style: Styles.texteCorps),
                 Card(
                   shape: RoundedRectangleBorder(
@@ -85,114 +78,48 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
                   elevation: 0,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: widget.typeTransaction == TypeTransaction.revenus
-                        ? DropdownButton(
-                            style: Styles.texteCorps.copyWith(
-                              color: Colors.black,
-                            ),
-                            icon: Transform.rotate(
-                              angle: -1.6,
-                              child: Icon(Icons.arrow_back_ios_new, size: 20),
-                            ),
-                            underline: Container(),
-                            value: revenuesCategorie,
-                            items: [
-                              DropdownMenuItem(
-                                value: "salaire",
-                                child: Text("Salaire"),
-                              ),
-                              DropdownMenuItem(
-                                value: "aide",
-                                child: Text("Aide"),
-                              ),
-                              DropdownMenuItem(
-                                value: "freelance",
-                                child: Text("Freelance"),
-                              ),
-                              DropdownMenuItem(
-                                value: "remboursement",
-                                child: Text("Remboursement"),
-                              ),
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                revenuesCategorie = value!;
-                              });
-                            },
-                          )
-                        : DropdownButton(
-                            style: Styles.texteCorps.copyWith(
-                              color: Colors.black,
-                            ),
-                            icon: Transform.rotate(
-                              angle: -1.6,
-                              child: Icon(Icons.arrow_back_ios_new, size: 20),
-                            ),
-                            underline: Container(),
-                            value: depensesCategorie,
-                            items: [
-                              DropdownMenuItem(
-                                value: "abonnement",
-                                child: Text("Abonnement"),
-                              ),
-                              DropdownMenuItem(
-                                value: "courses",
-                                child: Text("Courses"),
-                              ),
-                              DropdownMenuItem(
-                                value: "loisirs",
-                                child: Text("Loisirs"),
-                              ),
-                              DropdownMenuItem(
-                                value: "transport",
-                                child: Text("Transport"),
-                              ),
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                depensesCategorie = value!;
-                              });
-                            },
-                          ),
+                    child: typeTransaction == TypeTransaction.revenus
+                        ? RevenusCategoriesDropdownWidget()
+                        : DepensesCategoriesDropdownWidget(),
                   ),
                 ),
-
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
-                  child: FilledButton(
-                    onPressed: () async {
-                      try {
-                        await context
-                            .read<DatabaseProvider>()
-                            .ajouterTransaction(
-                              Transaction(
-                                montant: int.parse(montanttexte.text),
-                                category:
-                                    widget.typeTransaction ==
-                                        TypeTransaction.revenus
-                                    ? revenuesCategorie
-                                    : depensesCategorie,
-                                type: widget.typeTransaction,
-                                date: now,
-                              ),
-                            );
-                        showTopSnackBar(
-                          Overlay.of(context),
-                          CustomSnackBar.success(
-                            message: "Succès: Transaction enregistrée",
-                          ),
-                        );
+                  child: Consumer<DatabaseProvider>(
+                    builder: (context, value, child) => FilledButton(
+                      onPressed: () {
+                        try {
+                          value.ajouterTransaction(
+                            Transaction(
+                              montant: int.parse(montanttexte.text),
+                              category:
+                                  typeTransaction == TypeTransaction.revenus
+                                  ? categorieRevenu
+                                  : categorieDepense,
+                              type: typeTransaction,
+                              date: now,
+                            ),
+                          );
 
-                        Navigator.pop(context);
-                      } catch (e) {
-                        showTopSnackBar(
-                          Overlay.of(context),
-                          CustomSnackBar.error(message: e.toString()),
-                        );
-                      }
-                    },
-                    child: Text("Enregistrer la transaction"),
+                          if (context.mounted) {
+                            SnackbarServices.successSnackbar(
+                              context,
+                              "Succès: Transaction enregistrée",
+                            );
+                            Navigator.pop(context);
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            SnackbarServices.errorSnackbar(
+                              context,
+                              e.toString(),
+                            );
+                          }
+                        }
+                      },
+                      child: const Text("Enregistrer la transaction"),
+                    ),
                   ),
                 ),
               ],

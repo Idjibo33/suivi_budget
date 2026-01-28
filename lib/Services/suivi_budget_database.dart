@@ -10,6 +10,7 @@ part 'suivi_budget_database.g.dart';
 abstract class SuiviBudgetDatabase extends FloorDatabase {
   TransactionDao get transactionDao;
 
+  //Initialiser la base de donnée
   static Future<SuiviBudgetDatabase> initialiser() async {
     return await $FloorSuiviBudgetDatabase
         .databaseBuilder('suiviBudget_database.db')

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/preferences_repository.dart';
+import 'package:suivi_budget/Services/Preferences/utilisateur_preferences.dart';
 
 class UtilisateurProvider extends ChangeNotifier {
   final UtilisateurPreferences preferences = UtilisateurPreferences();
   String? _nom;
   String? get nom => _nom;
 
-  //Charger le nom de l'utilisteur
+  //Initialiser le nom de l'utilisteur
   Future<void> initialiserNom() async {
     _nom = await preferences.lireNom();
     notifyListeners();

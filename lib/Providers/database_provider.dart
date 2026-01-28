@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/database/transaction.dart';
-import 'package:suivi_budget/database/transaction_dao.dart';
+import 'package:suivi_budget/Services/transaction.dart';
+import 'package:suivi_budget/Services/transaction_dao.dart';
 
 class DatabaseProvider extends ChangeNotifier {
   final TransactionDao dao;
