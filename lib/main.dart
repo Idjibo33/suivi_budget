@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/depenses_categories_dropdown_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_dropdown_provider.dart';
@@ -13,6 +14,7 @@ void main() async {
   //Initialiser la base de données
   final database = await SuiviBudgetDatabase.initialiser();
   final dao = database.transactionDao;
+  await dotenv.load(fileName: ".env");
 
   runApp(
     //Déclaration des providers

@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -46,8 +47,8 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCssbWNgsGa0LCwH3IqNOFtmgIxJkxOFbg',
+  static final FirebaseOptions web = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_WEB_API_KEY'] ?? '',
     appId: '1:421889303134:web:8c61a81db90ca388c38acf',
     messagingSenderId: '421889303134',
     projectId: 'culturpass',
@@ -55,16 +56,16 @@ class DefaultFirebaseOptions {
     storageBucket: 'culturpass.firebasestorage.app',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCF--7i4-Py34KzswuIDWNyFERSbxj5UGY',
+  static final FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_ANDROID_API_KEY'] ?? '',
     appId: '1:421889303134:android:f0f1573834bc52e5c38acf',
     messagingSenderId: '421889303134',
     projectId: 'culturpass',
     storageBucket: 'culturpass.firebasestorage.app',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAYGDChQdGZ8SezDKeWPVVlGK_2_EoNgKM',
+  static final FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_IOS_API_KEY'] ?? '',
     appId: '1:421889303134:ios:cd270909969970c5c38acf',
     messagingSenderId: '421889303134',
     projectId: 'culturpass',
