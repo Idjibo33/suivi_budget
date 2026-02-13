@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/utilisateur_provider.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/views/Onboarding/onBoarding_widget.dart';
+import 'package:suivi_budget/views/Onboarding/on_boarding_widget.dart';
 import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
 import 'package:suivi_budget/views/widgets/filtrage_choice_chip_widget.dart';
 import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
