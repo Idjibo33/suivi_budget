@@ -1,0 +1,130 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:suivi_budget/Providers/depenses_categories_dropdown_provider.dart';
+import 'package:suivi_budget/Providers/revenus_categories_dropdown_provider.dart';
+import 'package:suivi_budget/Services/Offline%20database/transaction.dart';
+import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/Providers/database_provider.dart';
+import 'package:suivi_budget/models/Snackbar%20Notifications/error_snackbar.dart';
+import 'package:suivi_budget/models/Snackbar%20Notifications/success_snackbar.dart';
+import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
+import 'package:suivi_budget/views/widgets/depenses_categories_dropdown_widget.dart';
+import 'package:suivi_budget/views/widgets/revenus_categories_dropdown_widget.dart';
+
+class AjouterTransaction extends StatelessWidget {
+  final TypeTransaction typeTransaction;
+  const AjouterTransaction({super.key, required this.typeTransaction});
+
+  @override
+  Widget build(BuildContext context) {
+    final String categorieRevenu =
+        RevenusCategoriesDropdownProvider().categorie;
+    final String categorieDepense =
+        DepensesCategoriesDropdownProvider().categorie;
+    // Lire l'heure actuelle
+    final now = DateTime.now().toString();
+    // le controlleur du champ d'entrée du montant
+    TextEditingController montanttexte = TextEditingController();
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: SizedBox(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              spacing: 12,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  spacing: 8,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      typeTransaction == TypeTransaction.revenus
+                          ? "Nouveau revenu"
+                          : "Nouvelle dépense",
+                    ),
+                    IconButton.filled(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.close, color: Colors.grey),
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.grey[300],
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  spacing: 4,
+                  children: [
+                    Text("Montant", style: Styles.texteCorps),
+                    Text("(F cfa)", style: Styles.texteCorps),
+                  ],
+                ),
+                CustomTextfieldWidget(
+                  controlleurChamp: montanttexte,
+                  label: "ex : 10000",
+                  typeInput: TextInputType.numberWithOptions(),
+                ),
+
+                Text("Catégorie", style: Styles.texteCorps),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusGeometry.circular(16),
+                  ),
+                  color: Colors.grey[300],
+                  elevation: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: typeTransaction == TypeTransaction.revenus
+                        ? RevenusCategoriesDropdownWidget()
+                        : DepensesCategoriesDropdownWidget(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: Consumer<DatabaseProvider>(
+                    builder: (context, value, child) => FilledButton(
+                      onPressed: () {
+                        try {
+                          value.ajouterTransaction(
+                            Transaction(
+                              montant: int.parse(montanttexte.text),
+                              category:
+                                  typeTransaction == TypeTransaction.revenus
+                                  ? categorieRevenu
+                                  : categorieDepense,
+                              type: typeTransaction,
+                              date: now,
+                            ),
+                          );
+
+                          if (context.mounted) {
+                            showSuccessSnackbar(
+                              context,
+                              "Succès: Transaction enregistrée",
+                            );
+                            Navigator.pop(context);
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            showErrorSnackbar(context, e.toString());
+                          }
+                        }
+                      },
+                      child: const Text("Enregistrer la transaction"),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

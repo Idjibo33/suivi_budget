@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:suivi_budget/Services/transaction.dart';
+import 'package:suivi_budget/Services/Offline%20database/transaction.dart';
 
 @dao
 abstract class TransactionDao {

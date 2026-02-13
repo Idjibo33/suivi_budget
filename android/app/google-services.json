@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "421889303134",
+    "project_id": "culturpass",
+    "storage_bucket": "culturpass.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421889303134:android:f0f1573834bc52e5c38acf",
+        "android_client_info": {
+          "package_name": "com.example.suivi_budget"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF--7i4-Py34KzswuIDWNyFERSbxj5UGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

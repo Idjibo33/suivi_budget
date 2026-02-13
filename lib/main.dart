@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/depenses_categories_dropdown_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_dropdown_provider.dart';
-import 'package:suivi_budget/Services/suivi_budget_database.dart';
-import 'package:suivi_budget/features/Accueil/accueil_screen.dart';
 import 'package:suivi_budget/Providers/database_provider.dart';
 import 'package:suivi_budget/Providers/utilisateur_provider.dart';
+import 'package:suivi_budget/Services/Offline%20database/suivi_budget_database.dart';
+import 'package:suivi_budget/views/Accueil/accueil_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
