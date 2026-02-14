@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/Services/Offline%20database/transaction.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/transaction.dart';
 
 class TransactionCard extends StatelessWidget {
-  final Transaction transaction;
+  final TransactionModel transaction;
   const TransactionCard({super.key, required this.transaction});
 
   @override
@@ -45,7 +45,7 @@ class TransactionCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  transaction.date,
+                  transaction.date.toString(),
                   style: Styles.texteCorps.copyWith(fontSize: 12),
                 ),
               ],

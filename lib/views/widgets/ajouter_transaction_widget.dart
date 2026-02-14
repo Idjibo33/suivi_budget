@@ -1,12 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/depenses_categories_dropdown_provider.dart';
-import 'package:suivi_budget/Providers/revenus_categories_dropdown_provider.dart';
-import 'package:suivi_budget/Services/Offline%20database/transaction.dart';
+import 'package:suivi_budget/Functions/ajouter%20_transaction.dart';
+import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth_services.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/Providers/database_provider.dart';
-import 'package:suivi_budget/models/Snackbar%20Notifications/error_snackbar.dart';
-import 'package:suivi_budget/models/Snackbar%20Notifications/success_snackbar.dart';
+import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
 import 'package:suivi_budget/views/widgets/depenses_categories_dropdown_widget.dart';
 import 'package:suivi_budget/views/widgets/revenus_categories_dropdown_widget.dart';
@@ -17,12 +14,6 @@ class AjouterTransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String categorieRevenu =
-        RevenusCategoriesDropdownProvider().categorie;
-    final String categorieDepense =
-        DepensesCategoriesDropdownProvider().categorie;
-    // Lire l'heure actuelle
-    final now = DateTime.now().toString();
     // le controlleur du champ d'entrée du montant
     TextEditingController montanttexte = TextEditingController();
     return Padding(
@@ -87,37 +78,18 @@ class AjouterTransaction extends StatelessWidget {
                 const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
-                  child: Consumer<DatabaseProvider>(
-                    builder: (context, value, child) => FilledButton(
-                      onPressed: () {
-                        try {
-                          value.ajouterTransaction(
-                            Transaction(
-                              montant: int.parse(montanttexte.text),
-                              category:
-                                  typeTransaction == TypeTransaction.revenus
-                                  ? categorieRevenu
-                                  : categorieDepense,
-                              type: typeTransaction,
-                              date: now,
-                            ),
-                          );
-
-                          if (context.mounted) {
-                            showSuccessSnackbar(
-                              context,
-                              "Succès: Transaction enregistrée",
-                            );
-                            Navigator.pop(context);
-                          }
-                        } catch (e) {
-                          if (context.mounted) {
-                            showErrorSnackbar(context, e.toString());
-                          }
-                        }
-                      },
-                      child: const Text("Enregistrer la transaction"),
+                  child: FilledButton(
+                    onPressed: () => ajouterTransaction(
+                      context: context,
+                      transaction: TransactionModel(
+                        userId: AuthServices().currentUser!.uid,
+                        montant: int.parse(montanttexte.text),
+                        category: "Salaire",
+                        type: "Revenu",
+                        date: FieldValue.serverTimestamp(),
+                      ),
                     ),
+                    child: const Text("Enregistrer la transaction"),
                   ),
                 ),
               ],

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/widgets/ajouter_transaction_widget.dart';
 
@@ -9,7 +7,6 @@ class RevenusWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int sommesRevenus = context.watch<DatabaseProvider>().totalRevenus();
     return Card(
       color: Colors.green.shade200,
       child: Padding(
@@ -26,7 +23,7 @@ class RevenusWidgets extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  sommesRevenus.toString(),
+                  "Revenu",
                   style: Styles.texteTitre.copyWith(color: Colors.white),
                 ),
                 IconButton.filled(

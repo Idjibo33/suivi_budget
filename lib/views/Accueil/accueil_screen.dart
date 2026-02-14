@@ -4,13 +4,9 @@ import 'package:suivi_budget/Functions/deconnecter_utilisateur.dart';
 import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_services_provider.dart';
 import 'package:suivi_budget/Providers/utilisateur_provider.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/models/navigation/naviguer_page_recente.dart';
 import 'package:suivi_budget/views/Onboarding/on_boarding_widget.dart';
 import 'package:suivi_budget/views/Profil/profil_screen.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
-import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
-import 'package:suivi_budget/views/widgets/filtrage_choice_chip_widget.dart';
-import 'package:suivi_budget/views/widgets/head_text_widget.dart';
 import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
 import 'package:suivi_budget/views/widgets/revenus_widgets.dart';
 import 'package:suivi_budget/views/widgets/solde_widget.dart';
@@ -104,7 +100,7 @@ class _AccueilScreenState extends State<AccueilScreen> {
               Row(
                 children: [
                   Expanded(child: const RevenusWidgets()),
-                  Expanded(child: const DepensesWidgets()),
+                  /*Expanded(child: const DepensesWidgets()),*/
                 ],
               ),
               const SizedBox(height: 12),
@@ -127,7 +123,7 @@ class _AccueilScreenState extends State<AccueilScreen> {
                   ),
                 ],
               ),
-              const FiltrageChoiceChipWidget(),
+              /*  const FiltrageChoiceChipWidget(),*/
               const ListTransactionsWidgets(),
             ],
           ),

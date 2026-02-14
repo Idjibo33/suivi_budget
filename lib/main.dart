@@ -6,12 +6,11 @@ import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20p
 import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/connexion_service_provider.dart';
 import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_services_provider.dart';
 import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/inscription_service_provider.dart';
+import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_service_provider.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_utilisateur_provider.dart';
 import 'package:suivi_budget/Providers/depenses_categories_dropdown_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_dropdown_provider.dart';
-import 'package:suivi_budget/Providers/database_provider.dart';
 import 'package:suivi_budget/Providers/utilisateur_provider.dart';
-import 'package:suivi_budget/Services/Offline%20database/suivi_budget_database.dart';
 import 'package:suivi_budget/auth_gate.dart';
 
 void main() async {
@@ -19,8 +18,6 @@ void main() async {
 
   //Initialiser la base de données
   await Firebase.initializeApp();
-  final database = await SuiviBudgetDatabase.initialiser();
-  final dao = database.transactionDao;
   await dotenv.load(fileName: ".env");
 
   runApp(
@@ -28,7 +25,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => DatabaseProvider(dao: dao)..lireTransactions(),
+          create: (context) => DocTransactionServiceProvider(),
         ),
 
         ChangeNotifierProvider(

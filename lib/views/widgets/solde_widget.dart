@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/database_provider.dart';
-import 'package:suivi_budget/Providers/utilisateur_provider.dart';
 import 'package:suivi_budget/constants.dart';
 
 class SoldeWidget extends StatefulWidget {
@@ -16,9 +13,6 @@ class _SoldeWidgetState extends State<SoldeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final monNom = context.watch<UtilisateurProvider>().nom;
-    int monSolde = context.watch<DatabaseProvider>().calculerSolde();
-
     return Card(
       elevation: 4,
       child: Padding(
@@ -41,10 +35,7 @@ class _SoldeWidgetState extends State<SoldeWidget> {
                     ),
                     Visibility(
                       visible: montantVisible,
-                      child: Text(
-                        monSolde.toString(),
-                        style: Styles.texteTitre,
-                      ),
+                      child: Text("Solde", style: Styles.texteTitre),
                     ),
                   ],
                 ),
@@ -79,7 +70,7 @@ class _SoldeWidgetState extends State<SoldeWidget> {
             ),
             Align(
               alignment: Alignment.bottomLeft,
-              child: Text(monNom.toString(), style: Styles.texteCorps),
+              child: Text("Nom", style: Styles.texteCorps),
             ),
           ],
         ),
