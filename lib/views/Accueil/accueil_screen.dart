@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_budget/Functions/deconnecter_utilisateur.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_services_provider.dart';
 import 'package:suivi_budget/Providers/utilisateur_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/Onboarding/on_boarding_widget.dart';
+import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
 import 'package:suivi_budget/views/widgets/filtrage_choice_chip_widget.dart';
 import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
@@ -92,6 +95,13 @@ class _AccueilScreenState extends State<AccueilScreen> {
                 ],
               ),
               const SizedBox(height: 12),
+              Consumer<DeconnexionServicesProvider>(
+                builder: (context, value, child) => CustomFilledButtonWidget(
+                  texte: "Deconnecter",
+                  action: () => deconnecterUtilisateur(context: context),
+                  chargement: value.chargement,
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

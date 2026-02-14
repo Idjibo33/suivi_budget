@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:suivi_budget/Functions/connecter_utilisateur.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/connexion_service_provider.dart';
 import 'package:suivi_budget/models/navigation/naviguer_inscription_page.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
@@ -44,10 +47,17 @@ class ConnexionPage extends StatelessWidget {
                     controlleurChamp: pwController,
                   ),
                   Gap(20),
-                  CustomFilledButtonWidget(
-                    texte: "Créer compte",
-                    action: () {},
-                    chargement: false,
+                  Consumer<ConnexionServiceProvider>(
+                    builder: (context, value, child) =>
+                        CustomFilledButtonWidget(
+                          texte: "Créer compte",
+                          action: () => connecterUtilisateur(
+                            context: context,
+                            email: emailController.text,
+                            pw: pwController.text,
+                          ),
+                          chargement: value.chargement,
+                        ),
                   ),
                   Gap(16),
                   CustomTextButtonWidget(
