@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/inscription_service.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/creer_document_utilisateur.dart';
+import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/creer_document_utilisateur_service.dart';
 
 class InscriptionServiceProvider extends ChangeNotifier {
   final InscriptionService _inscriptionService = InscriptionService();
@@ -35,7 +35,7 @@ class InscriptionServiceProvider extends ChangeNotifier {
           .inscrireUtilisateur(email: email.trim(), password: password.trim());
       if (utilisateur != null) {
         //Créer le document de l'utilisateur dans la base de donnée
-        await CreerDocumentUtilisateur().creerDocUtilisateur(
+        await CreerDocumentUtilisateurService().creerDocUtilisateur(
           idUtilisateur: utilisateur.user!.uid,
           nom: nom.trim(),
           prenom: prenom.trim(),

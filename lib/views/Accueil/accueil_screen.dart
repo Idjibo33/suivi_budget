@@ -4,10 +4,13 @@ import 'package:suivi_budget/Functions/deconnecter_utilisateur.dart';
 import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_services_provider.dart';
 import 'package:suivi_budget/Providers/utilisateur_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/navigation/naviguer_page_recente.dart';
 import 'package:suivi_budget/views/Onboarding/on_boarding_widget.dart';
+import 'package:suivi_budget/views/Profil/profil_screen.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
 import 'package:suivi_budget/views/widgets/filtrage_choice_chip_widget.dart';
+import 'package:suivi_budget/views/widgets/head_text_widget.dart';
 import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
 import 'package:suivi_budget/views/widgets/revenus_widgets.dart';
 import 'package:suivi_budget/views/widgets/solde_widget.dart';
@@ -55,16 +58,26 @@ class _AccueilScreenState extends State<AccueilScreen> {
     //Récuperer le nom de l'utilisateur
     final monNom = context.watch<UtilisateurProvider>().nom;
     return Scaffold(
+      appBar: AppBar(),
+      drawer: Drawer(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: ProfilScreen(),
+        ),
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: SafeArea(
           child: Column(
             children: [
-              Align(
-                alignment: AlignmentGeometry.topLeft,
-                child: FittedBox(
-                  child: Text("Suivi budget", style: Styles.texteEnTete),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FittedBox(
+                    child: Text("Suivi budget", style: Styles.texteEnTete),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               Align(

@@ -6,13 +6,13 @@ import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20p
 import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/connexion_service_provider.dart';
 import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_services_provider.dart';
 import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/inscription_service_provider.dart';
+import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_utilisateur_provider.dart';
 import 'package:suivi_budget/Providers/depenses_categories_dropdown_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_dropdown_provider.dart';
 import 'package:suivi_budget/Providers/database_provider.dart';
 import 'package:suivi_budget/Providers/utilisateur_provider.dart';
 import 'package:suivi_budget/Services/Offline%20database/suivi_budget_database.dart';
 import 'package:suivi_budget/auth_gate.dart';
-import 'package:suivi_budget/views/Authentification/connexion_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +48,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => DeconnexionServicesProvider(),
         ),
+        ChangeNotifierProvider(create: (context) => DocUtilisateurProvider()),
       ],
       child: MainApp(),
     ),
