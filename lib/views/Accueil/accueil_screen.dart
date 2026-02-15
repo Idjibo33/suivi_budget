@@ -5,6 +5,7 @@ import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20p
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/Profil/profil_screen.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
+import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
 import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
 import 'package:suivi_budget/views/widgets/revenus_widgets.dart';
 import 'package:suivi_budget/views/widgets/solde_widget.dart';
@@ -61,7 +62,7 @@ class AccueilScreen extends StatelessWidget {
               Row(
                 children: [
                   Expanded(child: const RevenusWidgets()),
-                  /*Expanded(child: const DepensesWidgets()),*/
+                  Expanded(child: const DepensesWidgets()),
                 ],
               ),
               const SizedBox(height: 12),

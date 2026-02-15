@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Functions/creer_transaction.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_service_provider.dart';
+import 'package:suivi_budget/Providers/depenses_categories_dropdown_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_dropdown_provider.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth_services.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/document_utilisateur_service.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/firestore_services.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
@@ -33,6 +32,7 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
 
   @override
   Widget build(BuildContext context) {
+    //Le type de transaciton
     final String typeTransaction =
         widget.typeTransaction == TypeTransaction.revenus
         ? "Revenu"
@@ -41,8 +41,12 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
     final String idUtilisateur = AuthServices().currentUser!.uid;
 
     // La valeur du dropdown des revenus
-    final revenuCategorieDropdown =
+    final revenusCategoriesDropdown =
         Provider.of<RevenusCategoriesDropdownProvider>(context, listen: false);
+
+    // La valeur du dropdown des depenses
+    final depensesCategoriesDropdown =
+        Provider.of<DepensesCategoriesDropdownProvider>(context, listen: false);
 
     return SafeArea(
       top: false,
@@ -108,13 +112,17 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
                   Consumer<DocTransactionServiceProvider>(
                     builder: (context, value, child) =>
                         CustomFilledButtonWidget(
-                          texte: "Enregistrer mon revenu",
+                          texte: "Enregistrer ma transaction",
                           action: () => creerTransaction(
                             context: context,
                             transaction: TransactionModel(
                               userId: idUtilisateur,
                               montant: int.parse(montanttexte.text),
-                              category: revenuCategorieDropdown.categorie,
+                              category:
+                                  widget.typeTransaction ==
+                                      TypeTransaction.revenus
+                                  ? revenusCategoriesDropdown.categorie
+                                  : depensesCategoriesDropdown.categorie,
                               type: typeTransaction,
                               date: FieldValue.serverTimestamp(),
                             ),

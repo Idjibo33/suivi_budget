@@ -1,6 +1,4 @@
-/*import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/database_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/widgets/ajouter_transaction_widget.dart';
 
@@ -9,7 +7,6 @@ class DepensesWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int sommesDepenses = context.watch<DatabaseProvider>().totalDepenses();
     return Card(
       color: Colors.red.shade200,
       child: Padding(
@@ -26,7 +23,7 @@ class DepensesWidgets extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  sommesDepenses.toString(),
+                  "Depense",
                   style: Styles.texteTitre.copyWith(color: Colors.white),
                 ),
                 IconButton.filled(
@@ -53,4 +50,3 @@ class DepensesWidgets extends StatelessWidget {
     );
   }
 }
-*/
