@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth_services.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/firestore_services.dart';
 import 'package:suivi_budget/models/utilisateur.dart';
@@ -7,6 +7,9 @@ class DocumentUtilisateurService {
   final FirestoreServices firestoreServices = FirestoreServices();
   String get utilisateurDoc => AuthServices().currentUser!.uid;
   String utilisateurCollection = 'utilisateurs';
+  DocumentReference get refUtilisateur => firestoreServices.firebaseFirestore
+      .collection(utilisateurCollection)
+      .doc(utilisateurDoc);
 
   Future<Utilisateur?> lireDocUtilisateur() async {
     try {

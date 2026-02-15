@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:suivi_budget/constants.dart';
 
 class TransactionModel {
   String userId;
@@ -16,7 +15,7 @@ class TransactionModel {
   });
   factory TransactionModel.fromMap(Map<String, dynamic> map) {
     return TransactionModel(
-      userId: map['id'],
+      userId: map['userId'],
       montant: map['montant'],
       category: map['category'],
       type: map['type'],
@@ -25,11 +24,11 @@ class TransactionModel {
   }
   Map<String, dynamic> toMap() {
     return {
-      'id': userId,
+      'userId': userId,
       'montant': montant,
       'category': category,
       'type': type,
-      'date': FieldValue.serverTimestamp(),
+      'date': date,
     };
   }
 }

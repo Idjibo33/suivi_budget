@@ -2,57 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Functions/deconnecter_utilisateur.dart';
 import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_services_provider.dart';
-import 'package:suivi_budget/Providers/utilisateur_provider.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/views/Onboarding/on_boarding_widget.dart';
 import 'package:suivi_budget/views/Profil/profil_screen.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
 import 'package:suivi_budget/views/widgets/revenus_widgets.dart';
 import 'package:suivi_budget/views/widgets/solde_widget.dart';
 
-class AccueilScreen extends StatefulWidget {
+class AccueilScreen extends StatelessWidget {
   const AccueilScreen({super.key});
 
   @override
-  State<AccueilScreen> createState() => _AccueilScreenState();
-}
-
-class _AccueilScreenState extends State<AccueilScreen> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final nom = context.read<UtilisateurProvider>().nom;
-
-      //Vérifier si l'utilisateur a déjà enregistrer son nom
-      if (nom == "Utilisateur") {
-        return entrerInfos();
-      }
-    });
-  }
-
-  //Afficher le widget d'entrée du nom de l'utilisateur
-  void entrerInfos() {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => const OnboardingWidget(),
-    );
-  }
-
-  //Aficher le widget d'affichage de toutes les transactions
-  void voirTransactions() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => ListTransactionsWidgets(),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    //Récuperer le nom de l'utilisateur
-    final monNom = context.watch<UtilisateurProvider>().nom;
     return Scaffold(
       appBar: AppBar(),
       drawer: Drawer(
@@ -85,7 +46,7 @@ class _AccueilScreenState extends State<AccueilScreen> {
                       "Bienvenue",
                       style: TextStyle(fontSize: 20, color: Colors.grey),
                     ),
-                    Text(monNom.toString(), style: Styles.texteTitre),
+                    Text("Nom", style: Styles.texteTitre),
                   ],
                 ),
               ),
@@ -116,9 +77,7 @@ class _AccueilScreenState extends State<AccueilScreen> {
                 children: [
                   Text("Transactions récents", style: Styles.texteTitre),
                   TextButton(
-                    onPressed: () {
-                      voirTransactions();
-                    },
+                    onPressed: () {},
                     child: Text("voir tout", style: Styles.texteTitre),
                   ),
                 ],

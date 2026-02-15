@@ -10,7 +10,6 @@ import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_trans
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_utilisateur_provider.dart';
 import 'package:suivi_budget/Providers/depenses_categories_dropdown_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_dropdown_provider.dart';
-import 'package:suivi_budget/Providers/utilisateur_provider.dart';
 import 'package:suivi_budget/auth_gate.dart';
 
 void main() async {
@@ -28,9 +27,6 @@ void main() async {
           create: (context) => DocTransactionServiceProvider(),
         ),
 
-        ChangeNotifierProvider(
-          create: (context) => UtilisateurProvider()..initialiserNom(),
-        ),
         ChangeNotifierProvider(
           create: (context) => RevenusCategoriesDropdownProvider(),
         ),

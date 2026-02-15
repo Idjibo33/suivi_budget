@@ -5,7 +5,7 @@ import 'package:suivi_budget/models/Snackbar%20Notifications/error_snackbar.dart
 import 'package:suivi_budget/models/Snackbar%20Notifications/success_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
 
-Future ajouterTransaction({
+Future creerTransaction({
   required BuildContext context,
   required TransactionModel transaction,
 }) async {
