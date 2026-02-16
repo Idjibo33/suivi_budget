@@ -13,6 +13,24 @@ class DocTransactionServiceProvider extends ChangeNotifier {
   Future<bool> creerDocTransaction(TransactionModel transaction) async {
     _chargement = true;
     notifyListeners();
+    if (transaction.category.isEmpty) {
+      _chargement = false;
+      _message = "Choisissez une catégorie";
+      notifyListeners();
+      return false;
+    }
+    if (transaction.description.isEmpty) {
+      _chargement = false;
+      _message = "Entrez une description à votre transaction";
+      notifyListeners();
+      return false;
+    }
+    if (transaction.montant < 100) {
+      _chargement = false;
+      _message = "Entrez montant valable";
+      notifyListeners();
+      return false;
+    }
     try {
       final resultat = await _documentTransactionService.creerDocTransaction(
         transaction,

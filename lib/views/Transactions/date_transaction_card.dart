@@ -4,7 +4,8 @@ import 'package:suivi_budget/constants.dart';
 import 'package:intl/intl.dart';
 
 class DateTransactionCard extends StatefulWidget {
-  const DateTransactionCard({super.key});
+  final Function(DateTime) changementDate;
+  const DateTransactionCard({super.key, required this.changementDate});
 
   @override
   State<DateTransactionCard> createState() => _DateTransactionCardState();
@@ -35,6 +36,7 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
                 setState(() {
                   dateChoisie = value;
                 });
+                widget.changementDate(dateChoisie);
               },
               use24hFormat: true,
             ),
@@ -53,6 +55,7 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
                 Icon(Icons.date_range),
                 Text(
                   "${DateFormat.yMMMMEEEEd().format(dateChoisie)} à ${DateFormat.Hm().format(dateChoisie)}",
+                  style: Styles.texteTitre.copyWith(fontSize: 12),
                 ),
               ],
             ),

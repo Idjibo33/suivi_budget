@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth_services.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/views/Transactions/Depenses/Ajouter_depense_view.dart';
+import 'package:suivi_budget/views/Transactions/Depenses/ajouter_depense_view.dart';
 import 'package:suivi_budget/views/Transactions/Revenus/ajouter_revenu_view.dart';
 
 class AjouterTransaction extends StatefulWidget {

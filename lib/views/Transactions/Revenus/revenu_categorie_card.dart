@@ -35,7 +35,7 @@ class RevenuCategorieCard extends StatelessWidget {
                     Icon(icone, color: couleure),
                     Text(
                       titre,
-                      style: Styles.texteCorps,
+                      style: Styles.texteCorps.copyWith(color: couleure),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],

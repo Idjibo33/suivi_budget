@@ -1,15 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class TransactionModel {
   String userId;
   int montant;
   String category;
+  String description;
   String type;
-  FieldValue date;
+  DateTime date;
   TransactionModel({
     required this.userId,
     required this.montant,
     required this.category,
+    required this.description,
     required this.type,
     required this.date,
   });
@@ -18,6 +18,7 @@ class TransactionModel {
       userId: map['userId'],
       montant: map['montant'],
       category: map['category'],
+      description: map['description'],
       type: map['type'],
       date: map['date'],
     );
@@ -27,6 +28,7 @@ class TransactionModel {
       'userId': userId,
       'montant': montant,
       'category': category,
+      'description': description,
       'type': type,
       'date': date,
     };

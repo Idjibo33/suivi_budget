@@ -35,7 +35,7 @@ class DepenseCategorieCard extends StatelessWidget {
                     Icon(icone, color: couleure),
                     Text(
                       titre,
-                      style: Styles.texteCorps,
+                      style: Styles.texteCorps.copyWith(fontSize: 12),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],

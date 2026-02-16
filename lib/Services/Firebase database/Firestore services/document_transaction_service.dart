@@ -4,7 +4,7 @@ import 'package:suivi_budget/models/transaction.dart';
 
 class DocumentTransactionService {
   final FirestoreServices firestoreServices = FirestoreServices();
-  String collectionTransaction = "transactons";
+  String collectionTransaction = "transactions";
   //Ajouter le document transaction
   Future<DocumentReference?> creerDocTransaction(
     TransactionModel transaction,

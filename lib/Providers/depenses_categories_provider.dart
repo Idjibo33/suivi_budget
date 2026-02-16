@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class DepensesCategoriesProvider extends ChangeNotifier {
   // La valeur du dropdown de la catégorie Revenus
-  String categorie = "Courses";
+  String? categorie;
   void changerCategorie(String nouvelleCategorie) {
     HapticFeedback.selectionClick();
     categorie = nouvelleCategorie;
