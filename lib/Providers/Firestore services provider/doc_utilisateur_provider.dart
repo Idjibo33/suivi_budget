@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/document_utilisateur_service.dart';
+import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/Utilisateur%20services/document_utilisateur_service.dart';
 import 'package:suivi_budget/models/utilisateur.dart';
 
 class DocUtilisateurProvider extends ChangeNotifier {

@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_preferences_provider.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/inscription_service.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/creer_document_utilisateur_service.dart';
+import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/Utilisateur%20services/creer_document_utilisateur_service.dart';
+import 'package:suivi_budget/models/utilisateur.dart';
 
 class InscriptionServiceProvider extends ChangeNotifier {
   final UtilisateurPreferencesProvider _preferencesProvider =
@@ -39,12 +40,14 @@ class InscriptionServiceProvider extends ChangeNotifier {
       if (utilisateur != null) {
         //Créer le document de l'utilisateur dans la base de donnée
         await CreerDocumentUtilisateurService().creerDocUtilisateur(
-          idUtilisateur: utilisateur.user!.uid,
-          nom: nom.trim(),
-          prenom: prenom.trim(),
-          email: email.trim(),
+          utilisateur: Utilisateur(
+            userId: utilisateur.user!.uid,
+            nom: nom.trim(),
+            prenom: prenom.trim(),
+            email: email.trim(),
+          ),
         );
-        _preferencesProvider.enregistrerNom(
+        _preferencesProvider.enregistrerDetailsUtilisateur(
           infos: [nom.trim(), prenom.trim(), email.trim()],
         );
         _chargement = false;

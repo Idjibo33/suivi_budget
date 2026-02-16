@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/navigation/naviguer_ajouter_transaction_page.dart';
 import 'package:suivi_budget/views/Profil/profil_screen.dart';
+import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
 import 'package:suivi_budget/views/widgets/solde_widget.dart';
 
 class AccueilScreen extends StatelessWidget {
@@ -50,7 +52,7 @@ class AccueilScreen extends StatelessWidget {
                 ],
               ),
               const SoldeWidget(),
-              const SizedBox(height: 12),
+              const Gap(12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -61,6 +63,7 @@ class AccueilScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              Expanded(child: ListTransactionsWidgets()),
             ],
           ),
         ),

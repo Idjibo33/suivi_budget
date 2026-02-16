@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/views/widgets/ajouter_transaction_widget.dart';
 
 class DepensesWidgets extends StatelessWidget {
   const DepensesWidgets({super.key});

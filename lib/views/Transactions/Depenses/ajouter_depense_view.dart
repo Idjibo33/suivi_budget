@@ -3,29 +3,28 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Functions/creer_transaction.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_service_provider.dart';
-import 'package:suivi_budget/Providers/revenus_categories_provider.dart';
+import 'package:suivi_budget/Providers/depenses_categories_provider.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth_services.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
-import 'package:suivi_budget/views/Transactions/Revenus/revenus_categorie_section.dart';
+import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
 import 'package:suivi_budget/views/Transactions/date_transaction_card.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
 
-class AjouterRevenuView extends StatefulWidget {
-  const AjouterRevenuView({super.key});
+class AjouterDepenseView extends StatefulWidget {
+  const AjouterDepenseView({super.key});
 
   @override
-  State<AjouterRevenuView> createState() => _AjouterRevenuViewState();
+  State<AjouterDepenseView> createState() => _AjouterDepenseViewState();
 }
 
-class _AjouterRevenuViewState extends State<AjouterRevenuView> {
+class _AjouterDepenseViewState extends State<AjouterDepenseView> {
+  //Les controlleurs des champs des textes
   TextEditingController montantText = TextEditingController();
   TextEditingController descriptionText = TextEditingController();
-  // Date de la transaction
   DateTime date = DateTime.now();
-
   @override
   void dispose() {
     montantText;
@@ -39,8 +38,9 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
     // l'id de l'utilisateur actuel
     final String idUtilisateur = AuthServices().currentUser!.uid;
     // La categorie de revenu
-    String? categorie = context.watch<RevenusCategoriesProvider>().categorie;
-
+    String? categorie = context.watch<DepensesCategoriesProvider>().categorie;
+    // Date de la transaction
+    DateTime date = DateTime.now();
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -53,7 +53,7 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
               child: Text("Catégorie", style: Styles.texteTitre),
             ),
             const Gap(8),
-            const RevenusCategorieSection(),
+            const CategorieSection(),
             const Gap(12),
             Align(
               alignment: AlignmentGeometry.topLeft,
@@ -73,7 +73,7 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
             ),
             const Gap(8),
             DateTransactionCard(
-              changementDate: (datechoisie) => date = datechoisie,
+              changementDate: (dateChoisie) => date = dateChoisie,
             ),
             const Gap(12),
             Consumer<DocTransactionServiceProvider>(
@@ -84,10 +84,10 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
                     context: context,
                     transaction: TransactionModel(
                       userId: idUtilisateur,
-                      montant: int.parse(montantText.text.trim()),
-                      category: categorie ?? "Aucune catégorie choisie",
+                      montant: int.parse(montantText.text),
+                      category: categorie ?? "Aucunte catégorie choisie",
                       description: descriptionText.text,
-                      type: "Revenu",
+                      type: "Depense",
                       date: date,
                     ),
                   );

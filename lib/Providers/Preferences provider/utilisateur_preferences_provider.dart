@@ -15,17 +15,14 @@ class UtilisateurPreferencesProvider extends ChangeNotifier {
   Future chargerNom() async {
     List<String>? resutat = await _utilisateurPreferences.lireNom();
     _nom = resutat?.elementAt(0);
-    print(_nom);
     _prenom = resutat?.elementAt(1);
-    print(_prenom);
     _email = resutat?.elementAt(2);
-    print(_email);
     notifyListeners();
   }
 
   // Enregistrer le nom de l'utilisateur
-  void enregistrerNom({required List<String> infos}) async {
-    await _utilisateurPreferences.enregistrerNom(infos);
+  void enregistrerDetailsUtilisateur({required List<String> infos}) async {
+    await _utilisateurPreferences.enregistrerDetails(infos);
     chargerNom();
     notifyListeners();
   }
