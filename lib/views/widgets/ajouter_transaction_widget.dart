@@ -1,21 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:suivi_budget/Functions/creer_transaction.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_service_provider.dart';
-import 'package:suivi_budget/Providers/depenses_categories_dropdown_provider.dart';
-import 'package:suivi_budget/Providers/revenus_categories_dropdown_provider.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth_services.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/models/transaction.dart';
-import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
-import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
-import 'package:suivi_budget/views/widgets/depenses_categories_dropdown_widget.dart';
-import 'package:suivi_budget/views/widgets/revenus_categories_dropdown_widget.dart';
+import 'package:suivi_budget/views/Transactions/Depenses/Ajouter_depense_view.dart';
+import 'package:suivi_budget/views/Transactions/Revenus/ajouter_revenu_view.dart';
 
 class AjouterTransaction extends StatefulWidget {
-  final TypeTransaction typeTransaction;
-  const AjouterTransaction({super.key, required this.typeTransaction});
+  const AjouterTransaction({super.key});
 
   @override
   State<AjouterTransaction> createState() => _AjouterTransactionState();
@@ -32,23 +22,38 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    //Le type de transaciton
+    /* //Le type de transaciton
     final String typeTransaction =
         widget.typeTransaction == TypeTransaction.revenus
         ? "Revenu"
-        : "Depenses";
+        : "Depenses";*/
     // l'id de l'utilisateur actuel
     final String idUtilisateur = AuthServices().currentUser!.uid;
 
-    // La valeur du dropdown des revenus
-    final revenusCategoriesDropdown =
-        Provider.of<RevenusCategoriesDropdownProvider>(context, listen: false);
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Ajouter une transaction"),
+          centerTitle: true,
+          bottom: TabBar(
+            unselectedLabelStyle: Styles.texteCorps,
+            tabs: [
+              Text("Revenu", style: Styles.texteTitre),
+              Text("Dépense", style: Styles.texteTitre),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [const AjouterRevenuView(), const AjouterDepenseView()],
+        ),
+      ),
+    );
+  }
+}
 
-    // La valeur du dropdown des depenses
-    final depensesCategoriesDropdown =
-        Provider.of<DepensesCategoriesDropdownProvider>(context, listen: false);
 
-    return SafeArea(
+/*SafeArea(
       top: false,
       bottom: true,
       child: Padding(
@@ -136,6 +141,4 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
           ),
         ),
       ),
-    );
-  }
-}
+    );*/

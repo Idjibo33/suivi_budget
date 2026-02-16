@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_preferences_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
+import 'package:suivi_budget/views/widgets/revenus_widgets.dart';
 
 class SoldeWidget extends StatefulWidget {
   const SoldeWidget({super.key});
@@ -13,16 +16,18 @@ class _SoldeWidgetState extends State<SoldeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // Les informations de l'utilisateur
+    final UtilisateurPreferencesProvider infosUtilisateur =
+        UtilisateurPreferencesProvider();
     return Card(
       elevation: 4,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         child: Column(
-          spacing: 8,
           children: [
             Align(
               alignment: AlignmentGeometry.topLeft,
-              child: Text("Solde", style: Styles.texteTitre),
+              child: Text("${infosUtilisateur.nom}", style: Styles.texteCorps),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,9 +73,9 @@ class _SoldeWidgetState extends State<SoldeWidget> {
                 ),
               ],
             ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Text("Nom", style: Styles.texteCorps),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [const RevenusWidgets(), const DepensesWidgets()],
             ),
           ],
         ),

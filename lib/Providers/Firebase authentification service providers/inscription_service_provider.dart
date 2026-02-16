@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_preferences_provider.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/inscription_service.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/creer_document_utilisateur_service.dart';
 
 class InscriptionServiceProvider extends ChangeNotifier {
+  final UtilisateurPreferencesProvider _preferencesProvider =
+      UtilisateurPreferencesProvider();
   final InscriptionService _inscriptionService = InscriptionService();
   String _message = "";
   bool _chargement = false;
@@ -40,6 +43,9 @@ class InscriptionServiceProvider extends ChangeNotifier {
           nom: nom.trim(),
           prenom: prenom.trim(),
           email: email.trim(),
+        );
+        _preferencesProvider.enregistrerNom(
+          infos: [nom.trim(), prenom.trim(), email.trim()],
         );
         _chargement = false;
         _message = "Succès";

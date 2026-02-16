@@ -39,12 +39,14 @@ class ConnexionPage extends StatelessWidget {
                     label: "email",
                     typeInput: TextInputType.text,
                     controlleurChamp: emailController,
+                    icone: Icons.mail,
                   ),
                   Gap(8),
                   CustomTextfieldWidget(
                     label: "Mot de passe",
                     typeInput: TextInputType.text,
                     controlleurChamp: pwController,
+                    icone: Icons.password,
                   ),
                   Gap(20),
                   Consumer<ConnexionServiceProvider>(

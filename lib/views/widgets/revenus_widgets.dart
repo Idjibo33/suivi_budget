@@ -7,45 +7,17 @@ class RevenusWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.green.shade200,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Revenus",
-              style: Styles.texteCorps.copyWith(color: Colors.white),
-            ),
-            Row(
-              spacing: 8,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Revenu",
-                  style: Styles.texteTitre.copyWith(color: Colors.white),
-                ),
-                IconButton.filled(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      useSafeArea: true,
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) => const AjouterTransaction(
-                        typeTransaction: TypeTransaction.revenus,
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.add, color: Colors.white),
-                  style: IconButton.styleFrom(
-                    backgroundColor: Styles.couleurRevenu,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+    return SizedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Revenus", style: Styles.texteCorps),
+
+          Text(
+            "Revenu",
+            style: Styles.texteTitre.copyWith(color: Styles.couleurRevenu),
+          ),
+        ],
       ),
     );
   }

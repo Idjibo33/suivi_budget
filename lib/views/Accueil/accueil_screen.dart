@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:suivi_budget/Functions/deconnecter_utilisateur.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_services_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/navigation/naviguer_ajouter_transaction_page.dart';
 import 'package:suivi_budget/views/Profil/profil_screen.dart';
-import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
-import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
-import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
-import 'package:suivi_budget/views/widgets/revenus_widgets.dart';
 import 'package:suivi_budget/views/widgets/solde_widget.dart';
 
 class AccueilScreen extends StatelessWidget {
@@ -16,7 +10,14 @@ class AccueilScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Styles.couleurbgSecondaire,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusGeometry.circular(30),
+        ),
+        onPressed: () => naviguerAjouterTransactionPage(context),
+        child: Icon(Icons.add),
+      ),
       drawer: Drawer(
         width: double.infinity,
         child: Padding(
@@ -35,44 +36,21 @@ class AccueilScreen extends StatelessWidget {
                   FittedBox(
                     child: Text("Suivi budget", style: Styles.texteEnTete),
                   ),
+                  Builder(
+                    builder: (context) => GestureDetector(
+                      onTap: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Styles.couleurbgSecondaire,
+                        child: Icon(Icons.person_2_outlined),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              const SizedBox(height: 20),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Bienvenue",
-                      style: TextStyle(fontSize: 20, color: Colors.grey),
-                    ),
-                    Text("Nom", style: Styles.texteTitre),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 22),
               const SoldeWidget(),
               const SizedBox(height: 12),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text("Statistiques", style: Styles.texteTitre),
-              ),
-              const SizedBox(height: 4),
-              Row(
-                children: [
-                  Expanded(child: const RevenusWidgets()),
-                  Expanded(child: const DepensesWidgets()),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Consumer<DeconnexionServicesProvider>(
-                builder: (context, value, child) => CustomFilledButtonWidget(
-                  texte: "Deconnecter",
-                  action: () => deconnecterUtilisateur(context: context),
-                  chargement: value.chargement,
-                ),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -83,8 +61,6 @@ class AccueilScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              /*  const FiltrageChoiceChipWidget(),*/
-              const ListTransactionsWidgets(),
             ],
           ),
         ),

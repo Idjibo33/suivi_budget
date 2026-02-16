@@ -17,7 +17,9 @@ dependencies:
   flutter_dotenv: ^6.0.0
   gap: ^3.0.1
   google_fonts: ^6.3.3
+  intl: ^0.20.2
   provider: ^6.1.5+1
+  shared_preferences: ^2.5.4
   top_snackbar_flutter: ^3.3.0
 
 dev_dependencies:

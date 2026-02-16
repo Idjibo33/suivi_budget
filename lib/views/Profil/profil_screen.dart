@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Functions/charger_doc_utilisateur.dart';
+import 'package:suivi_budget/Functions/deconnecter_utilisateur.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_services_provider.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_utilisateur_provider.dart';
+import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_preferences_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/description_text_widget.dart';
 import 'package:suivi_budget/views/widgets/head_text_widget.dart';
 
@@ -11,6 +15,8 @@ class ProfilScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UtilisateurPreferencesProvider utilisateur =
+        UtilisateurPreferencesProvider();
     return FutureBuilder(
       future: chargerDocUtilisateur(context),
       builder: (context, snapshot) {
@@ -46,10 +52,18 @@ class ProfilScreen extends StatelessWidget {
                       ),
                     ),
                     headTextWidget(
-                      texte:
-                          "${value.utilisateur?.prenom} ${value.utilisateur?.nom}",
+                      texte: "${utilisateur.nom} ${utilisateur.prenom}",
                     ),
-                    descriptionText(text: value.utilisateur!.email),
+                    descriptionText(text: "${utilisateur.email}"),
+                    Consumer<DeconnexionServicesProvider>(
+                      builder: (context, value, child) =>
+                          CustomFilledButtonWidget(
+                            texte: "Deconnecter",
+                            action: () =>
+                                deconnecterUtilisateur(context: context),
+                            chargement: value.chargement,
+                          ),
+                    ),
                   ],
                 ),
               ),

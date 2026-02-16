@@ -40,24 +40,28 @@ class InscriptionPage extends StatelessWidget {
                     label: "Nom",
                     typeInput: TextInputType.text,
                     controlleurChamp: nomController,
+                    icone: Icons.person,
                   ),
                   Gap(8),
                   CustomTextfieldWidget(
                     label: "prenom",
                     typeInput: TextInputType.text,
                     controlleurChamp: prenomController,
+                    icone: Icons.person,
                   ),
                   Gap(8),
                   CustomTextfieldWidget(
                     label: "email",
                     typeInput: TextInputType.text,
                     controlleurChamp: emailController,
+                    icone: Icons.email,
                   ),
                   Gap(8),
                   CustomTextfieldWidget(
                     label: "Mot de passe",
                     typeInput: TextInputType.text,
                     controlleurChamp: pwController,
+                    icone: Icons.password,
                   ),
                   Gap(20),
                   Consumer<InscriptionServiceProvider>(

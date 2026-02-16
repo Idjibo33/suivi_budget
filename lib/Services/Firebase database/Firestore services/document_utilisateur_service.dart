@@ -7,9 +7,6 @@ class DocumentUtilisateurService {
   final FirestoreServices firestoreServices = FirestoreServices();
   String get utilisateurDoc => AuthServices().currentUser!.uid;
   String utilisateurCollection = 'utilisateurs';
-  DocumentReference get refUtilisateur => firestoreServices.firebaseFirestore
-      .collection(utilisateurCollection)
-      .doc(utilisateurDoc);
 
   Future<Utilisateur?> lireDocUtilisateur() async {
     try {
