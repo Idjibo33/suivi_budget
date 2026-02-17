@@ -9,6 +9,7 @@ import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20p
 import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/inscription_service_provider.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_service_provider.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_utilisateur_provider.dart';
+import 'package:suivi_budget/Providers/Firestore%20services%20provider/solde_provider.dart';
 import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_preferences_provider.dart';
 import 'package:suivi_budget/Providers/depenses_categories_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_provider.dart';
@@ -31,6 +32,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (context) => DocTransactionServiceProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SoldeProvider()..listTransaction(),
         ),
 
         ChangeNotifierProvider(

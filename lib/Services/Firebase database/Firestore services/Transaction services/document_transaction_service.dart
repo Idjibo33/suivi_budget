@@ -21,16 +21,18 @@ class DocumentTransactionService {
   }
 
   // Charger les documents de la collection transaction
-  Stream<List<TransactionModel>> lireDocsTransactions() async* {
+  Stream<List<TransactionModel>> lireDocsTransactions() {
     try {
-      final resultat = await firestoreServices.firebaseFirestore
+      return firestoreServices.firebaseFirestore
           .collection(collectionTransaction)
           .orderBy("date", descending: true)
           .where("userId", isEqualTo: idUtilisateur)
-          .get();
-      yield resultat.docs
-          .map((e) => TransactionModel.fromMap(e.data()))
-          .toList();
+          .snapshots()
+          .map((snapshot) {
+            return snapshot.docs.map((doc) {
+              return TransactionModel.fromMap(doc.data());
+            }).toList();
+          });
     } on FirebaseException catch (e) {
       throw Exception(e);
     }

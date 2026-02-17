@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:suivi_budget/constants.dart';
 
 class RevenusWidgets extends StatelessWidget {
-  const RevenusWidgets({super.key});
+  final bool chargement;
+  final int totalRevenus;
+  const RevenusWidgets({
+    super.key,
+    required this.totalRevenus,
+    required this.chargement,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +18,13 @@ class RevenusWidgets extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Revenus", style: Styles.texteCorps),
-
-          Text(
-            "Revenu",
-            style: Styles.texteTitre.copyWith(color: Styles.couleurRevenu),
+          Skeletonizer(
+            enabled: chargement,
+            containersColor: Colors.grey,
+            child: Text(
+              "${totalRevenus.toString()} F CFA",
+              style: Styles.texteTitre.copyWith(color: Styles.couleurRevenu),
+            ),
           ),
         ],
       ),

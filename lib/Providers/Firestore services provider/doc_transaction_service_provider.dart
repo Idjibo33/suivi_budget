@@ -6,7 +6,7 @@ import 'package:suivi_budget/models/transaction.dart';
 class DocTransactionServiceProvider extends ChangeNotifier {
   final DocumentTransactionService _documentTransactionService =
       DocumentTransactionService();
-  Stream<List<TransactionModel>> get transaction =>
+  Stream<List<TransactionModel>> get transactions =>
       _documentTransactionService.lireDocsTransactions();
 
   bool _chargement = false;
