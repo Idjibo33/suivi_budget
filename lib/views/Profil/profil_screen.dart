@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Functions/deconnecter_utilisateur.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_services_provider.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_provider.dart';
 import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_preferences_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
@@ -55,10 +54,12 @@ class ProfilScreen extends StatelessWidget {
               ),
               descriptionText(text: "${utilisateurInfos.email}"),
               Gap(22),
-              Consumer<DeconnexionServicesProvider>(
+              Consumer<DeconnexionProvider>(
                 builder: (context, value, child) => CustomFilledButtonWidget(
                   texte: "Deconnecter",
-                  action: () => deconnecterUtilisateur(context: context),
+                  action: () => context
+                      .read<DeconnexionProvider>()
+                      .deconnecterUtilisateur(context),
                   chargement: value.chargement,
                 ),
               ),

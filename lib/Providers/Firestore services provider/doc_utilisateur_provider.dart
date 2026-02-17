@@ -9,21 +9,18 @@ class DocUtilisateurProvider extends ChangeNotifier {
   String _message = "";
   String get message => _message;
   // Lire les informations du document utilisateurs dans la base de donnée
-  Future<bool> chargerDocUtilisateur() async {
+  Future chargerDocUtilisateur() async {
     try {
       utilisateur = await _documentUtilisateurService.lireDocUtilisateur();
       if (utilisateur != null) {
         _message = "Chargé avec succès";
         notifyListeners();
-        return true;
       }
       _message = "Une erreur est survenue";
       notifyListeners();
-      return false;
     } catch (e) {
       _message = e.toString();
       notifyListeners();
-      return false;
     }
   }
 }

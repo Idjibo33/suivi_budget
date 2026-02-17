@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/navigation/naviguer_ajouter_transaction_page.dart';
 import 'package:suivi_budget/views/Profil/profil_screen.dart';
+import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
 import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
 import 'package:suivi_budget/views/widgets/solde_widget.dart';
 
@@ -31,25 +32,37 @@ class AccueilScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: SafeArea(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FittedBox(
-                    child: Text("Suivi budget", style: Styles.texteEnTete),
-                  ),
-                  Builder(
-                    builder: (context) => GestureDetector(
-                      onTap: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: Styles.couleurbgSecondaire,
-                        child: Icon(Icons.person_2_outlined),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const CustomLogoWidget(padding: 7.0, size: 25),
+                        FittedBox(
+                          child: Text(
+                            "Suivi budget",
+                            style: Styles.texteEnTete,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Builder(
+                      builder: (context) => GestureDetector(
+                        onTap: () {
+                          Scaffold.of(context).openDrawer();
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Styles.couleurbgSecondaire,
+                          child: Icon(Icons.person_2_outlined),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SoldeWidget(),
               const Gap(12),

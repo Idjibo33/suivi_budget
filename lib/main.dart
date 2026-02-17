@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/auth_service_provider.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/connexion_service_provider.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_services_provider.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/inscription_service_provider.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_service_provider.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/auth_provider.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/connexion_provider.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_provider.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/inscription_provider.dart';
+import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_utilisateur_provider.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/solde_provider.dart';
 import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_preferences_provider.dart';
@@ -30,9 +30,7 @@ void main() async {
     //Les providers
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => DocTransactionServiceProvider(),
-        ),
+        ChangeNotifierProvider(create: (context) => DocTransactionProvider()),
         ChangeNotifierProvider(
           create: (context) => SoldeProvider()..listTransaction(),
         ),
@@ -43,14 +41,10 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => DepensesCategoriesProvider(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => InscriptionServiceProvider(),
-        ),
-        ChangeNotifierProvider(create: (context) => AuthServiceProvider()),
-        ChangeNotifierProvider(create: (context) => ConnexionServiceProvider()),
-        ChangeNotifierProvider(
-          create: (context) => DeconnexionServicesProvider(),
-        ),
+        ChangeNotifierProvider(create: (context) => InscriptionProvider()),
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => ConnexionProvider()),
+        ChangeNotifierProvider(create: (context) => DeconnexionProvider()),
         ChangeNotifierProvider(create: (context) => DocUtilisateurProvider()),
         ChangeNotifierProvider(
           create: (context) => UtilisateurPreferencesProvider(),

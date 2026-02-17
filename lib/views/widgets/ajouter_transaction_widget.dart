@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth_services.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/Transactions/Depenses/ajouter_depense_view.dart';
 import 'package:suivi_budget/views/Transactions/Revenus/ajouter_revenu_view.dart';
@@ -22,14 +21,6 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    /* //Le type de transaciton
-    final String typeTransaction =
-        widget.typeTransaction == TypeTransaction.revenus
-        ? "Revenu"
-        : "Depenses";*/
-    // l'id de l'utilisateur actuel
-    final String idUtilisateur = AuthServices().currentUser!.uid;
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(

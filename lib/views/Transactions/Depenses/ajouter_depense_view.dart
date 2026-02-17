@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Functions/creer_transaction.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_service_provider.dart';
+import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
 import 'package:suivi_budget/Providers/depenses_categories_provider.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth_services.dart';
+import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
@@ -36,7 +35,7 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
   @override
   Widget build(BuildContext context) {
     // l'id de l'utilisateur actuel
-    final String idUtilisateur = AuthServices().currentUser!.uid;
+    final String idUtilisateur = Auth().currentUser!.uid;
     // La categorie de revenu
     String? categorie = context.watch<DepensesCategoriesProvider>().categorie;
     // Date de la transaction
@@ -76,13 +75,13 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
               changementDate: (dateChoisie) => date = dateChoisie,
             ),
             const Gap(12),
-            Consumer<DocTransactionServiceProvider>(
+            Consumer<DocTransactionProvider>(
               builder: (context, value, child) => CustomFilledButtonWidget(
                 texte: "Enregistrer transaction",
                 action: () {
-                  creerTransaction(
-                    context: context,
-                    transaction: TransactionModel(
+                  value.creerDocTransaction(
+                    TransactionModel(
+                      id: "",
                       userId: idUtilisateur,
                       montant: int.parse(montantText.text),
                       category: categorie ?? "Aucunte catégorie choisie",
@@ -90,6 +89,7 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
                       type: "Depense",
                       date: date,
                     ),
+                    context,
                   );
                   montantText.clear();
                   descriptionText.clear();

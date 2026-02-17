@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Functions/connecter_utilisateur.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/connexion_service_provider.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/connexion_provider.dart';
 import 'package:suivi_budget/models/navigation/naviguer_inscription_page.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
@@ -27,7 +26,7 @@ class ConnexionPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const CustomLogoWidget(),
+                  const CustomLogoWidget(padding: 16.0, size: 50.0),
                   Gap(12),
                   headTextWidget(texte: "Connexion"),
                   descriptionText(
@@ -49,15 +48,16 @@ class ConnexionPage extends StatelessWidget {
                     icone: Icons.password,
                   ),
                   Gap(20),
-                  Consumer<ConnexionServiceProvider>(
+                  Consumer<ConnexionProvider>(
                     builder: (context, value, child) =>
                         CustomFilledButtonWidget(
                           texte: "Créer compte",
-                          action: () => connecterUtilisateur(
-                            context: context,
-                            email: emailController.text,
-                            pw: pwController.text,
-                          ),
+                          action: () => value
+                            ..connecterUtilisateur(
+                              context: context,
+                              email: emailController.text,
+                              password: pwController.text,
+                            ),
                           chargement: value.chargement,
                         ),
                   ),

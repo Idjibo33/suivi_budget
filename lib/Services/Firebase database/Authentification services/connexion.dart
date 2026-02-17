@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth_services.dart';
+import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth.dart';
 
-class ConnexionServces {
-  final AuthServices _authServices = AuthServices();
+class Connexion {
+  final Auth _authServices = Auth();
   //Connecter l'utilisateur
   Future connecterUtilisateur({
     required String email,

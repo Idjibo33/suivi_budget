@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Functions/inscrire_utilisateur.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/inscription_service_provider.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/inscription_provider.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
@@ -28,52 +27,52 @@ class InscriptionPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const CustomLogoWidget(),
-                  Gap(12),
+                  const CustomLogoWidget(padding: 16.0, size: 50),
+                  const Gap(12),
                   headTextWidget(texte: 'Inscription'),
                   descriptionText(
                     text: "Créer un compte pour continuer",
                     textalignment: TextAlign.center,
                   ),
-                  Gap(20),
+                  const Gap(20),
                   CustomTextfieldWidget(
                     label: "Nom",
                     typeInput: TextInputType.text,
                     controlleurChamp: nomController,
                     icone: Icons.person,
                   ),
-                  Gap(8),
+                  const Gap(8),
                   CustomTextfieldWidget(
                     label: "prenom",
                     typeInput: TextInputType.text,
                     controlleurChamp: prenomController,
                     icone: Icons.person,
                   ),
-                  Gap(8),
+                  const Gap(8),
                   CustomTextfieldWidget(
                     label: "email",
                     typeInput: TextInputType.text,
                     controlleurChamp: emailController,
                     icone: Icons.email,
                   ),
-                  Gap(8),
+                  const Gap(8),
                   CustomTextfieldWidget(
                     label: "Mot de passe",
                     typeInput: TextInputType.text,
                     controlleurChamp: pwController,
                     icone: Icons.password,
                   ),
-                  Gap(20),
-                  Consumer<InscriptionServiceProvider>(
+                  const Gap(20),
+                  Consumer<InscriptionProvider>(
                     builder: (context, value, child) =>
                         CustomFilledButtonWidget(
                           texte: "Créer compte",
-                          action: () => inscrireUtilisateur(
+                          action: () => value.inscrireUtilisateur(
                             context: context,
                             nom: nomController.text,
                             prenom: prenomController.text,
                             email: emailController.text,
-                            pw: pwController.text,
+                            password: pwController.text,
                           ),
                           chargement: value.chargement,
                         ),

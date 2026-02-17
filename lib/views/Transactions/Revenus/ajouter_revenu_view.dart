@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Functions/creer_transaction.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_service_provider.dart';
+import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_provider.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth_services.dart';
+import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
@@ -37,7 +36,7 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
   @override
   Widget build(BuildContext context) {
     // l'id de l'utilisateur actuel
-    final String idUtilisateur = AuthServices().currentUser!.uid;
+    final String idUtilisateur = Auth().currentUser!.uid;
     // La categorie de revenu
     String? categorie = context.watch<RevenusCategoriesProvider>().categorie;
 
@@ -76,20 +75,21 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
               changementDate: (datechoisie) => date = datechoisie,
             ),
             const Gap(12),
-            Consumer<DocTransactionServiceProvider>(
+            Consumer<DocTransactionProvider>(
               builder: (context, value, child) => CustomFilledButtonWidget(
                 texte: "Enregistrer transaction",
                 action: () {
-                  creerTransaction(
-                    context: context,
-                    transaction: TransactionModel(
+                  value.creerDocTransaction(
+                    TransactionModel(
+                      id: "",
                       userId: idUtilisateur,
-                      montant: int.parse(montantText.text.trim()),
-                      category: categorie ?? "Aucune catégorie choisie",
+                      montant: int.parse(montantText.text),
+                      category: categorie ?? "Aucunte catégorie choisie",
                       description: descriptionText.text,
                       type: "Revenu",
                       date: date,
                     ),
+                    context,
                   );
                   montantText.clear();
                   descriptionText.clear();

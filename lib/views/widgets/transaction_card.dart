@@ -10,19 +10,9 @@ class TransactionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showDialog(
+      onTap: () => showModalBottomSheet(
         context: context,
-        builder: (context) => Dialog(
-          child: Container(
-            height: 200,
-            width: 350,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: TransactionDetailsView(transaction: transaction),
-          ),
-        ),
+        builder: (context) => TransactionDetailsView(transaction: transaction),
       ),
       child: Card(
         elevation: 0,

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_service_provider.dart';
+import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
 import 'package:suivi_budget/models/transaction.dart';
 
 class SoldeProvider extends ChangeNotifier {
-  final DocTransactionServiceProvider _docTransactionsServices =
-      DocTransactionServiceProvider();
+  final DocTransactionProvider _docTransactions = DocTransactionProvider();
   List<TransactionModel> _transactions = [];
   bool _chargement = false;
   bool get chargement => _chargement;
@@ -19,7 +18,7 @@ class SoldeProvider extends ChangeNotifier {
   // La liste des transactions
   void listTransaction() {
     _chargement = true;
-    _docTransactionsServices.transactions.listen((event) {
+    _docTransactions.transactions.listen((event) {
       _transactions = event;
       _chargement = false;
       notifyListeners();

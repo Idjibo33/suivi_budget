@@ -1,20 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_preferences_provider.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/inscription_service.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/Utilisateur%20services/creer_document_utilisateur_service.dart';
+import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/inscription.dart';
+import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/Utilisateur%20services/creer_doc_utilisateur.dart';
+import 'package:suivi_budget/models/Snackbar%20Notifications/error_snackbar.dart';
+import 'package:suivi_budget/models/Snackbar%20Notifications/success_snackbar.dart';
+import 'package:suivi_budget/models/navigation/naviguer_auth_gate.dart';
 import 'package:suivi_budget/models/utilisateur.dart';
 
-class InscriptionServiceProvider extends ChangeNotifier {
+class InscriptionProvider extends ChangeNotifier {
   final UtilisateurPreferencesProvider _preferencesProvider =
       UtilisateurPreferencesProvider();
   final InscriptionService _inscriptionService = InscriptionService();
   String _message = "";
   bool _chargement = false;
-  String get message => _message;
   bool get chargement => _chargement;
   //Inscrire l'utilisateur avec un email et un mot de passe et ajouter ses informations dans la base de donnée
-  Future<bool> inscrireUtilisateur({
+  Future inscrireUtilisateur({
+    required BuildContext context,
     required String nom,
     required String prenom,
     required String email,
@@ -27,19 +30,17 @@ class InscriptionServiceProvider extends ChangeNotifier {
         _chargement = false;
         _message = "Toutes les cases sont obligatoires";
         notifyListeners();
-        return false;
       }
       if (password.length < 6) {
         _chargement = false;
         _message = "Le mot de passe doit avoir au minimum 6 caractères";
         notifyListeners();
-        return false;
       }
       final UserCredential? utilisateur = await _inscriptionService
           .inscrireUtilisateur(email: email.trim(), password: password.trim());
       if (utilisateur != null) {
         //Créer le document de l'utilisateur dans la base de donnée
-        await CreerDocumentUtilisateurService().creerDocUtilisateur(
+        await CreerDocUtilisateur().creerDocUtilisateur(
           utilisateur: Utilisateur(
             userId: utilisateur.user!.uid,
             nom: nom.trim(),
@@ -53,17 +54,18 @@ class InscriptionServiceProvider extends ChangeNotifier {
         _chargement = false;
         _message = "Succès";
         notifyListeners();
-        return true;
+        if (context.mounted) {
+          showSuccessSnackbar(context, _message);
+          naviguerAuthGate(context);
+        }
       }
-      _chargement = false;
-      _message = "Une erreur est survenue";
-      notifyListeners();
-      return false;
     } catch (e) {
       _chargement = false;
       _message = e.toString();
       notifyListeners();
-      return false;
+      if (context.mounted) {
+        showErrorSnackbar(context, _message);
+      }
     }
   }
 }

@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
 
 class CustomLogoWidget extends StatelessWidget {
-  const CustomLogoWidget({super.key});
+  final double padding;
+  final double size;
+  const CustomLogoWidget({
+    super.key,
+    required this.padding,
+    required this.size,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +18,8 @@ class CustomLogoWidget extends StatelessWidget {
         color: Styles.couleurbgSecondaire,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Icon(Icons.wallet, size: 50, color: Styles.couleurRevenu),
+        padding: EdgeInsets.all(padding),
+        child: Icon(Icons.wallet, size: size, color: Styles.couleurRevenu),
       ),
     );
   }
