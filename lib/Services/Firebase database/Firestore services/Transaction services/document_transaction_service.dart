@@ -21,13 +21,14 @@ class DocumentTransactionService {
   }
 
   // Charger les documents de la collection transaction
-  Future<List<TransactionModel>> lireDocsTransactions() async {
+  Stream<List<TransactionModel>> lireDocsTransactions() async* {
     try {
       final resultat = await firestoreServices.firebaseFirestore
           .collection(collectionTransaction)
+          .orderBy("date", descending: true)
           .where("userId", isEqualTo: idUtilisateur)
           .get();
-      return resultat.docs
+      yield resultat.docs
           .map((e) => TransactionModel.fromMap(e.data()))
           .toList();
     } on FirebaseException catch (e) {
