@@ -17,7 +17,9 @@ class ListTransactionsWidgets extends StatelessWidget {
         if (snapshot.hasError) {
           return Center(child: Text(snapshot.error.toString()));
         }
-        if (snapshot.hasData && snapshot.data!.isEmpty) {
+
+        if (snapshot.hasData && snapshot.data!.isEmpty ||
+            snapshot.data == null) {
           return Center(child: Text("Aucun document trouvé"));
         } else {
           return Skeletonizer(
