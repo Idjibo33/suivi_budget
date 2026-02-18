@@ -12,6 +12,7 @@ import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_utili
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/solde_provider.dart';
 import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_preferences_provider.dart';
 import 'package:suivi_budget/Providers/depenses_categories_provider.dart';
+import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_provider.dart';
 import 'package:suivi_budget/auth_gate.dart';
 import 'package:suivi_budget/constants.dart';
@@ -48,6 +49,9 @@ void main() async {
         ChangeNotifierProvider(create: (context) => DocUtilisateurProvider()),
         ChangeNotifierProvider(
           create: (context) => UtilisateurPreferencesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ModifierTransactionViewProvider(),
         ),
       ],
       child: MainApp(),

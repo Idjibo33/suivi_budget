@@ -11,6 +11,7 @@ class TransactionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
         builder: (context) => TransactionDetailsView(transaction: transaction),
       ),

@@ -27,8 +27,8 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
 
   @override
   void dispose() {
-    montantText;
-    descriptionText;
+    montantText.dispose();
+    descriptionText.dispose();
     date;
     super.dispose();
   }

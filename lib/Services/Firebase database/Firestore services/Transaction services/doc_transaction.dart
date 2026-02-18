@@ -28,6 +28,20 @@ class DocTransaction {
     }
   }
 
+  //Modifier la transaction
+  Future modifierTransaction({
+    required TransactionModel transactionModifiee,
+  }) async {
+    try {
+      await firestoreServices.firebaseFirestore
+          .collection(collectionTransaction)
+          .doc(transactionModifiee.id)
+          .update(transactionModifiee.toMap());
+    } on FirebaseException catch (e) {
+      throw Exception(e);
+    }
+  }
+
   // Supprimer la transaction
   Future supprimerTransaction(String id) async {
     try {

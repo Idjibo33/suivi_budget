@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/Transaction%20services/doc_transaction.dart';
 import 'package:suivi_budget/models/Snackbar%20Notifications/error_snackbar.dart';
 import 'package:suivi_budget/models/Snackbar%20Notifications/success_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 class DocTransactionProvider extends ChangeNotifier {
   final DocTransaction _documentTransaction = DocTransaction();
@@ -45,6 +47,33 @@ class DocTransactionProvider extends ChangeNotifier {
       await _documentTransaction.supprimerTransaction(id);
       _chargement = false;
       _message = "Supprimé avec succès";
+      notifyListeners();
+      if (context.mounted) {
+        showSuccessSnackbar(context, _message);
+      }
+    } catch (e) {
+      _chargement = false;
+      _message = e.toString();
+      notifyListeners();
+      if (context.mounted) {
+        showErrorSnackbar(context, _message);
+      }
+    }
+  }
+
+  // Modifier la transaction
+  Future modifierDoc({
+    required BuildContext context,
+    required TransactionModel transaction,
+  }) async {
+    _chargement = true;
+    notifyListeners();
+    try {
+      await _documentTransaction.modifierTransaction(
+        transactionModifiee: transaction,
+      );
+      _chargement = false;
+      _message = "Modification réussie";
       notifyListeners();
       if (context.mounted) {
         showSuccessSnackbar(context, _message);

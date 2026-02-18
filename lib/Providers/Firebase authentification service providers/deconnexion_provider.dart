@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/deconnexion.dart';
 import 'package:suivi_budget/models/Snackbar%20Notifications/error_snackbar.dart';

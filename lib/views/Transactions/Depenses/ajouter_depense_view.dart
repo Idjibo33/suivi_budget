@@ -26,8 +26,8 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
   DateTime date = DateTime.now();
   @override
   void dispose() {
-    montantText;
-    descriptionText;
+    montantText.dispose();
+    descriptionText.dispose();
     date;
     super.dispose();
   }
