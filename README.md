@@ -1,5 +1,7 @@
 # suivi_budget — Édition Persistance Locale (SQLite/Floor)
 
+**Branch actuelle :** feature/stockage-local
+
 Cette version de l'application privilégie la confidentialité et la rapidité en stockant 100% des données sur l'appareil de l'utilisateur.
 
 ## Points Forts de cette Version
