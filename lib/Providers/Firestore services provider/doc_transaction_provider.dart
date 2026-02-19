@@ -4,7 +4,6 @@ import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/T
 import 'package:suivi_budget/models/Snackbar%20Notifications/error_snackbar.dart';
 import 'package:suivi_budget/models/Snackbar%20Notifications/success_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 class DocTransactionProvider extends ChangeNotifier {
   final DocTransaction _documentTransaction = DocTransaction();

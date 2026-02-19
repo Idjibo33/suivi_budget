@@ -1,45 +1,45 @@
 # suivi_budget
 
-Ce projet est une mini application de suivi budget pour jeune actif
+SuiviBudget est une application mobile intuitive conçue pour aider les utilisateurs à prendre le contrôle de leurs finances. Développée avec Flutter et Firebase, elle permet de centraliser le suivi des revenus et des dépenses en temps réel.
 
 ## Fonctionnalités :
 
-- **Onboarding:** Enregistrement du nom de l'utilisateur avec stockage permanent.
-- **Gestion et Suivi des transactions:** Enregistrement et affichage des revenus, dépenses et calcul de solde en temps réel.
-- **Persistance des données:** Enregistrement stockage des données légères avec **Shared_Preferences** et l'utilisation de **sqflite** pour le stockage des données de transactions.
-- **Gestion d'État Réactive:** Mise à jour instantanée de l'interface utilisateur lors de l'ajout d'informations sans recharger la page.
-- **Filtrage des transaction** sur l'écran d'accueil
+## Authentification
+- Création de compte et connexion sécurisée via Firebase Auth.
 
-## Statut de l'application :
+## Gestion des Transactions
+- **Opérations CRUD :** Enregistrement, modification et suppression des revenus et dépenses.
+- **Calcul Automatique :** Mise à jour instantanée du solde global.
 
-Ce projet est MVP et est évolutif au fil du temps
-
-- Front-End (UI/UX) Complet Le design et la mise en page sont finalisés et réactifs pour un MVP.
-- Logique d'enregistrement des revenus et dépenses  complet pour un MVP.
-- Déploiement Non applicable, Projet personnel, non destiné à au public.
-
-
-## Objectif de ce projet :
-
-L'objectif est de créer une application mobile de gestion de finances personnelles permettant à l'utilisateur de suivre ses transactions quotidiennes tout en personnalisant son expérience. L'accent est mis sur la persistance locale (les données restent dans le téléphone) et la réactivité de l'interface.
-
-
-## Aperçu du design
-![Écran accueil](assets/images/Accueil.png)
-
+## Stockage des Données
+- **Cloud Firestore :** Synchronisation des transactions et des profils utilisateurs sur le cloud.
+- **Cache local :** Utilisation de SharedPreferences pour les préférences légères.
 
 ## Technologies utilisées 
-
 - **Framework:** Flutter
-- **Langage:** Dart
-- **UI:** TextField, Card, Text, ModalBottomSheet, Icon, FilledButton, IconButton...
-- **Dépendences:** Provider, SharedPreferences, Sqflite, Floor, GoogleFonts....
+- **Backend:** Firebase Auth, Cloud firestore   
+- **Gstion d'etat:** Provider
 
+## Aperçu 
+![ accueil](assets/images/Accueil.png)
+![ Profil](assets/images/Profil.png)
+![ Revenu](assets/images/Revenu.png)
+![ Depense](assets/images/Depense.png)
+![ Details](assets/images/Details.png) 
+![ MOdifier](assets/images/Modifier.png)
+
+## Objectifs:
+
+L'objectif principal était de maîtriser le cycle de vie des données entre un framework frontend (Flutter) et un BaaS (Firebase).
 
 ## Prochaines Étapes
 
-- Ajout de plusieurs autres fonctionnalités avancées ()
-- Amélioration du design
+- **Analyses graphiques :** Ajout de diagrammes pour visualiser les catégories de transactions.
+- **Export PDF :** Génération de rapports.
+- **Refonte UI :** Passage à un design plus moderne et support du Dark Mode.
+
+***Projet réalisé dans le cadre d'un apprentissage Flutter & Firebase.***
+
 
 
 
