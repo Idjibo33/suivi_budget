@@ -1,14 +1,27 @@
-# suivi_budget
+# suivi_budget — Édition Persistance Locale (SQLite/Floor)
 
-Ce projet est une mini application de suivi budget pour jeune actif
+Cette version de l'application privilégie la confidentialité et la rapidité en stockant 100% des données sur l'appareil de l'utilisateur.
 
-## Fonctionnalités :
+## Points Forts de cette Version
+Contrairement à la version Cloud (Firebase), cette branche utilise une architecture Local-First 
+- **Confidentialité Totale :** Aucune donnée de transaction ne quitte le téléphone.
+- **Performance Offline :** L'application fonctionne parfaitement sans connexion internet.
+- **Architecture Type-Safe :** Utilisation de Floor, une bibliothèque d'abstraction SQLite garantissant une gestion des données robuste et sécurisée.
 
-- **Onboarding:** Enregistrement du nom de l'utilisateur avec stockage permanent.
-- **Gestion et Suivi des transactions:** Enregistrement et affichage des revenus, dépenses et calcul de solde en temps réel.
-- **Persistance des données:** Enregistrement stockage des données légères avec **Shared_Preferences** et l'utilisation de **sqflite** pour le stockage des données de transactions.
-- **Gestion d'État Réactive:** Mise à jour instantanée de l'interface utilisateur lors de l'ajout d'informations sans recharger la page.
-- **Filtrage des transaction** sur l'écran d'accueil
+## Fonctionnalités
+### Gestion des Transactions
+- **CRUD Local :** Ajout, modification et suppression de revenus/dépenses avec persistance immédiate.
+- **Filtrage Dynamique :** Système de tri sur l'écran d'accueil pour isoler les flux financiers.
+- **Calcul de Solde :** Calcul en temps réel basé sur les entrées de la base SQLite.
+
+## Expérience Utilisateur
+- **Onboarding Personnalisé :** Accueil avec configuration du nom d'utilisateur, stocké de manière permanente.
+- **Interface Réactive :** Utilisation du pattern Provider pour notifier l'UI dès qu'une modification survient dans la base Floor.
+
+## Technologies utilisées 
+- **Framework :** Flutter
+- **Base de Données :** Floor, Sqflite
+- **Gestion d'etat :** Provider
 
 ## Statut de l'application :
 
@@ -28,18 +41,14 @@ L'objectif est de créer une application mobile de gestion de finances personnel
 ![Écran accueil](assets/images/Accueil.png)
 
 
-## Technologies utilisées 
+## Évolutions prévues
+- **Mode Sombre** 
+- **Notifications :** Rappels quotidiens pour enregistrer les transactions de la journée. 
+- **Statistiques** 
+- **Export CSV** 
+- **Catégories personnalisées** 
 
-- **Framework:** Flutter
-- **Langage:** Dart
-- **UI:** TextField, Card, Text, ModalBottomSheet, Icon, FilledButton, IconButton...
-- **Dépendences:** Provider, SharedPreferences, Sqflite, Floor, GoogleFonts....
-
-
-## Prochaines Étapes
-
-- Ajout de plusieurs autres fonctionnalités avancées ()
-- Amélioration du design
+***Projet réalisé par un apprenant Flutter passionné par l'architecture logicielle et la gestion des données.***
 
 
 

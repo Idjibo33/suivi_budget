@@ -6,7 +6,7 @@ import 'package:suivi_budget/features/Accueil/widgets/filtrage_choice_chip_widge
 import 'package:suivi_budget/features/Accueil/widgets/list_transactions_widgets.dart';
 import 'package:suivi_budget/features/Accueil/widgets/depenses_widgets.dart';
 import 'package:suivi_budget/features/Accueil/widgets/solde_widget.dart';
-import 'package:suivi_budget/features/Onboarding/onBoarding_widget.dart';
+import 'package:suivi_budget/features/Onboarding/onboarding_widget.dart';
 import 'package:suivi_budget/features/Accueil/widgets/revenus_widgets.dart';
 
 class AccueilScreen extends StatefulWidget {

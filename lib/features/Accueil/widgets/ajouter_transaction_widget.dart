@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Features/Accueil/widgets/custom_textfield_widget.dart';
-import 'package:suivi_budget/Features/Accueil/widgets/depenses_categories_dropdown_widget.dart';
-import 'package:suivi_budget/Features/Accueil/widgets/revenus_categories_dropdown_widget.dart';
 import 'package:suivi_budget/Providers/depenses_categories_dropdown_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_dropdown_provider.dart';
-import 'package:suivi_budget/Services/Notifications/snackbar_services.dart';
+import 'package:suivi_budget/models/Notifications/snackbar_services.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/Services/transaction.dart';
 import 'package:suivi_budget/Providers/database_provider.dart';
+import 'package:suivi_budget/features/Accueil/widgets/custom_textfield_widget.dart';
+import 'package:suivi_budget/features/Accueil/widgets/depenses_categories_dropdown_widget.dart';
+import 'package:suivi_budget/features/Accueil/widgets/revenus_categories_dropdown_widget.dart';
 
 class AjouterTransaction extends StatelessWidget {
   final TypeTransaction typeTransaction;
