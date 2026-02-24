@@ -15,7 +15,6 @@ void main() async {
   final dao = database.transactionDao;
 
   runApp(
-    //Déclaration des providers
     MultiProvider(
       providers: [
         ChangeNotifierProvider(

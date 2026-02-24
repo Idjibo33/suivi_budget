@@ -10,20 +10,34 @@ import 'package:suivi_budget/features/Accueil/widgets/custom_textfield_widget.da
 import 'package:suivi_budget/features/Accueil/widgets/depenses_categories_dropdown_widget.dart';
 import 'package:suivi_budget/features/Accueil/widgets/revenus_categories_dropdown_widget.dart';
 
-class AjouterTransaction extends StatelessWidget {
+class AjouterTransaction extends StatefulWidget {
   final TypeTransaction typeTransaction;
   const AjouterTransaction({super.key, required this.typeTransaction});
 
   @override
+  State<AjouterTransaction> createState() => _AjouterTransactionState();
+}
+
+class _AjouterTransactionState extends State<AjouterTransaction> {
+  // le controlleur du champ d'entrée du montant
+  TextEditingController montanttexte = TextEditingController();
+  @override
+  void dispose() {
+    montanttexte.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final String categorieRevenu =
-        RevenusCategoriesDropdownProvider().categorie;
-    final String categorieDepense =
-        DepensesCategoriesDropdownProvider().categorie;
+    final String categorieRevenu = context
+        .watch<RevenusCategoriesDropdownProvider>()
+        .categorie;
+    final String categorieDepense = context
+        .watch<DepensesCategoriesDropdownProvider>()
+        .categorie;
     // Lire l'heure actuelle
     final now = DateTime.now().toString();
-    // le controlleur du champ d'entrée du montant
-    TextEditingController montanttexte = TextEditingController();
+
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -41,7 +55,7 @@ class AjouterTransaction extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      typeTransaction == TypeTransaction.revenus
+                      widget.typeTransaction == TypeTransaction.revenus
                           ? "Nouveau revenu"
                           : "Nouvelle dépense",
                     ),
@@ -78,7 +92,7 @@ class AjouterTransaction extends StatelessWidget {
                   elevation: 0,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: typeTransaction == TypeTransaction.revenus
+                    child: widget.typeTransaction == TypeTransaction.revenus
                         ? RevenusCategoriesDropdownWidget()
                         : DepensesCategoriesDropdownWidget(),
                   ),
@@ -94,10 +108,11 @@ class AjouterTransaction extends StatelessWidget {
                             Transaction(
                               montant: int.parse(montanttexte.text),
                               category:
-                                  typeTransaction == TypeTransaction.revenus
+                                  widget.typeTransaction ==
+                                      TypeTransaction.revenus
                                   ? categorieRevenu
                                   : categorieDepense,
-                              type: typeTransaction,
+                              type: widget.typeTransaction,
                               date: now,
                             ),
                           );
