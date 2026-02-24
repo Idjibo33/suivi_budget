@@ -21,16 +21,8 @@ SuiviBudget est une application mobile intuitive conçue pour aider les utilisat
 - **Gstion d'etat:** Provider
 
 ## Aperçu 
-![ accueil](assets/images/Accueil.png)
-![ Profil](assets/images/Profil.png)
-![ Revenu](assets/images/Revenu.png)
-![ Depense](assets/images/Depense.png)
-![ Details](assets/images/Details.png) 
-![ MOdifier](assets/images/Modifier.png)
+<img src="assets/images/Accueil.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Profil.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Revenu.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Depense.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Details.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Modifier.png" width="250" alt="Capture d'écran">
 
-## Objectifs:
-
-L'objectif principal était de maîtriser le cycle de vie des données entre un framework frontend (Flutter) et un BaaS (Firebase).
 
 ## Prochaines Étapes
 
