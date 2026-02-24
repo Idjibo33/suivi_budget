@@ -8,6 +8,7 @@ class DepensesCategoriesDropdownWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> categories = ["Courses", "Loisirs", "Transport"];
     return Consumer<DepensesCategoriesDropdownProvider>(
       builder: (context, valueProvider, child) => DropdownButton(
         style: Styles.texteCorps.copyWith(color: Colors.black),
@@ -17,15 +18,9 @@ class DepensesCategoriesDropdownWidget extends StatelessWidget {
         ),
         underline: Container(),
         value: valueProvider.categorie,
-        items: [
-          const DropdownMenuItem(
-            value: "abonnement",
-            child: Text("Abonnement"),
-          ),
-          const DropdownMenuItem(value: "courses", child: Text("Courses")),
-          const DropdownMenuItem(value: "loisirs", child: Text("Loisirs")),
-          const DropdownMenuItem(value: "transport", child: Text("Transport")),
-        ],
+        items: categories.map((e) {
+          return DropdownMenuItem(value: e, child: Text(e));
+        }).toList(),
         onChanged: (value) {
           valueProvider.changerCategorie(value!);
         },
