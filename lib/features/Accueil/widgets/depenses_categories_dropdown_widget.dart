@@ -12,10 +12,7 @@ class DepensesCategoriesDropdownWidget extends StatelessWidget {
     return Consumer<DepensesCategoriesDropdownProvider>(
       builder: (context, valueProvider, child) => DropdownButton(
         style: Styles.texteCorps.copyWith(color: Colors.black),
-        icon: Transform.rotate(
-          angle: -1.6,
-          child: Icon(Icons.arrow_back_ios_new, size: 20),
-        ),
+        icon: Icon(Icons.keyboard_arrow_down, size: 20),
         underline: Container(),
         value: valueProvider.categorie,
         items: categories.map((e) {
