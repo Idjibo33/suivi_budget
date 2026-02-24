@@ -8,24 +8,16 @@ class RevenusCategoriesDropdownWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> categories = ["Salaire", "Aide", "Freelance"];
     return Consumer<RevenusCategoriesDropdownProvider>(
       builder: (context, valueProvider, child) => DropdownButton(
         style: Styles.texteCorps.copyWith(color: Colors.black),
-        icon: Transform.rotate(
-          angle: -1.6,
-          child: Icon(Icons.arrow_back_ios_new, size: 20),
-        ),
+        icon: Icon(Icons.keyboard_arrow_down_outlined, size: 20),
         underline: Container(),
         value: valueProvider.categorie,
-        items: [
-          const DropdownMenuItem(value: "salaire", child: Text("Salaire")),
-          const DropdownMenuItem(value: "aide", child: Text("Aide")),
-          const DropdownMenuItem(value: "freelance", child: Text("Freelance")),
-          const DropdownMenuItem(
-            value: "remboursement",
-            child: Text("Remboursement"),
-          ),
-        ],
+        items: categories.map((e) {
+          return DropdownMenuItem(value: e, child: Text(e));
+        }).toList(),
         onChanged: (value) {
           valueProvider.changerCategorie(value!);
         },

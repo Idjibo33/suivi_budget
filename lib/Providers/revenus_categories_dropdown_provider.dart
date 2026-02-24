@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RevenusCategoriesDropdownProvider extends ChangeNotifier {
-  String categorie = "salaire";
+  String categorie = "Salaire";
   void changerCategorie(String nouvelleCategorie) {
     categorie = nouvelleCategorie;
 
