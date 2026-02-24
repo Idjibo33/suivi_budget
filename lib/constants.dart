@@ -20,9 +20,3 @@ class Styles {
     color: Colors.grey,
   );
 }
-
-enum Revenus { salaire, aide, freelance, remboursement }
-
-enum Depenses { abonnements, alimentation, transport, loisirs, courses }
-
-enum TypeTransaction { revenus, depenses }
