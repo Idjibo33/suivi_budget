@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
+import 'package:suivi_budget/Providers/Firestore%20services%20provider/solde_provider.dart';
 import 'package:suivi_budget/Providers/depenses_categories_provider.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth.dart';
 import 'package:suivi_budget/constants.dart';
@@ -34,6 +35,8 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
 
   @override
   Widget build(BuildContext context) {
+    // le solde du compte
+    final int solde = context.watch<SoldeProvider>().soldeTotal();
     // l'id de l'utilisateur actuel
     final String idUtilisateur = Auth().currentUser!.uid;
     // La categorie de revenu
@@ -80,7 +83,9 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
                 texte: "Enregistrer transaction",
                 action: () {
                   value.creerDocTransaction(
-                    TransactionModel(
+                    context: context,
+                    solde: solde,
+                    transaction: TransactionModel(
                       id: "",
                       userId: idUtilisateur,
                       montant: int.parse(montantText.text),
@@ -89,7 +94,6 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
                       type: "Depense",
                       date: date,
                     ),
-                    context,
                   );
                   montantText.clear();
                   descriptionText.clear();

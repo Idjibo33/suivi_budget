@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:suivi_budget/Providers/Firestore%20services%20provider/solde_provider.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/Transaction%20services/doc_transaction.dart';
 import 'package:suivi_budget/models/Snackbar%20Notifications/error_snackbar.dart';
 import 'package:suivi_budget/models/Snackbar%20Notifications/success_snackbar.dart';
@@ -14,10 +15,17 @@ class DocTransactionProvider extends ChangeNotifier {
   String _message = "";
   bool get chargement => _chargement;
   // Creer le document transaction
-  Future creerDocTransaction(
-    TransactionModel transaction,
-    BuildContext context,
-  ) async {
+  Future creerDocTransaction({
+    required int solde,
+    required TransactionModel transaction,
+    required BuildContext context,
+  }) async {
+    if (transaction.type == "Depense" && transaction.montant > solde) {
+      _message = "Vous n'avez pas assez de solde pour faire cette dépense";
+      notifyListeners();
+      showErrorSnackbar(context, _message);
+      return;
+    }
     _chargement = true;
     notifyListeners();
     try {

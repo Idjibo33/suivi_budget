@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
+import 'package:suivi_budget/Providers/Firestore%20services%20provider/solde_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_provider.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth.dart';
 import 'package:suivi_budget/constants.dart';
@@ -39,7 +40,7 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
     final String idUtilisateur = Auth().currentUser!.uid;
     // La categorie de revenu
     String? categorie = context.watch<RevenusCategoriesProvider>().categorie;
-
+    final int solde = context.watch<SoldeProvider>().soldeTotal();
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -80,7 +81,9 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
                 texte: "Enregistrer transaction",
                 action: () {
                   value.creerDocTransaction(
-                    TransactionModel(
+                    solde: solde,
+                    context: context,
+                    transaction: TransactionModel(
                       id: "",
                       userId: idUtilisateur,
                       montant: int.parse(montantText.text),
@@ -89,7 +92,6 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
                       type: "Revenu",
                       date: date,
                     ),
-                    context,
                   );
                   montantText.clear();
                   descriptionText.clear();
