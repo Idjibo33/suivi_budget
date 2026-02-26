@@ -1,6 +1,8 @@
 # suivi_budget
 
-SuiviBudget est une application mobile intuitive conçue pour aider les utilisateurs à prendre le contrôle de leurs finances. Développée avec Flutter et Firebase, elle permet de centraliser le suivi des revenus et des dépenses en temps réel.
+cette version de l'application privilégie la synchronisation et la sécurité.
+
+- **Moteur :** Firebase Auth & Cloud Firestore.
 
 ## Fonctionnalités :
 
