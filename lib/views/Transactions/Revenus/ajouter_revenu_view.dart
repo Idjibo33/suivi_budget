@@ -79,8 +79,8 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
             Consumer<DocTransactionProvider>(
               builder: (context, value, child) => CustomFilledButtonWidget(
                 texte: "Enregistrer transaction",
-                action: () {
-                  value.creerDocTransaction(
+                action: () async {
+                  await value.creerDocTransaction(
                     solde: solde,
                     context: context,
                     transaction: TransactionModel(

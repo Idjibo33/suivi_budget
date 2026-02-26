@@ -81,8 +81,8 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
             Consumer<DocTransactionProvider>(
               builder: (context, value, child) => CustomFilledButtonWidget(
                 texte: "Enregistrer transaction",
-                action: () {
-                  value.creerDocTransaction(
+                action: () async {
+                  await value.creerDocTransaction(
                     context: context,
                     solde: solde,
                     transaction: TransactionModel(

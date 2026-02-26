@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/solde_provider.dart';
 import 'package:suivi_budget/Services/Firebase%20database/Firestore%20services/Transaction%20services/doc_transaction.dart';
 import 'package:suivi_budget/models/Snackbar%20Notifications/error_snackbar.dart';
 import 'package:suivi_budget/models/Snackbar%20Notifications/success_snackbar.dart';
