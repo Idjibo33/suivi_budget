@@ -4,6 +4,9 @@
 
 Cette version de l'application privilégie la confidentialité et la rapidité en stockant 100% des données sur l'appareil de l'utilisateur.
 
+- **Moteur :** SQLite via Floor.
+
+
 ## Points Forts de cette Version
 Contrairement à la version Cloud (Firebase), cette branche utilise une architecture Local-First 
 - **Confidentialité Totale :** Aucune donnée de transaction ne quitte le téléphone.
