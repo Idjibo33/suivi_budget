@@ -1,5 +1,7 @@
 # suivi_budget
 
+**Branch actuelle :** feature/firebase-backend
+
 cette version de l'application privilégie la synchronisation et la sécurité.
 
 - **Moteur :** Firebase Auth & Cloud Firestore.
