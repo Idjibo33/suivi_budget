@@ -10,6 +10,7 @@ cette version de l'application privilégie la synchronisation et la sécurité.
 
 ## Authentification
 - Création de compte et connexion sécurisée via Firebase Auth.
+- Authentification locale pour voir le solde
 
 ## Gestion des Transactions
 - **Opérations CRUD :** Enregistrement, modification et suppression des revenus et dépenses.
@@ -22,7 +23,7 @@ cette version de l'application privilégie la synchronisation et la sécurité.
 ## Technologies utilisées 
 - **Framework:** Flutter
 - **Backend:** Firebase Auth, Cloud firestore   
-- **Gstion d'etat:** Provider
+- **Gestion d'etat:** Provider
 
 ## Aperçu 
 <img src="assets/images/Accueil.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Profil.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Revenu.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Depense.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Details.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Modifier.png" width="250" alt="Capture d'écran">

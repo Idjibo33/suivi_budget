@@ -19,7 +19,7 @@ class LocalAuth {
       final verification = await checkLocalAuthAvailable();
       if (verification) {
         return await auth.authenticate(
-          localizedReason: "Authentifier pour voir le solde",
+          localizedReason: "Authentifier-vous pour voir le solde",
           persistAcrossBackgrounding: true,
         );
       } else {
