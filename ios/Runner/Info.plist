@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 <key>NSFaceIDUsageDescription</key>
-<string>Explain why your app needs Face ID access here.</string>
+<string>My app needs Face Id to ensure security for the app</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
