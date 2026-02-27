@@ -14,8 +14,8 @@ import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_prefer
 import 'package:suivi_budget/Providers/depenses_categories_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
 import 'package:suivi_budget/Providers/revenus_categories_provider.dart';
+import 'package:suivi_budget/auth_gate.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/views/Test%20local%20auth/test.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,7 +69,7 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Styles.couleurRevenu),
       ),
       debugShowCheckedModeBanner: false,
-      home: Test(),
+      home: AuthGate(),
     );
   }
 }
