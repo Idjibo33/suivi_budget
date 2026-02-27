@@ -16,7 +16,7 @@ import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_
 import 'package:suivi_budget/Providers/revenus_categories_provider.dart';
 import 'package:suivi_budget/auth_gate.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/firebase_options.dart';
+import 'package:suivi_budget/views/Test%20local%20auth/test.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,7 +70,7 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Styles.couleurRevenu),
       ),
       debugShowCheckedModeBanner: false,
-      home: AuthGate(),
+      home: Test(),
     );
   }
 }
