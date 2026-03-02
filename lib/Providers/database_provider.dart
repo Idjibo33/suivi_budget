@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/Services/transaction.dart';
@@ -6,8 +8,7 @@ import 'package:suivi_budget/Services/transaction_dao.dart';
 class DatabaseProvider extends ChangeNotifier {
   final TransactionDao dao;
   List<Transaction> transactions = [];
-  List<Transaction> transactionsRevenus = [];
-  List<Transaction> transactionsDepenses = [];
+  List<Transaction> listFiltree = [];
   String filtre = "toutes";
 
   DatabaseProvider({required this.dao});
@@ -15,12 +16,7 @@ class DatabaseProvider extends ChangeNotifier {
   //Lire les transactions
   Future<void> lireTransactions() async {
     transactions = await dao.toutesLesTransactions();
-    transactionsRevenus = transactions
-        .where((element) => element.type == TypeTransaction.revenus)
-        .toList();
-    transactionsDepenses = transactions
-        .where((element) => element.type == TypeTransaction.depenses)
-        .toList();
+
     notifyListeners();
   }
 
@@ -49,9 +45,22 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   //Changer la valeur du filtre
-  void changerFiltre(String nouveauFiltre) {
-    filtre = nouveauFiltre;
-    notifyListeners();
+  void changerFiltre({required String nouveauFiltre}) {
+    TypeTransaction filtreValue = nouveauFiltre == 'revenus'
+        ? TypeTransaction.revenus
+        : TypeTransaction.depenses;
+    if (nouveauFiltre == "toutes") {
+      filtre = nouveauFiltre;
+      listFiltree = transactions;
+      notifyListeners();
+    } else {
+      filtre = nouveauFiltre;
+      notifyListeners();
+      listFiltree = transactions
+          .where((element) => element.type == filtreValue)
+          .toList();
+      notifyListeners();
+    }
   }
 
   //Calculer la somme des revenus

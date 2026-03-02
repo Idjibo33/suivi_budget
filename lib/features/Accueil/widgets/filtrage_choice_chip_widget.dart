@@ -13,31 +13,23 @@ class FiltrageChoiceChipWidget extends StatelessWidget {
           spacing: 12,
           children: [
             ChoiceChip(
-              onSelected: (value) =>
-                  context.read<DatabaseProvider>().changerFiltre("toutes"),
-              label: Text("Toutes ${value.transactions.length}"),
-              selected: value.filtre == "toutes",
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(24),
-              ),
+              onSelected: (val) => value.changerFiltre(nouveauFiltre: 'toutes'),
+              label: Text('Toutes'),
+              selected: value.filtre == 'toutes',
             ),
             ChoiceChip(
-              onSelected: (value) =>
-                  context.read<DatabaseProvider>().changerFiltre("revenus"),
-              label: Text("Revenus ${value.transactionsRevenus.length}"),
-              selected: value.filtre == "revenus",
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(24),
-              ),
+              onSelected: (val) =>
+                  value.changerFiltre(nouveauFiltre: 'revenus'),
+
+              label: Text('Revenus'),
+              selected: value.filtre == 'revenus',
             ),
             ChoiceChip(
-              onSelected: (value) =>
-                  context.read<DatabaseProvider>().changerFiltre("depenses"),
-              label: Text("Dépenses ${value.transactionsDepenses.length}"),
-              selected: value.filtre == "depenses",
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(24),
-              ),
+              onSelected: (val) =>
+                  value.changerFiltre(nouveauFiltre: 'depenses'),
+
+              label: Text('Dépenses'),
+              selected: value.filtre == 'depenses',
             ),
           ],
         );

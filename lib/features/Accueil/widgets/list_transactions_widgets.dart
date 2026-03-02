@@ -11,25 +11,10 @@ class ListTransactionsWidgets extends StatelessWidget {
     return Expanded(
       child: Consumer<DatabaseProvider>(
         builder: (context, value, child) {
-          if (value.filtre == "revenus") {
-            return ListView.builder(
-              itemCount: value.transactionsRevenus.length,
-              itemBuilder: (context, index) => TransactionCard(
-                transaction: value.transactionsRevenus[index],
-              ),
-            );
-          } else if (value.filtre == "depenses") {
-            return ListView.builder(
-              itemCount: value.transactionsDepenses.length,
-              itemBuilder: (context, index) => TransactionCard(
-                transaction: value.transactionsDepenses[index],
-              ),
-            );
-          }
           return ListView.builder(
-            itemCount: value.transactions.length,
+            itemCount: value.listFiltree.length,
             itemBuilder: (context, index) =>
-                TransactionCard(transaction: value.transactions[index]),
+                TransactionCard(transaction: value.listFiltree[index]),
           );
         },
       ),
