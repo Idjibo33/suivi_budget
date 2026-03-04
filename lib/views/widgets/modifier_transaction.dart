@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/auth_provider.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
-import 'package:suivi_budget/models/navigation/naviguer_page_recente.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
 import 'package:suivi_budget/views/Transactions/date_transaction_card.dart';
@@ -41,12 +38,6 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    // L'id de l'utilisateur
-    String idUtilisateur = context
-        .watch<AuthProvider>()
-        .authServices
-        .currentUser!
-        .uid;
     return Column(
       spacing: 8,
       children: [
@@ -72,30 +63,11 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
                 ),
               ),
             ),
-            Consumer<DocTransactionProvider>(
-              builder: (context, value, child) => Expanded(
-                child: CustomFilledButtonWidget(
-                  texte: "Enregistrer",
-                  action: () async {
-                    await value.modifierDoc(
-                      context: context,
-                      transaction: TransactionModel(
-                        id: widget.transaction.id,
-                        userId: idUtilisateur,
-                        montant: int.parse(montantText.text.trim()),
-                        category: widget.transaction.category,
-                        description: descriptionText.text.trim(),
-                        type: widget.transaction.type,
-                        date: date,
-                      ),
-                    );
-                    if (context.mounted) {
-                      context.read<ModifierTransactionViewProvider>().changer();
-                      naviguerPagerecente(context);
-                    }
-                  },
-                  chargement: value.chargement,
-                ),
+            Expanded(
+              child: CustomFilledButtonWidget(
+                texte: "Enregistrer",
+                action: () {},
+                chargement: false,
               ),
             ),
           ],

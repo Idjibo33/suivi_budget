@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/solde_provider.dart';
-import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_preferences_provider.dart';
+import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
 import 'package:suivi_budget/views/widgets/revenus_widgets.dart';
@@ -12,7 +11,6 @@ class SoldeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Les informations de l'utilisateur
-    final infosUtilisateur = context.watch<UtilisateurPreferencesProvider>();
 
     return Consumer<SoldeProvider>(
       builder: (context, value, child) => Card(
@@ -23,13 +21,7 @@ class SoldeWidget extends StatelessWidget {
             children: [
               Align(
                 alignment: AlignmentGeometry.topLeft,
-                child: FutureBuilder(
-                  future: infosUtilisateur.chargerNom(),
-                  builder: (context, snapshot) => Text(
-                    "${infosUtilisateur.prenom} ${infosUtilisateur.nom}",
-                    style: Styles.texteCorps,
-                  ),
-                ),
+                child: Text("Nom utilisateur", style: Styles.texteCorps),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

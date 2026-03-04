@@ -1,48 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/depenses_categories_provider.dart';
-import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/views/Transactions/Depenses/depense_categorie_card.dart';
+import 'package:suivi_budget/models/categorie_card.dart';
+import 'package:suivi_budget/views/widgets/categorie_card.dart';
 
-class CategorieSection extends StatelessWidget {
-  const CategorieSection({super.key});
+class CategorieSection extends StatefulWidget {
+  final Function(String? val) choixVal;
+  final String typeCategorie;
+  const CategorieSection({
+    super.key,
+    required this.typeCategorie,
+    required this.choixVal,
+  });
 
   @override
+  State<CategorieSection> createState() => _CategorieSectionState();
+}
+
+class _CategorieSectionState extends State<CategorieSection> {
+  String? categorieValue;
+  @override
   Widget build(BuildContext context) {
-    return Consumer<DepensesCategoriesProvider>(
-      builder: (context, value, child) => Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              DepenseCategorieCard(
-                icone: Icons.money,
-                titre: "Courses",
-                couleure: Styles.couleurDepense,
-                choisie: value.categorie == "Courses" ? true : false,
+    return Column(
+      children: [
+        Wrap(
+          children: [
+            for (final categorie
+                in widget.typeCategorie == "Revenu"
+                    ? revenusCategories
+                    : depensesCategories)
+              CategorieCard(
+                catChoisie: (val) => setState(() {
+                  categorieValue = val;
+                  widget.choixVal(val);
+                }),
+                card: categorie,
+                choisie: categorie.titre == categorieValue ? true : false,
               ),
-              DepenseCategorieCard(
-                icone: Icons.money,
-                titre: "Loisirs",
-                couleure: Styles.couleurDepense,
-                choisie: value.categorie == "Loisirs" ? true : false,
-              ),
-              DepenseCategorieCard(
-                icone: Icons.money,
-                titre: "Transport",
-                couleure: Styles.couleurDepense,
-                choisie: value.categorie == "Transport" ? true : false,
-              ),
-              DepenseCategorieCard(
-                icone: Icons.money,
-                titre: "Abonnement",
-                couleure: Styles.couleurDepense,
-                choisie: value.categorie == "Abonnement" ? true : false,
-              ),
-            ],
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class TransactionModel {
   String id;
   String userId;
@@ -17,16 +15,15 @@ class TransactionModel {
     required this.type,
     required this.date,
   });
-  factory TransactionModel.fromMap(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
+  factory TransactionModel.fromMap(Map<String, dynamic> map) {
     return TransactionModel(
-      id: doc.id,
-      userId: data['userId'],
-      montant: data['montant'],
-      category: data['category'],
-      description: data['description'],
-      type: data['type'],
-      date: (data['date'] as Timestamp).toDate(),
+      id: map['id'],
+      userId: map['userId'],
+      montant: map['montant'],
+      category: map['category'],
+      description: map['description'],
+      type: map['type'],
+      date: map['date'],
     );
   }
   Map<String, dynamic> toMap() {

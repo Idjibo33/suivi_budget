@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/inscription_provider.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
@@ -63,19 +61,11 @@ class InscriptionPage extends StatelessWidget {
                     icone: Icons.password,
                   ),
                   const Gap(20),
-                  Consumer<InscriptionProvider>(
-                    builder: (context, value, child) =>
-                        CustomFilledButtonWidget(
-                          texte: "Créer compte",
-                          action: () => value.inscrireUtilisateur(
-                            context: context,
-                            nom: nomController.text,
-                            prenom: prenomController.text,
-                            email: emailController.text,
-                            password: pwController.text,
-                          ),
-                          chargement: value.chargement,
-                        ),
+
+                  CustomFilledButtonWidget(
+                    texte: "Créer compte",
+                    action: () {},
+                    chargement: true,
                   ),
                 ],
               ),

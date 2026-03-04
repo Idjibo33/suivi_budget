@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
+import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/models/navigation/naviguer_page_recente.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/widgets/custom_text_button_widget.dart';
 import 'package:suivi_budget/views/widgets/modifier_transaction.dart';
@@ -98,21 +97,13 @@ class TransactionDetailsView extends StatelessWidget {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Consumer<DocTransactionProvider>(
+                          Consumer<DatabaseProvider>(
                             builder: (context, value, child) => Expanded(
                               child: CustomTextButtonWidget(
                                 couleurTexte: Styles.couleurDepense,
                                 texte: "Supprimer",
-                                action: () async {
-                                  await value.supprimerDoc(
-                                    context,
-                                    transaction.id,
-                                  );
-                                  context.mounted
-                                      ? naviguerPagerecente(context)
-                                      : ();
-                                },
-                                chargement: value.chargement,
+                                action: () {},
+                                chargement: false,
                               ),
                             ),
                           ),

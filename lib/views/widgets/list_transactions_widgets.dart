@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
 import 'package:suivi_budget/views/widgets/transaction_card.dart';
 
 class ListTransactionsWidgets extends StatelessWidget {
@@ -9,9 +7,8 @@ class ListTransactionsWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final docsProvider = context.watch<DocTransactionProvider>();
     return StreamBuilder(
-      stream: docsProvider.transactions,
+      stream: Stream.empty(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(child: Text(snapshot.error.toString()));

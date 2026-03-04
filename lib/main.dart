@@ -1,58 +1,25 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/auth_provider.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/connexion_provider.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/deconnexion_provider.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/inscription_provider.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_utilisateur_provider.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/solde_provider.dart';
-import 'package:suivi_budget/Providers/Preferences%20provider/utilisateur_preferences_provider.dart';
-import 'package:suivi_budget/Providers/depenses_categories_provider.dart';
+import 'package:suivi_budget/Providers/Auth%20provider/auth_provider.dart';
+import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
+import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
-import 'package:suivi_budget/Providers/revenus_categories_provider.dart';
-import 'package:suivi_budget/auth_gate.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/views/Accueil/accueil_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  //Initialiser la base de données
-  await Firebase.initializeApp();
-  await dotenv.load(fileName: ".env");
-  // Charger les preferences
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.getStringList("Infos Utilisateur");
 
   runApp(
     //Les providers
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => DocTransactionProvider()),
-        ChangeNotifierProvider(
-          create: (context) => SoldeProvider()..listTransaction(),
-        ),
-
-        ChangeNotifierProvider(
-          create: (context) => RevenusCategoriesProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => DepensesCategoriesProvider(),
-        ),
-        ChangeNotifierProvider(create: (context) => InscriptionProvider()),
-        ChangeNotifierProvider(create: (context) => AuthProvider()),
-        ChangeNotifierProvider(create: (context) => ConnexionProvider()),
-        ChangeNotifierProvider(create: (context) => DeconnexionProvider()),
-        ChangeNotifierProvider(create: (context) => DocUtilisateurProvider()),
-        ChangeNotifierProvider(
-          create: (context) => UtilisateurPreferencesProvider(),
-        ),
+        ChangeNotifierProvider(create: (context) => SoldeProvider()),
         ChangeNotifierProvider(
           create: (context) => ModifierTransactionViewProvider(),
         ),
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => DatabaseProvider()),
       ],
       child: MainApp(),
     ),
@@ -69,7 +36,7 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Styles.couleurRevenu),
       ),
       debugShowCheckedModeBanner: false,
-      home: AuthGate(),
+      home: AccueilScreen(),
     );
   }
 }
