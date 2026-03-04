@@ -7,6 +7,8 @@ Le projet est structuré en trois branches distinctes pour isoler les technologi
 
 ### Version Locale (Branche : feature/local-storage-floor)
 ### Version Cloud  (Branche : backend-firebase)
+### Version Cloud  (Branche : backend-supabase)
+
 
 **Branch actuelle :** feature/firebase-backend
 
