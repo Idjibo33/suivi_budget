@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:suivi_budget/Services/Local%20Auth/local_auth.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/navigation/naviguer_ajouter_transaction_page.dart';
 import 'package:suivi_budget/views/Profil/profil_screen.dart';
@@ -7,8 +10,29 @@ import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
 import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
 import 'package:suivi_budget/views/widgets/solde_widget.dart';
 
-class AccueilScreen extends StatelessWidget {
+class AccueilScreen extends StatefulWidget {
   const AccueilScreen({super.key});
+
+  @override
+  State<AccueilScreen> createState() => _AccueilScreenState();
+}
+
+class _AccueilScreenState extends State<AccueilScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsFlutterBinding.ensureInitialized();
+    authenticate();
+  }
+
+  void authenticate() async {
+    final authentication = await LocalAuth().authenticated(
+      description: "Authentifier-vous pour continuer",
+    );
+    if (!authentication) {
+      exit(0);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
