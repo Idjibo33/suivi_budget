@@ -14,12 +14,12 @@ class LocalAuth {
   }
 
   //Authentifier
-  Future<bool> authenticated() async {
+  Future<bool> authenticated({required String description}) async {
     try {
       final verification = await checkLocalAuthAvailable();
       if (verification) {
         return await auth.authenticate(
-          localizedReason: "Authentifier-vous pour voir le solde",
+          localizedReason: description,
           persistAcrossBackgrounding: true,
         );
       } else {
