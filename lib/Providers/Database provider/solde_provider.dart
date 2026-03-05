@@ -3,7 +3,7 @@ import 'package:suivi_budget/Services/Local%20Auth/local_auth.dart';
 import 'package:suivi_budget/models/transaction.dart';
 
 class SoldeProvider extends ChangeNotifier {
-  List<TransactionModel> _transactions = [];
+  List<Transaction> _transactions = [];
   bool _chargement = false;
   bool get chargement => _chargement;
   final LocalAuth _localAuth = LocalAuth();
@@ -12,7 +12,9 @@ class SoldeProvider extends ChangeNotifier {
   bool get visible => _visible;
   void changervisiblite() async {
     if (!_visible) {
-      final authentification = await _localAuth.authenticated();
+      final authentification = await _localAuth.authenticated(
+        description: "Authentifiez-vous pour voir le solde",
+      );
       if (authentification) {
         _visible = !_visible;
       }

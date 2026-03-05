@@ -4,11 +4,14 @@ import 'package:suivi_budget/Providers/Auth%20provider/auth_provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/Services/database/transaction_database.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/Accueil/accueil_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final db = await TransactionDatabase.intialize();
+  final database = db.transactionDao;
 
   runApp(
     //Les providers
@@ -19,7 +22,9 @@ void main() async {
           create: (context) => ModifierTransactionViewProvider(),
         ),
         ChangeNotifierProvider(create: (context) => AuthProvider()),
-        ChangeNotifierProvider(create: (context) => DatabaseProvider()),
+        ChangeNotifierProvider(
+          create: (context) => DatabaseProvider(database: database),
+        ),
       ],
       child: MainApp(),
     ),
