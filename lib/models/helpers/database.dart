@@ -1,6 +1,6 @@
-abstract class Databaseervices {
-  Future createData();
-  Future updateData();
-  Future deleteData();
-  Future readData();
+abstract class Databaseervices<T> {
+  Future createData(T item);
+  Future updateData(String id, T item);
+  Future deleteData(String id);
+  Stream readData(String id);
 }
