@@ -4,7 +4,7 @@ import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/widgets/transaction_details_view.dart';
 
 class TransactionCard extends StatelessWidget {
-  final TransactionModel transaction;
+  final Transaction transaction;
   const TransactionCard({super.key, required this.transaction});
 
   @override
