@@ -6,22 +6,12 @@ class SoldeProvider extends ChangeNotifier {
   List<Transaction> _transactions = [];
   bool _chargement = false;
   bool get chargement => _chargement;
-  final LocalAuth _localAuth = LocalAuth();
 
   bool _visible = false;
   bool get visible => _visible;
   void changervisiblite() async {
-    if (!_visible) {
-      final authentification = await _localAuth.authenticated(
-        description: "Authentifiez-vous pour voir le solde",
-      );
-      if (authentification) {
-        _visible = !_visible;
-      }
-    } else {
-      _visible = !_visible;
-      notifyListeners();
-    }
+    _visible = !_visible;
+    notifyListeners();
   }
 
   // le total des revenus
