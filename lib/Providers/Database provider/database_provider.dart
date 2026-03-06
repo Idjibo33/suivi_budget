@@ -1,14 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/Services/database/transaction_dao.dart';
 import 'package:suivi_budget/models/helpers/error_snackbar.dart';
 import 'package:suivi_budget/models/helpers/success_snackbar.dart';
-import 'package:suivi_budget/models/helpers/validation.dart';
 import 'package:suivi_budget/models/transaction.dart';
 
 class DatabaseProvider extends ChangeNotifier {
   final TransactionDao database;
   DatabaseProvider({required this.database});
-
+  List<Transaction> _transactionsListe = [];
   Stream<List<Transaction>> get transactions => database.getTransactions();
   bool _chargement = false;
   bool get chargement => _chargement;
@@ -27,6 +28,7 @@ class DatabaseProvider extends ChangeNotifier {
       notifyListeners();
       if (context.mounted) showSuccessSnackbar(context, _message);
     } catch (e) {
+      log('Error in addTransaction: $e');
       _chargement = false;
       _message = e.toString();
       notifyListeners();
@@ -69,5 +71,31 @@ class DatabaseProvider extends ChangeNotifier {
       notifyListeners();
       if (context.mounted) showErrorSnackbar(context, _message);
     }
+  }
+
+  void listenTransactions() {
+    transactions.listen((event) {
+      _transactionsListe = event;
+      notifyListeners();
+    });
+  }
+
+  // le total des revenus
+  int totalRevenus() {
+    return _transactionsListe
+        .where((element) => element.type == "Revenu")
+        .fold(0, (previousValue, element) => previousValue + element.montant);
+  }
+
+  // le total des depenses
+  int totalDepenses() {
+    return _transactionsListe
+        .where((element) => element.type == "Depense")
+        .fold(0, (previousValue, element) => previousValue + element.montant);
+  }
+
+  //Calculer le solde total
+  int soldeTotal() {
+    return totalRevenus() - totalDepenses();
   }
 }
