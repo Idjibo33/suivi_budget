@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/helpers/check_solde.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
 import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
@@ -37,7 +37,6 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
   @override
   Widget build(BuildContext context) {
     // le solde du compte
-    final int solde = context.watch<SoldeProvider>().soldeTotal();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView(
@@ -81,6 +80,14 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
             builder: (context, database, child) => CustomFilledButtonWidget(
               texte: "Enregistrer transaction",
               action: () async {
+                final checkBalance = balanceAvailable(
+                  database.soldeTotal(),
+                  int.parse(montantText.text),
+                  context,
+                );
+                if (!checkBalance) {
+                  return;
+                }
                 await database.addTransaction(
                   context,
                   transaction: Transaction(

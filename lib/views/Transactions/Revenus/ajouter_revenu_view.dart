@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
@@ -36,7 +35,6 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
 
   @override
   Widget build(BuildContext context) {
-    final int solde = context.watch<SoldeProvider>().soldeTotal();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView(
