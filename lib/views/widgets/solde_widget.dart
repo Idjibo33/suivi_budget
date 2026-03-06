@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
+import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
 import 'package:suivi_budget/views/widgets/revenus_widgets.dart';
 
-class SoldeWidget extends StatelessWidget {
+class SoldeWidget extends StatefulWidget {
   const SoldeWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Les informations de l'utilisateur
+  State<SoldeWidget> createState() => _SoldeWidgetState();
+}
 
-    return Consumer<SoldeProvider>(
-      builder: (context, value, child) => Card(
+class _SoldeWidgetState extends State<SoldeWidget> {
+  bool visible = false;
+
+  void changerVisibilite() {
+    setState(() {
+      visible = !visible;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<DatabaseProvider>(
+      builder: (context, database, child) => Card(
         elevation: 4,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -29,13 +40,13 @@ class SoldeWidget extends StatelessWidget {
                   Stack(
                     children: [
                       Visibility(
-                        visible: !value.visible,
+                        visible: visible,
                         child: Text("******", style: Styles.texteCorps),
                       ),
                       Visibility(
-                        visible: value.visible,
+                        visible: !visible,
                         child: Text(
-                          "${value.soldeTotal().toString()} F CFA",
+                          "${database.soldeTotal()} F CFA",
                           style: Styles.texteTitre,
                         ),
                       ),
@@ -45,16 +56,16 @@ class SoldeWidget extends StatelessWidget {
                   Stack(
                     children: [
                       Visibility(
-                        visible: !value.visible,
+                        visible: visible,
                         child: IconButton(
-                          onPressed: () => value.changervisiblite(),
+                          onPressed: () => changerVisibilite(),
                           icon: Icon(Icons.visibility),
                         ),
                       ),
                       Visibility(
-                        visible: value.visible,
+                        visible: !visible,
                         child: IconButton(
-                          onPressed: () => value.changervisiblite(),
+                          onPressed: () => changerVisibilite(),
                           icon: Icon(Icons.visibility_off),
                         ),
                       ),
@@ -66,12 +77,12 @@ class SoldeWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RevenusWidgets(
-                    totalRevenus: value.totalRevenus(),
-                    chargement: value.chargement,
+                    totalRevenus: database.totalRevenus(),
+                    chargement: database.chargement,
                   ),
                   DepensesWidgets(
-                    totalDepenses: value.totalDepenses(),
-                    chargement: value.chargement,
+                    totalDepenses: database.totalDepenses(),
+                    chargement: database.chargement,
                   ),
                 ],
               ),
