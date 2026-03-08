@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:suivi_budget/Services/Firebase%20/Firestore%20services/doc_transaction.dart';
-import 'package:suivi_budget/models/error_snackbar.dart';
 import 'package:suivi_budget/models/helpers.dart';
-import 'package:suivi_budget/models/success_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
 
 class DocTransactionProvider extends ChangeNotifier {

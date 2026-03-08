@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:suivi_budget/Services/Firebase%20/Authentification%20services/auth.dart';
 import 'package:suivi_budget/Services/Firebase%20/Firestore%20services/doc_utilisateur_.dart';
 import 'package:suivi_budget/Services/Preferences/utilisateur_preferences.dart';
-import 'package:suivi_budget/models/error_snackbar.dart';
 import 'package:suivi_budget/models/helpers.dart';
 import 'package:suivi_budget/models/utilisateur.dart';
 

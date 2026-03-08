@@ -1,7 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/models/error_snackbar.dart';
+import 'package:flutter/services.dart';
 import 'package:suivi_budget/models/transaction.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 abstract class AuthServices {
   Future createAccountWithEmail(String email, String password);
@@ -67,4 +68,17 @@ bool validateUserConnexinForm(
     return false;
   }
   return true;
+}
+
+void showErrorSnackbar(BuildContext context, message) {
+  showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message: message));
+  HapticFeedback.heavyImpact();
+}
+
+void showSuccessSnackbar(BuildContext context, message) {
+  showTopSnackBar(
+    Overlay.of(context),
+    CustomSnackBar.success(message: message),
+  );
+  HapticFeedback.vibrate();
 }
