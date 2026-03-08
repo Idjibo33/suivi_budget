@@ -10,9 +10,9 @@ class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<AuthProvider>(
-        builder: (context, value, child) => StreamBuilder(
-          stream: value.authServices.authStateChange,
+      body: Consumer<AuthServicesProvider>(
+        builder: (context, auth, child) => StreamBuilder(
+          stream: auth.firebase.authStateChange,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return AccueilScreen();

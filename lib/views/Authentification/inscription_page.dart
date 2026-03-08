@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/inscription_provider.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/auth_provider.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
@@ -17,6 +17,8 @@ class InscriptionPage extends StatelessWidget {
     TextEditingController prenomController = TextEditingController();
     TextEditingController emailController = TextEditingController();
     TextEditingController pwController = TextEditingController();
+    TextEditingController confPwController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -62,20 +64,27 @@ class InscriptionPage extends StatelessWidget {
                     controlleurChamp: pwController,
                     icone: Icons.password,
                   ),
+                  const Gap(8),
+                  CustomTextfieldWidget(
+                    label: "Confirmer le mot de passe",
+                    typeInput: TextInputType.text,
+                    controlleurChamp: confPwController,
+                    icone: Icons.password,
+                  ),
                   const Gap(20),
-                  Consumer<InscriptionProvider>(
-                    builder: (context, value, child) =>
-                        CustomFilledButtonWidget(
-                          texte: "Créer compte",
-                          action: () => value.inscrireUtilisateur(
-                            context: context,
-                            nom: nomController.text,
-                            prenom: prenomController.text,
-                            email: emailController.text,
-                            password: pwController.text,
-                          ),
-                          chargement: value.chargement,
-                        ),
+                  Consumer<AuthServicesProvider>(
+                    builder: (context, auth, child) => CustomFilledButtonWidget(
+                      texte: "Créer compte",
+                      action: () => auth.createUser(
+                        context: context,
+                        nom: nomController.text,
+                        prenom: prenomController.text,
+                        email: emailController.text,
+                        password: pwController.text,
+                        passwordConfirmation: confPwController.text,
+                      ),
+                      chargement: auth.chargement,
+                    ),
                   ),
                 ],
               ),

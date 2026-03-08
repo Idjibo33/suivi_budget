@@ -48,7 +48,7 @@ class DefaultFirebaseOptions {
   }
 
   static final FirebaseOptions web = FirebaseOptions(
-    apiKey: dotenv.env['FIREBASE_WEB_API_KEY'] ?? '',
+    apiKey: dotenv.env['web'] ?? '',
     appId: '1:421889303134:web:8c61a81db90ca388c38acf',
     messagingSenderId: '421889303134',
     projectId: 'culturpass',
@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
   );
 
   static final FirebaseOptions android = FirebaseOptions(
-    apiKey: dotenv.env['FIREBASE_ANDROID_API_KEY'] ?? '',
+    apiKey: dotenv.env['android'] ?? '',
     appId: '1:421889303134:android:f0f1573834bc52e5c38acf',
     messagingSenderId: '421889303134',
     projectId: 'culturpass',
@@ -65,7 +65,7 @@ class DefaultFirebaseOptions {
   );
 
   static final FirebaseOptions ios = FirebaseOptions(
-    apiKey: dotenv.env['FIREBASE_IOS_API_KEY'] ?? '',
+    apiKey: dotenv.env['ios'] ?? '',
     appId: '1:421889303134:ios:cd270909969970c5c38acf',
     messagingSenderId: '421889303134',
     projectId: 'culturpass',

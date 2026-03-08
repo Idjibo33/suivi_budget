@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/auth_provider.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
-import 'package:suivi_budget/Providers/Firestore%20services%20provider/solde_provider.dart';
 import 'package:suivi_budget/Providers/depenses_categories_provider.dart';
-import 'package:suivi_budget/Services/Firebase%20database/Authentification%20services/auth.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
@@ -35,10 +34,9 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
 
   @override
   Widget build(BuildContext context) {
-    // le solde du compte
-    final int solde = context.watch<SoldeProvider>().soldeTotal();
     // l'id de l'utilisateur actuel
-    final String idUtilisateur = Auth().currentUser!.uid;
+    final String idUtilisateur =
+        AuthServicesProvider().firebase.currentUser!.uid;
     // La categorie de revenu
     String? categorie = context.watch<DepensesCategoriesProvider>().categorie;
     // Date de la transaction
@@ -79,27 +77,27 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
             ),
             const Gap(12),
             Consumer<DocTransactionProvider>(
-              builder: (context, value, child) => CustomFilledButtonWidget(
-                texte: "Enregistrer transaction",
-                action: () async {
-                  await value.creerDocTransaction(
-                    context: context,
-                    solde: solde,
-                    transaction: TransactionModel(
-                      id: "",
-                      userId: idUtilisateur,
-                      montant: int.parse(montantText.text),
-                      category: categorie ?? "Aucunte catégorie choisie",
-                      description: descriptionText.text,
-                      type: "Depense",
-                      date: date,
-                    ),
-                  );
-                  montantText.clear();
-                  descriptionText.clear();
-                },
-                chargement: value.chargement,
-              ),
+              builder: (context, transactions, child) =>
+                  CustomFilledButtonWidget(
+                    texte: "Enregistrer transaction",
+                    action: () async {
+                      await transactions.createTransactionDoc(
+                        context: context,
+                        transaction: TransactionModel(
+                          id: "",
+                          userId: idUtilisateur,
+                          montant: int.parse(montantText.text),
+                          category: categorie ?? "Aucunte catégorie choisie",
+                          description: descriptionText.text,
+                          type: "Depense",
+                          date: date,
+                        ),
+                      );
+                      montantText.clear();
+                      descriptionText.clear();
+                    },
+                    chargement: transactions.chargement,
+                  ),
             ),
           ],
         ),

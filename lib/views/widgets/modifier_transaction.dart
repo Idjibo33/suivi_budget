@@ -43,8 +43,8 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
   Widget build(BuildContext context) {
     // L'id de l'utilisateur
     String idUtilisateur = context
-        .watch<AuthProvider>()
-        .authServices
+        .watch<AuthServicesProvider>()
+        .firebase
         .currentUser!
         .uid;
     return Column(
@@ -73,11 +73,11 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
               ),
             ),
             Consumer<DocTransactionProvider>(
-              builder: (context, value, child) => Expanded(
+              builder: (context, transactions, child) => Expanded(
                 child: CustomFilledButtonWidget(
                   texte: "Enregistrer",
                   action: () async {
-                    await value.modifierDoc(
+                    await transactions.updateTransactionDoc(
                       context: context,
                       transaction: TransactionModel(
                         id: widget.transaction.id,
@@ -94,7 +94,7 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
                       naviguerPagerecente(context);
                     }
                   },
-                  chargement: value.chargement,
+                  chargement: transactions.chargement,
                 ),
               ),
             ),

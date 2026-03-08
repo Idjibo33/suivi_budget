@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "421889303134",
+    "firebase_url": "https://culturpass-default-rtdb.firebaseio.com",
     "project_id": "culturpass",
     "storage_bucket": "culturpass.firebasestorage.app"
   },

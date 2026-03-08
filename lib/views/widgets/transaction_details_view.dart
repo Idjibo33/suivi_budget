@@ -99,20 +99,20 @@ class TransactionDetailsView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Consumer<DocTransactionProvider>(
-                            builder: (context, value, child) => Expanded(
+                            builder: (context, transactions, child) => Expanded(
                               child: CustomTextButtonWidget(
                                 couleurTexte: Styles.couleurDepense,
                                 texte: "Supprimer",
                                 action: () async {
-                                  await value.supprimerDoc(
+                                  await transactions.deleteTransactionDoc(
                                     context,
                                     transaction.id,
                                   );
-                                  context.mounted
-                                      ? naviguerPagerecente(context)
-                                      : ();
+                                  if (context.mounted) {
+                                    naviguerPagerecente(context);
+                                  }
                                 },
-                                chargement: value.chargement,
+                                chargement: transactions.chargement,
                               ),
                             ),
                           ),
