@@ -1,6 +1,12 @@
 import 'package:suivi_budget/models/helpers.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class Supabase implements AuthServices {
+class SupabaseAuth implements AuthServices {
+  final _supabase = Supabase.instance.client;
+  Stream<AuthState> authState() {
+    return _supabase.auth.onAuthStateChange;
+  }
+
   @override
   Future<dynamic> createAccountWithEmail(String email, String password) {
     // TODO: implement createAccountWithEmail

@@ -9,8 +9,8 @@ class AuthServicesProvider extends ChangeNotifier {
   final UtilisateurTable _docUtilisateur = UtilisateurTable();
   final UtilisateurPreferences _utilisateurPreferences =
       UtilisateurPreferences();
-  final Supabase _supabase = Supabase();
-  Supabase get firebase => _supabase;
+  final SupabaseAuth _supabase = SupabaseAuth();
+  SupabaseAuth get supabase => _supabase;
   bool _chargement = false;
   bool get chargement => _chargement;
   String _message = "";

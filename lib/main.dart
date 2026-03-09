@@ -5,11 +5,19 @@ import 'package:suivi_budget/Providers/Database%20services%20provider/utilisateu
 import 'package:suivi_budget/Providers/Preferences/utilisateur_preferences_provider.dart';
 import 'package:suivi_budget/Providers/Supabase%20authentification%20services%20provider/auth_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/auth_gate.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/Accueil/accueil_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
+  await Supabase.initialize(
+    url: dotenv.env['URL'] ?? '',
+    anonKey: dotenv.env['ANONKEY'] ?? '',
+  );
 
   runApp(
     //Les providers
@@ -40,7 +48,7 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Styles.couleurRevenu),
       ),
       debugShowCheckedModeBanner: false,
-      home: AccueilScreen(),
+      home: AuthGate(),
     );
   }
 }
