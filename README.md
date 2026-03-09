@@ -1,6 +1,6 @@
 # suivi_budget
 
-**Branch actuelle :** feature/firebase-backend
+**Branch actuelle :** backend-firebase
 
 cette version de l'application privilégie la synchronisation et la sécurité.
 
@@ -10,7 +10,6 @@ cette version de l'application privilégie la synchronisation et la sécurité.
 
 ## Authentification
 - Création de compte et connexion sécurisée via Firebase Auth.
-- Authentification locale pour voir le solde
 
 ## Gestion des Transactions
 - **Opérations CRUD :** Enregistrement, modification et suppression des revenus et dépenses.
@@ -35,7 +34,6 @@ cette version de l'application privilégie la synchronisation et la sécurité.
 - **Export PDF :** Génération de rapports.
 - **Refonte UI :** Passage à un design plus moderne et support du Dark Mode.
 
-***Projet réalisé dans le cadre d'un apprentissage Flutter & Firebase.***
 
 
 
