@@ -1,41 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
+import 'package:suivi_budget/Providers/Database%20services%20provider/transaction_table_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
 import 'package:suivi_budget/views/widgets/revenus_widgets.dart';
 
-class SoldeWidget extends StatelessWidget {
+class SoldeWidget extends StatefulWidget {
   const SoldeWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Les informations de l'utilisateur
+  State<SoldeWidget> createState() => _SoldeWidgetState();
+}
 
-    return Consumer<SoldeProvider>(
-      builder: (context, value, child) => Card(
+class _SoldeWidgetState extends State<SoldeWidget> {
+  // Les informations de l'utilisateur
+  bool visible = false;
+  void changervisiblite() async {
+    setState(() {
+      visible = !visible;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<TransactionTableProvider>(
+      builder: (context, transactions, child) => Card(
         elevation: 4,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Column(
             children: [
-              Align(
-                alignment: AlignmentGeometry.topLeft,
-                child: Text("Nom utilisateur", style: Styles.texteCorps),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Stack(
                     children: [
                       Visibility(
-                        visible: !value.visible,
+                        visible: !visible,
                         child: Text("******", style: Styles.texteCorps),
                       ),
                       Visibility(
-                        visible: value.visible,
+                        visible: visible,
                         child: Text(
-                          "${value.soldeTotal().toString()} F CFA",
+                          "${transactions.soldeTotal().toString()} F CFA",
                           style: Styles.texteTitre,
                         ),
                       ),
@@ -45,17 +52,17 @@ class SoldeWidget extends StatelessWidget {
                   Stack(
                     children: [
                       Visibility(
-                        visible: !value.visible,
+                        visible: !visible,
                         child: IconButton(
-                          onPressed: () => value.changervisiblite(),
-                          icon: Icon(Icons.visibility),
+                          onPressed: () => changervisiblite(),
+                          icon: const Icon(Icons.visibility),
                         ),
                       ),
                       Visibility(
-                        visible: value.visible,
+                        visible: visible,
                         child: IconButton(
-                          onPressed: () => value.changervisiblite(),
-                          icon: Icon(Icons.visibility_off),
+                          onPressed: () => changervisiblite(),
+                          icon: const Icon(Icons.visibility_off),
                         ),
                       ),
                     ],
@@ -65,14 +72,8 @@ class SoldeWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RevenusWidgets(
-                    totalRevenus: value.totalRevenus(),
-                    chargement: value.chargement,
-                  ),
-                  DepensesWidgets(
-                    totalDepenses: value.totalDepenses(),
-                    chargement: value.chargement,
-                  ),
+                  RevenusWidgets(totalRevenus: transactions.totalRevenus()),
+                  DepensesWidgets(totalDepenses: transactions.totalDepenses()),
                 ],
               ),
             ],

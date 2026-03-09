@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:intl/intl.dart';
+import 'package:suivi_budget/models/helpers.dart';
 
 class DateTransactionCard extends StatefulWidget {
   final Function(DateTime) changementDate;
@@ -14,6 +14,7 @@ class DateTransactionCard extends StatefulWidget {
 DateTime dateChoisie = DateTime.now();
 
 class _DateTransactionCardState extends State<DateTransactionCard> {
+  String formatedDate = formatDate(dateChoisie);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -52,9 +53,9 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
             child: Row(
               spacing: 8,
               children: [
-                Icon(Icons.date_range),
+                const Icon(Icons.date_range),
                 Text(
-                  "${DateFormat.yMMMMEEEEd().format(dateChoisie)} à ${DateFormat.Hm().format(dateChoisie)}",
+                  formatedDate,
                   style: Styles.texteTitre.copyWith(fontSize: 12),
                 ),
               ],

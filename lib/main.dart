@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Auth%20provider/auth_provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
+import 'package:suivi_budget/Providers/Database%20services%20provider/transaction_table_provider.dart';
+import 'package:suivi_budget/Providers/Database%20services%20provider/utilisateur_table_provider.dart';
+import 'package:suivi_budget/Providers/Preferences/utilisateur_preferences_provider.dart';
+import 'package:suivi_budget/Providers/Supabase%20authentification%20services%20provider/auth_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/Accueil/accueil_screen.dart';
@@ -14,12 +15,15 @@ void main() async {
     //Les providers
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SoldeProvider()),
         ChangeNotifierProvider(
           create: (context) => ModifierTransactionViewProvider(),
         ),
-        ChangeNotifierProvider(create: (context) => AuthProvider()),
-        ChangeNotifierProvider(create: (context) => DatabaseProvider()),
+        ChangeNotifierProvider(create: (context) => AuthServicesProvider()),
+        ChangeNotifierProvider(create: (context) => UtilisateurTableProvider()),
+        ChangeNotifierProvider(create: (context) => TransactionTableProvider()),
+        ChangeNotifierProvider(
+          create: (context) => UtilisateurPreferencesProvider(),
+        ),
       ],
       child: MainApp(),
     ),

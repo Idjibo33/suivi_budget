@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
+import 'package:suivi_budget/Providers/Database%20services%20provider/transaction_table_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
 import 'package:suivi_budget/views/Transactions/date_transaction_card.dart';
@@ -20,6 +20,8 @@ class AjouterRevenuView extends StatefulWidget {
 class _AjouterRevenuViewState extends State<AjouterRevenuView> {
   TextEditingController montantText = TextEditingController();
   TextEditingController descriptionText = TextEditingController();
+  // La categorie de revenu
+  String? categorie = "";
   // Date de la transaction
   DateTime date = DateTime.now();
 
@@ -33,11 +35,6 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
 
   @override
   Widget build(BuildContext context) {
-    // l'id de l'utilisateur actuel
-    final String idUtilisateur = "";
-    // La categorie de revenu
-    String? categorie = "";
-    final int solde = context.watch<SoldeProvider>().soldeTotal();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView(
@@ -77,11 +74,25 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
             changementDate: (datechoisie) => date = datechoisie,
           ),
           const Gap(12),
-          Consumer<DatabaseProvider>(
-            builder: (context, value, child) => CustomFilledButtonWidget(
+          Consumer<TransactionTableProvider>(
+            builder: (context, database, child) => CustomFilledButtonWidget(
               texte: "Enregistrer transaction",
-              action: () {},
-              chargement: false,
+              action: () async {
+                await database.createTransactionRow(
+                  transaction: TransactionModel(
+                    id: "",
+                    montant: int.parse(montantText.text.trim()),
+                    category: categorie!,
+                    description: descriptionText.text.trim(),
+                    type: "Revenu",
+                    date: date,
+                  ),
+                  context: context,
+                );
+                montantText.clear();
+                descriptionText.clear();
+              },
+              chargement: database.chargement,
             ),
           ),
         ],

@@ -1,6 +1,6 @@
 class TransactionModel {
   String id;
-  String userId;
+  String? userId;
   int montant;
   String category;
   String description;
@@ -8,7 +8,7 @@ class TransactionModel {
   DateTime date;
   TransactionModel({
     required this.id,
-    required this.userId,
+    this.userId,
     required this.montant,
     required this.category,
     required this.description,
