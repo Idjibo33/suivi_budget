@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Firestore%20services%20provider/doc_transaction_provider.dart';
+import 'package:suivi_budget/views/widgets/description_text_widget.dart';
 import 'package:suivi_budget/views/widgets/transaction_card.dart';
 
 class ListTransactionsWidgets extends StatelessWidget {
@@ -17,7 +18,9 @@ class ListTransactionsWidgets extends StatelessWidget {
         }
         if (snapshot.hasData && snapshot.data!.isEmpty ||
             snapshot.data == null) {
-          return Center(child: Text("Aucun document trouvé"));
+          return Center(
+            child: descriptionText(text: "Aucune transaction trouvée"),
+          );
         } else {
           return ListView.builder(
             itemCount: snapshot.data?.length,
