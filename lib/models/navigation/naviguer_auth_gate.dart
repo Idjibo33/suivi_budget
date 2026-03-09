@@ -6,14 +6,16 @@ import 'package:suivi_budget/auth_gate.dart';
 
 void naviguerAuthGate(BuildContext context) {
   if (Platform.isIOS) {
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
-      CupertinoPageRoute(builder: (context) => AuthGate()),
+      CupertinoDialogRoute(builder: (context) => AuthGate(), context: context),
+      (route) => false,
     );
   } else {
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => AuthGate()),
+      (route) => false,
     );
   }
 }
