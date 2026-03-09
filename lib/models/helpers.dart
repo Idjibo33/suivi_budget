@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -81,4 +82,10 @@ void showSuccessSnackbar(BuildContext context, message) {
     CustomSnackBar.success(message: message),
   );
   HapticFeedback.vibrate();
+}
+
+String formatDate(DateTime date) {
+  final dateFormating = DateFormat.yMMMMEEEEd().format(date);
+  final hourFormating = DateFormat.Hm().format(date);
+  return "$dateFormating à $hourFormating";
 }

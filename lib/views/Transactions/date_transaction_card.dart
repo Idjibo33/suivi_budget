@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:suivi_budget/models/helpers.dart';
 
 class DateTransactionCard extends StatefulWidget {
   final Function(DateTime) changementDate;
@@ -52,9 +53,9 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
             child: Row(
               spacing: 8,
               children: [
-                Icon(Icons.date_range),
+                const Icon(Icons.date_range),
                 Text(
-                  "${DateFormat.yMMMMEEEEd().format(dateChoisie)} à ${DateFormat.Hm().format(dateChoisie)}",
+                  formatDate(dateChoisie),
                   style: Styles.texteTitre.copyWith(fontSize: 12),
                 ),
               ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/helpers.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/widgets/transaction_details_view.dart';
 
@@ -9,6 +10,7 @@ class TransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String date = formatDate(transaction.date);
     return GestureDetector(
       onTap: () => showModalBottomSheet(
         isScrollControlled: true,
@@ -41,7 +43,10 @@ class TransactionCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(transaction.category, style: Styles.texteTitre),
+                  Text(
+                    transaction.category,
+                    style: Styles.texteTitre.copyWith(fontSize: 16),
+                  ),
                 ],
               ),
               Column(
@@ -55,10 +60,7 @@ class TransactionCard extends StatelessWidget {
                           : Styles.couleurDepense,
                     ),
                   ),
-                  Text(
-                    transaction.date.toString(),
-                    style: Styles.texteCorps.copyWith(fontSize: 12),
-                  ),
+                  Text(date, style: Styles.texteCorps.copyWith(fontSize: 10)),
                 ],
               ),
             ],
