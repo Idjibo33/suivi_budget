@@ -30,7 +30,7 @@ bool validateBalance(
 
 abstract class Databaseervices<T> {
   Future createData(T item);
-  Future updateData(String id, T item);
+  Future updateData(T item);
   Future deleteData(String id);
   Stream readData();
   Future readDataOnce();

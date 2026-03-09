@@ -1,23 +1,27 @@
 import 'package:suivi_budget/models/helpers.dart';
 import 'package:suivi_budget/models/transaction.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TransactionTable implements Databaseervices<TransactionModel> {
+  final _supabase = Supabase.instance.client;
+  final String transactionsTable = "transactions";
   @override
-  Future<dynamic> createData(TransactionModel item) {
-    // TODO: implement createData
-    throw UnimplementedError();
+  Future<void> createData(TransactionModel item) {
+    return _supabase.from(transactionsTable).insert(item);
   }
 
   @override
-  Future<dynamic> deleteData(String id) {
-    // TODO: implement deleteData
-    throw UnimplementedError();
+  Future<void> deleteData(String id) {
+    return _supabase.from(transactionsTable).delete().eq('id', id);
   }
 
   @override
   Stream<List<TransactionModel>> readData() {
-    // TODO: implement readData
-    throw UnimplementedError();
+    return _supabase.from(transactionsTable).stream(primaryKey: ['id']).map((
+      event,
+    ) {
+      return event.map((e) => TransactionModel.fromMap(e)).toList();
+    });
   }
 
   @override
@@ -27,8 +31,7 @@ class TransactionTable implements Databaseervices<TransactionModel> {
   }
 
   @override
-  Future<dynamic> updateData(String id, TransactionModel item) {
-    // TODO: implement updateData
-    throw UnimplementedError();
+  Future<dynamic> updateData(TransactionModel item) {
+    return _supabase.from(transactionsTable).update(item.toMap());
   }
 }
