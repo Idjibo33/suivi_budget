@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Supabase%20authentification%20services%20provider/auth_provider.dart';
+import 'package:suivi_budget/models/navigation/naviguer_auth_gate.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
@@ -75,14 +76,17 @@ class InscriptionPage extends StatelessWidget {
                   Consumer<AuthServicesProvider>(
                     builder: (context, auth, child) => CustomFilledButtonWidget(
                       texte: "Créer compte",
-                      action: () => auth.createUser(
-                        context: context,
-                        nom: nomController.text,
-                        prenom: prenomController.text,
-                        email: emailController.text,
-                        password: pwController.text,
-                        passwordConfirmation: confPwController.text,
-                      ),
+                      action: () async {
+                        await auth.createUser(
+                          context: context,
+                          nom: nomController.text,
+                          prenom: prenomController.text,
+                          email: emailController.text,
+                          password: pwController.text,
+                          passwordConfirmation: confPwController.text,
+                        );
+                        if (context.mounted) naviguerAuthGate(context);
+                      },
                       chargement: auth.chargement,
                     ),
                   ),

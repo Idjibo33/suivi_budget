@@ -36,10 +36,7 @@ class AuthServicesProvider extends ChangeNotifier {
       notifyListeners();
 
       // authentifier l'utilisateur
-      final utilisateur = await _supabase.createAccountWithEmail(
-        email.trim(),
-        password.trim(),
-      );
+      await _supabase.createAccountWithEmail(email.trim(), password.trim());
       //Créer le document Utilisateur
       await _docUtilisateur
           .createData(
@@ -111,6 +108,8 @@ class AuthServicesProvider extends ChangeNotifier {
       _chargement = true;
       notifyListeners();
       await _supabase.signOut();
+      _chargement = false;
+      notifyListeners();
     } catch (e) {
       _chargement = false;
       _message = e.toString();
