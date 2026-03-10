@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20services%20provider/transaction_table_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
@@ -16,8 +15,7 @@ class TransactionDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool view = context.watch<ModifierTransactionViewProvider>().showview;
-    String dateTransaction =
-        "${DateFormat.yMMMMEEEEd().format(transaction.date)} à ${DateFormat.Hm().format(transaction.date)}";
+
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(
@@ -93,7 +91,8 @@ class TransactionDetailsView extends StatelessWidget {
                   ],
                 ),
                 Text(transaction.description, style: Styles.texteTitre),
-                Text(dateTransaction, style: Styles.texteCorps),
+                Text(transaction.date, style: Styles.texteCorps),
+                Text(transaction.id.toString(), style: Styles.texteCorps),
                 !view
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +105,7 @@ class TransactionDetailsView extends StatelessWidget {
                                 action: () async {
                                   await transactions.deleteTransactionRow(
                                     context,
-                                    transaction.id,
+                                    transaction.id!,
                                   );
                                   if (context.mounted) {
                                     naviguerPagerecente(context);
