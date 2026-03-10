@@ -61,7 +61,6 @@ class TransactionTableProvider extends ChangeNotifier {
     } catch (e) {
       _chargement = false;
       _message = e.toString();
-      debugPrint(e.toString());
       notifyListeners();
       if (context.mounted) {
         showErrorSnackbar(context, _message);
