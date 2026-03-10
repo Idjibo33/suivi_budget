@@ -27,7 +27,7 @@ class UtilisateurPreferences implements Databaseervices<List<String>> {
   }
 
   @override
-  Future deleteData(String id) {
+  Future deleteData(int id) {
     // TODO: implement deleteData
     throw UnimplementedError();
   }
@@ -39,7 +39,7 @@ class UtilisateurPreferences implements Databaseervices<List<String>> {
   }
 
   @override
-  Future updateData(String id, item) {
+  Future updateData(item) {
     // TODO: implement updateData
     throw UnimplementedError();
   }

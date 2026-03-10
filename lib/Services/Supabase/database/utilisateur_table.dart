@@ -12,7 +12,7 @@ class UtilisateurTable implements Databaseervices<Utilisateur> {
   }
 
   @override
-  Future<dynamic> deleteData(String id) {
+  Future<dynamic> deleteData(int id) {
     // TODO: implement deleteData
     throw UnimplementedError();
   }
@@ -27,7 +27,7 @@ class UtilisateurTable implements Databaseervices<Utilisateur> {
   }
 
   @override
-  Future<dynamic> updateData(String id, Utilisateur item) {
+  Future<dynamic> updateData(Utilisateur item) {
     // TODO: implement updateData
     throw UnimplementedError();
   }
