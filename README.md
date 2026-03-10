@@ -1,14 +1,35 @@
 # suivi_budget
 
-Ce projet est une application de gestion de finances personnelles. Ce dépôt n'est pas seulement une application, c'est une étude comparative entre plusieurs stratégies de stockage de données majeures dans l'écosystème Flutter.
+**Branch actuelle :** local-storage 
 
-## Architecture du Projet
-Le projet est structuré en trois branches distinctes pour isoler les technologies de backend et de persistance :
+Cette version de l'application privilégie la confidentialité et la rapidité en stockant 100% des données sur l'appareil de l'utilisateur.
 
-### Version Locale (Branche : feature/local-storage-floor)
-### Version Cloud  (Branche : backend-firebase)
-### Version Cloud  (Branche : backend-supabase)
+- **Moteur :** Supabase AUTH & DATABASE .
 
+## Fonctionnalités :
+
+## Authentification
+- Authentification locale à l'ouverture de l'app.
+
+## Gestion des Transactions
+- **Opérations CRUD :** Enregistrement, modification et suppression et lecture des revenus et dépenses avec persistance immédiate.
+- **Filtrage Dynamique :** Système de tri sur l'écran d'accueil pour isoler les flux financiers.
+- **Calcul Automatique :** Mise à jour instantanée du solde global.
+
+## Technologies utilisées 
+- **Framework:** Flutter
+- **Backend:** Floor, Sqflite
+- **Gestion d'etat:** Provider
+
+## Aperçu 
+<img src="assets/images/Accueil.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Profil.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Revenu.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Depense.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Details.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Modifier.png" width="250" alt="Capture d'écran">
+
+
+## Prochaines Étapes
+
+- **Analyses graphiques :** Ajout de diagrammes pour visualiser les catégories de transactions.
+- **Export PDF :** Génération de rapports.
+- **Refonte UI :** Passage à un design plus moderne et support du Dark Mode.
 
 
 
