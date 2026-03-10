@@ -11,10 +11,8 @@ class DateTransactionCard extends StatefulWidget {
   State<DateTransactionCard> createState() => _DateTransactionCardState();
 }
 
-DateTime dateChoisie = DateTime.now();
-
 class _DateTransactionCardState extends State<DateTransactionCard> {
-  String formatedDate = formatDate(dateChoisie);
+  DateTime dateChoisie = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -36,8 +34,8 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
               onDateTimeChanged: (value) {
                 setState(() {
                   dateChoisie = value;
+                  widget.changementDate(dateChoisie);
                 });
-                widget.changementDate(dateChoisie);
               },
               use24hFormat: true,
             ),
@@ -55,7 +53,7 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
               children: [
                 const Icon(Icons.date_range),
                 Text(
-                  formatedDate,
+                  formatDate(dateChoisie),
                   style: Styles.texteTitre.copyWith(fontSize: 12),
                 ),
               ],
