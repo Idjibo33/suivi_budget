@@ -7,11 +7,18 @@ class TransactionTable implements Databaseervices<TransactionModel> {
   final String transactionsTable = "transactions";
   @override
   Future<void> createData(TransactionModel item) {
-    return _supabase.from(transactionsTable).insert(item);
+    final data = {
+      'montant': item.montant,
+      'category': item.category,
+      'description': item.description,
+      'date': item.date,
+      'type': item.type,
+    };
+    return _supabase.from(transactionsTable).insert(data);
   }
 
   @override
-  Future<void> deleteData(String id) {
+  Future<void> deleteData(int id) {
     return _supabase.from(transactionsTable).delete().eq('id', id);
   }
 
@@ -32,6 +39,11 @@ class TransactionTable implements Databaseervices<TransactionModel> {
 
   @override
   Future<dynamic> updateData(TransactionModel item) {
-    return _supabase.from(transactionsTable).update(item.toMap());
+    final data = {
+      'montant': item.montant,
+      'description': item.description,
+      'date': item.date,
+    };
+    return _supabase.from(transactionsTable).update(data).eq('id', item.id!);
   }
 }
