@@ -47,7 +47,7 @@ class TransactionTableProvider extends ChangeNotifier {
   }
 
   // Supprimer le document transaction
-  Future deleteTransactionRow(BuildContext context, String id) async {
+  Future deleteTransactionRow(BuildContext context, int id) async {
     _chargement = true;
     notifyListeners();
     try {
@@ -61,6 +61,7 @@ class TransactionTableProvider extends ChangeNotifier {
     } catch (e) {
       _chargement = false;
       _message = e.toString();
+      debugPrint(e.toString());
       notifyListeners();
       if (context.mounted) {
         showErrorSnackbar(context, _message);
@@ -80,7 +81,7 @@ class TransactionTableProvider extends ChangeNotifier {
     _chargement = true;
     notifyListeners();
     try {
-      await _documentTransaction.updateData(transaction.id, transaction);
+      await _documentTransaction.updateData(transaction);
       _chargement = false;
       _message = "Modification réussie";
       notifyListeners();
