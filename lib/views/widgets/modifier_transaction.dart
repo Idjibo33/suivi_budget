@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_budget/Providers/Database%20services%20provider/transaction_table_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
@@ -52,25 +53,38 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
         DateTransactionCard(
           changementDate: (dateChoisie) => date = dateChoisie,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Consumer<ModifierTransactionViewProvider>(
-                builder: (context, value, child) => TextButton(
-                  onPressed: () => value.changer(),
+        Consumer2<ModifierTransactionViewProvider, TransactionTableProvider>(
+          builder: (context, view, database, child) => Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: () => view.changer(),
                   child: Text("Annuler"),
                 ),
               ),
-            ),
-            Expanded(
-              child: CustomFilledButtonWidget(
-                texte: "Enregistrer",
-                action: () {},
-                chargement: false,
+              Expanded(
+                child: CustomFilledButtonWidget(
+                  texte: "Enregistrer",
+                  action: () async {
+                    await database.updateTransactionRow(
+                      context: context,
+                      transaction: TransactionModel(
+                        id: widget.transaction.id,
+                        montant: int.parse(montantText.text),
+                        category: widget.transaction.category,
+                        description: descriptionText.text,
+                        type: widget.transaction.type,
+                        date: date.toString(),
+                      ),
+                    );
+                    if (context.mounted) Navigator.pop(context);
+                  },
+                  chargement: false,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
