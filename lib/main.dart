@@ -27,7 +27,10 @@ void main() async {
         ),
         ChangeNotifierProvider(create: (context) => AuthServicesProvider()),
         ChangeNotifierProvider(create: (context) => UtilisateurTableProvider()),
-        ChangeNotifierProvider(create: (context) => TransactionTableProvider()),
+        ChangeNotifierProvider(
+          create: (context) =>
+              TransactionTableProvider()..subscribeTransactions(),
+        ),
         ChangeNotifierProvider(
           create: (context) => UtilisateurPreferencesProvider(),
         ),
