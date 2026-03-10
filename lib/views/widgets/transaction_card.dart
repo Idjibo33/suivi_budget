@@ -41,7 +41,10 @@ class TransactionCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(transaction.category, style: Styles.texteTitre),
+                  Text(
+                    transaction.category,
+                    style: Styles.texteTitre.copyWith(fontSize: 12),
+                  ),
                 ],
               ),
               Column(
@@ -57,7 +60,7 @@ class TransactionCard extends StatelessWidget {
                   ),
                   Text(
                     transaction.date.toString(),
-                    style: Styles.texteCorps.copyWith(fontSize: 12),
+                    style: Styles.texteCorps.copyWith(fontSize: 10),
                   ),
                 ],
               ),
