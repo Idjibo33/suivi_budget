@@ -21,11 +21,11 @@ class AuthGate extends StatelessWidget {
               );
             }
             if (snapshot.hasData) {
-              final AuthChangeEvent event = snapshot.data!.event;
-              switch (event) {
-                case AuthChangeEvent.signedIn:
+              final Session? session = snapshot.data?.session;
+              switch (session) {
+                case != null:
                   return const AccueilScreen();
-                case AuthChangeEvent.signedOut:
+                case == null:
                   return const ConnexionPage();
                 default:
                   ConnexionPage();
