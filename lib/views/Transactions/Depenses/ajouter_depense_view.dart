@@ -84,12 +84,11 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
                       await transactions.createTransactionRow(
                         context: context,
                         transaction: TransactionModel(
-                          id: "",
                           montant: int.parse(montantText.text),
                           category: categorie,
                           description: descriptionText.text,
                           type: "Depense",
-                          date: date,
+                          date: date.toIso8601String(),
                         ),
                       );
                       montantText.clear();

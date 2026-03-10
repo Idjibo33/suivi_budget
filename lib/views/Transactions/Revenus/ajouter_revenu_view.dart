@@ -80,12 +80,11 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
               action: () async {
                 await database.createTransactionRow(
                   transaction: TransactionModel(
-                    id: "",
                     montant: int.parse(montantText.text.trim()),
                     category: categorie!,
                     description: descriptionText.text.trim(),
                     type: "Revenu",
-                    date: date,
+                    date: date.toIso8601String(),
                   ),
                   context: context,
                 );
