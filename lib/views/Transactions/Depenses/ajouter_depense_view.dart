@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +37,7 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
   Widget build(BuildContext context) {
     // l'id de l'utilisateur actuel
     final String idUtilisateur =
-        AuthServicesProvider().firebase.currentUser!.uid;
-    // La categorie de revenu
+        FirebaseAuth.instance.currentUser!.uid; // La categorie de revenu
     String? categorie = context.watch<DepensesCategoriesProvider>().categorie;
     // Date de la transaction
     DateTime date = DateTime.now();

@@ -10,8 +10,8 @@ class AuthServicesProvider extends ChangeNotifier {
   final DocUtilisateur _docUtilisateur = DocUtilisateur();
   final UtilisateurPreferences _utilisateurPreferences =
       UtilisateurPreferences();
-  final Firebase _firebase = Firebase();
-  Firebase get firebase => _firebase;
+  final Auth _auth = Auth();
+  Auth get firebase => _auth;
   bool _chargement = false;
   bool get chargement => _chargement;
   String _message = "";
@@ -37,7 +37,7 @@ class AuthServicesProvider extends ChangeNotifier {
       notifyListeners();
 
       // authentifier l'utilisateur
-      final UserCredential utilisateur = await _firebase.createAccountWithEmail(
+      final UserCredential utilisateur = await _auth.createAccountWithEmail(
         email.trim(),
         password.trim(),
       );
@@ -82,7 +82,7 @@ class AuthServicesProvider extends ChangeNotifier {
       }
       _chargement = true;
       notifyListeners();
-      await _firebase.signInWithEmail(email.trim(), password.trim());
+      await _auth.signInWithEmail(email.trim(), password.trim());
       _chargement = false;
       notifyListeners();
     } catch (e) {
@@ -97,7 +97,7 @@ class AuthServicesProvider extends ChangeNotifier {
     try {
       _chargement = false;
       notifyListeners();
-      await _firebase.signInAnonymously();
+      await _auth.signInAnonymously();
       _chargement = false;
       notifyListeners();
     } catch (e) {
@@ -112,7 +112,7 @@ class AuthServicesProvider extends ChangeNotifier {
     try {
       _chargement = true;
       notifyListeners();
-      await _firebase.signOut();
+      await _auth.signOut();
     } catch (e) {
       _chargement = false;
       _message = e.toString();

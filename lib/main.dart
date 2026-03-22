@@ -47,7 +47,7 @@ void main() async {
           create: (context) => ModifierTransactionViewProvider(),
         ),
       ],
-      child: MainApp(),
+      child: const MainApp(),
     ),
   );
 }
