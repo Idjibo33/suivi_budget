@@ -18,8 +18,8 @@ class AjouterRevenuView extends StatefulWidget {
 }
 
 class _AjouterRevenuViewState extends State<AjouterRevenuView> {
-  TextEditingController montantText = TextEditingController();
-  TextEditingController descriptionText = TextEditingController();
+  final montantText = TextEditingController();
+  final descriptionText = TextEditingController();
   // La categorie de revenu
   String? categorie = "";
   // Date de la transaction
