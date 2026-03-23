@@ -29,7 +29,6 @@ class CustomTextfieldWidget extends StatelessWidget {
         filled: true,
         fillColor: Styles.couleurbgSecondaire,
       ),
-      onChanged: (value) => controlleurChamp.text = value,
     );
   }
 }
