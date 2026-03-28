@@ -1,6 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/auth_provider.dart';
 import 'package:suivi_budget/views/Accueil/accueil_screen.dart';
 import 'package:suivi_budget/views/Authentification/connexion_page.dart';
 
@@ -10,17 +9,25 @@ class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<AuthServicesProvider>(
-        builder: (context, auth, child) => StreamBuilder(
-          stream: auth.firebase.authStateChange,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return AccueilScreen();
-            } else {
-              return ConnexionPage();
-            }
-          },
-        ),
+      body: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Scaffold(
+              body: Center(child: Text(snapshot.error.toString())),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Scaffold(
+              body: const Center(child: CircularProgressIndicator.adaptive()),
+            );
+          }
+          if (snapshot.hasData) {
+            return AccueilScreen();
+          } else {
+            return ConnexionPage();
+          }
+        },
       ),
     );
   }

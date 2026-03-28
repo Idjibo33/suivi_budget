@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:suivi_budget/models/helpers.dart';
 
-class Firebase implements AuthServices {
+class Auth implements AuthServices {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  Stream<User?> get authStateChange => auth.authStateChanges();
-  User? get currentUser => auth.currentUser;
 
   @override
   Future<UserCredential> createAccountWithEmail(

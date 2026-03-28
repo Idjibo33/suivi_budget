@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Firebase%20authentification%20service%20providers/auth_provider.dart';
@@ -42,11 +43,7 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
   @override
   Widget build(BuildContext context) {
     // L'id de l'utilisateur
-    String idUtilisateur = context
-        .watch<AuthServicesProvider>()
-        .firebase
-        .currentUser!
-        .uid;
+    String idUtilisateur = FirebaseAuth.instance.currentUser!.uid;
     return Column(
       spacing: 8,
       children: [

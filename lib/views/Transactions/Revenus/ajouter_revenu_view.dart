@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +37,7 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
   @override
   Widget build(BuildContext context) {
     // l'id de l'utilisateur actuel
-    final String idUtilisateur =
-        AuthServicesProvider().firebase.currentUser!.uid;
+    final String idUtilisateur = FirebaseAuth.instance.currentUser!.uid;
     // La categorie de revenu
     String? categorie = context.watch<RevenusCategoriesProvider>().categorie;
     return SingleChildScrollView(

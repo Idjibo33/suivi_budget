@@ -47,12 +47,13 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static final FirebaseOptions web = FirebaseOptions(
-    apiKey: dotenv.env['web'] ?? '',
-    appId: '1:421889303134:web:8c61a81db90ca388c38acf',
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCssbWNgsGa0LCwH3IqNOFtmgIxJkxOFbg',
+    appId: '1:421889303134:web:86fe93a9c92c2830c38acf',
     messagingSenderId: '421889303134',
     projectId: 'culturpass',
     authDomain: 'culturpass.firebaseapp.com',
+    databaseURL: 'https://culturpass-default-rtdb.firebaseio.com',
     storageBucket: 'culturpass.firebasestorage.app',
   );
 
@@ -61,6 +62,7 @@ class DefaultFirebaseOptions {
     appId: '1:421889303134:android:f0f1573834bc52e5c38acf',
     messagingSenderId: '421889303134',
     projectId: 'culturpass',
+    databaseURL: 'https://culturpass-default-rtdb.firebaseio.com',
     storageBucket: 'culturpass.firebasestorage.app',
   );
 
@@ -69,6 +71,7 @@ class DefaultFirebaseOptions {
     appId: '1:421889303134:ios:cd270909969970c5c38acf',
     messagingSenderId: '421889303134',
     projectId: 'culturpass',
+    databaseURL: 'https://culturpass-default-rtdb.firebaseio.com',
     storageBucket: 'culturpass.firebasestorage.app',
     iosBundleId: 'com.example.suiviBudget',
   );
