@@ -28,10 +28,10 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
           title: Text("Ajouter une transaction"),
           centerTitle: true,
           bottom: TabBar(
-            unselectedLabelStyle: Styles.texteCorps,
+            unselectedLabelStyle: texteCorps,
             tabs: [
-              Text("Revenu", style: Styles.texteTitre),
-              Text("Dépense", style: Styles.texteTitre),
+              Text("Revenu", style: texteTitre),
+              Text("Dépense", style: texteTitre),
             ],
           ),
         ),

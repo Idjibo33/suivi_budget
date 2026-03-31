@@ -42,8 +42,8 @@ class TransactionDetailsView extends StatelessWidget {
                       Icons.money_outlined,
                       size: 40,
                       color: transaction.type == "Revenu"
-                          ? Styles.couleurRevenu
-                          : Styles.couleurDepense,
+                          ? couleurRevenu
+                          : couleurDepense,
                     ),
                   ),
                 ),
@@ -51,13 +51,13 @@ class TransactionDetailsView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Montant :", style: Styles.texteCorps),
+                    Text("Montant :", style: texteCorps),
                     Text(
                       transaction.montant.toString(),
-                      style: Styles.texteTitre.copyWith(
+                      style: texteTitre.copyWith(
                         color: transaction.type == "Revenu"
-                            ? Styles.couleurRevenu
-                            : Styles.couleurDepense,
+                            ? couleurRevenu
+                            : couleurDepense,
                       ),
                     ),
                   ],
@@ -65,13 +65,13 @@ class TransactionDetailsView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Type de transaction :", style: Styles.texteCorps),
+                    Text("Type de transaction :", style: texteCorps),
                     Text(
                       transaction.type,
-                      style: Styles.texteTitre.copyWith(
+                      style: texteTitre.copyWith(
                         color: transaction.type == "Revenu"
-                            ? Styles.couleurRevenu
-                            : Styles.couleurDepense,
+                            ? couleurRevenu
+                            : couleurDepense,
                       ),
                     ),
                   ],
@@ -79,19 +79,19 @@ class TransactionDetailsView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Catégorie :", style: Styles.texteCorps),
+                    Text("Catégorie :", style: texteCorps),
                     Text(
                       transaction.category,
-                      style: Styles.texteTitre.copyWith(
+                      style: texteTitre.copyWith(
                         color: transaction.type == "Revenu"
-                            ? Styles.couleurRevenu
-                            : Styles.couleurDepense,
+                            ? couleurRevenu
+                            : couleurDepense,
                       ),
                     ),
                   ],
                 ),
-                Text(transaction.description, style: Styles.texteTitre),
-                Text("", style: Styles.texteCorps),
+                Text(transaction.description, style: texteTitre),
+                Text("", style: texteCorps),
                 !view
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,7 +99,7 @@ class TransactionDetailsView extends StatelessWidget {
                           Consumer<DatabaseProvider>(
                             builder: (context, database, child) => Expanded(
                               child: CustomTextButtonWidget(
-                                couleurTexte: Styles.couleurDepense,
+                                couleurTexte: couleurDepense,
                                 texte: "Supprimer",
                                 action: () async {
                                   await database.delteTransaction(

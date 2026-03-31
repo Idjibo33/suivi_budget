@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:suivi_budget/Core/head_line_texte.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/description_text_widget.dart';
-import 'package:suivi_budget/views/widgets/head_text_widget.dart';
 
 class ProfilScreen extends StatelessWidget {
   const ProfilScreen({super.key});
@@ -16,7 +16,7 @@ class ProfilScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              headTextWidget(texte: "profil"),
+              HeadLineTexte(texte: "profil"),
               IconButton(
                 onPressed: () => Scaffold.of(context).closeDrawer(),
                 icon: Icon(Icons.menu_open_outlined),
@@ -27,11 +27,11 @@ class ProfilScreen extends StatelessWidget {
             onTap: () {},
             child: CircleAvatar(
               radius: 40,
-              backgroundColor: Styles.couleurbgSecondaire,
-              child: Icon(Icons.person, size: 40, color: Styles.couleurRevenu),
+              backgroundColor: couleurbgSecondaire,
+              child: Icon(Icons.person, size: 40, color: couleurRevenu),
             ),
           ),
-          headTextWidget(texte: "Nom prenom"),
+          HeadLineTexte(texte: "Nom prenom"),
           descriptionText(text: "email"),
           Gap(22),
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:suivi_budget/Core/body_texte.dart';
+import 'package:suivi_budget/Core/titre_texte.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/widgets/transaction_details_view.dart';
@@ -15,10 +17,13 @@ class TransactionCard extends StatelessWidget {
         context: context,
         builder: (context) => TransactionDetailsView(transaction: transaction),
       ),
-      child: Card(
-        elevation: 0,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(26),
+        ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
+          padding: const EdgeInsets.all(12.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -28,37 +33,32 @@ class TransactionCard extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.grey[300],
+                      color: couleurbgSecondaire,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(
                         Icons.money,
                         color: transaction.type == "Revenu"
-                            ? Styles.couleurRevenu
-                            : Styles.couleurDepense,
+                            ? couleurRevenu
+                            : couleurDepense,
                         size: 20,
                       ),
                     ),
                   ),
-                  Text(transaction.category, style: Styles.texteTitre),
+                  TitreTexte(texte: transaction.category),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    transaction.montant.toString(),
-                    style: Styles.texteTitre.copyWith(
-                      color: transaction.type == "Revenu"
-                          ? Styles.couleurRevenu
-                          : Styles.couleurDepense,
-                    ),
+                  TitreTexte(
+                    texte: transaction.montant.toString(),
+                    couleure: transaction.type == "Revenu"
+                        ? couleurRevenu
+                        : couleurDepense,
                   ),
-                  Text(
-                    transaction.date.toString(),
-                    style: Styles.texteCorps.copyWith(fontSize: 12),
-                  ),
+                  BodyTexte(texte: transaction.date.toString()),
                 ],
               ),
             ],

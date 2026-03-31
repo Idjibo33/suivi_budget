@@ -46,7 +46,7 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
       child: SizedBox(
         width: double.infinity,
         child: Card(
-          color: Styles.couleurbgSecondaire,
+          color: couleurbgSecondaire,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
@@ -55,7 +55,7 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
                 Icon(Icons.date_range),
                 Text(
                   "${DateFormat.yMMMMEEEEd().format(dateChoisie)} à ${DateFormat.Hm().format(dateChoisie)}",
-                  style: Styles.texteTitre.copyWith(fontSize: 12),
+                  style: texteTitre.copyWith(fontSize: 12),
                 ),
               ],
             ),

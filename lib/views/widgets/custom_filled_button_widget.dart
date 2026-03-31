@@ -21,9 +21,7 @@ class CustomFilledButtonWidget extends StatelessWidget {
       child: FilledButton(
         style: FilledButton.styleFrom(backgroundColor: couleur),
         onPressed: chargement ? null : action,
-        child: chargement
-            ? Text("Patientez")
-            : Text(texte, style: Styles.texteTitre),
+        child: chargement ? Text("Patientez") : Text(texte, style: texteTitre),
       ),
     );
   }

@@ -22,10 +22,7 @@ class CustomTextButtonWidget extends StatelessWidget {
         onPressed: chargement ? null : action,
         child: chargement
             ? Text("Patientez")
-            : Text(
-                texte,
-                style: Styles.texteTitre.copyWith(color: couleurTexte),
-              ),
+            : Text(texte, style: texteTitre.copyWith(color: couleurTexte)),
       ),
     );
   }

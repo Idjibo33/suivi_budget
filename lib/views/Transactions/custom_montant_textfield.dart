@@ -17,15 +17,15 @@ class CustomMontantTextfield extends StatelessWidget {
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.money),
             filled: true,
-            fillColor: Styles.couleurbgSecondaire,
+            fillColor: couleurbgSecondaire,
             contentPadding: EdgeInsets.symmetric(vertical: 25),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide.none,
             ),
-            label: Text("Montant", style: Styles.texteCorps),
+            label: Text("Montant", style: texteCorps),
             hintText: "Ex: 10000",
-            hintStyle: Styles.texteCorps,
+            hintStyle: texteCorps,
           ),
         ),
       ),

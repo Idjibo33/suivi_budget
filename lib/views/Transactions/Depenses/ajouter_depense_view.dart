@@ -45,7 +45,7 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
           const Gap(12),
           Align(
             alignment: AlignmentGeometry.topLeft,
-            child: Text("Catégorie", style: Styles.texteTitre),
+            child: Text("Catégorie", style: texteTitre),
           ),
           const Gap(8),
           CategorieSection(
@@ -57,7 +57,7 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
           const Gap(12),
           Align(
             alignment: AlignmentGeometry.topLeft,
-            child: Text("Description", style: Styles.texteTitre),
+            child: Text("Description", style: texteTitre),
           ),
           const Gap(8),
           CustomTextfieldWidget(
@@ -69,7 +69,7 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
           const Gap(12),
           Align(
             alignment: AlignmentGeometry.topLeft,
-            child: Text("Date", style: Styles.texteTitre),
+            child: Text("Date", style: texteTitre),
           ),
           const Gap(8),
           DateTransactionCard(

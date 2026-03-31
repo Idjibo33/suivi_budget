@@ -21,13 +21,13 @@ class CustomTextfieldWidget extends StatelessWidget {
       controller: controlleurChamp,
       decoration: InputDecoration(
         prefixIcon: Icon(icone),
-        label: Text(label, style: Styles.texteCorps),
+        label: Text(label, style: texteCorps),
         border: UnderlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(16),
         ),
         filled: true,
-        fillColor: Styles.couleurbgSecondaire,
+        fillColor: couleurbgSecondaire,
       ),
     );
   }

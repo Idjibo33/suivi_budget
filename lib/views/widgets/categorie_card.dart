@@ -22,9 +22,7 @@ class CategorieCard extends StatelessWidget {
         child: GestureDetector(
           onTap: () => catChoisie(card.titre),
           child: Card(
-            shadowColor: card.type == "Revenu"
-                ? Styles.couleurRevenu
-                : Styles.couleurDepense,
+            shadowColor: card.type == "Revenu" ? couleurRevenu : couleurDepense,
             elevation: choisie ? 4 : 0,
             child: Padding(
               padding: const EdgeInsets.all(4.0),
@@ -33,15 +31,15 @@ class CategorieCard extends StatelessWidget {
                   Icon(
                     Icons.money_outlined,
                     color: card.type == "Revenu"
-                        ? Styles.couleurRevenu
-                        : Styles.couleurDepense,
+                        ? couleurRevenu
+                        : couleurDepense,
                   ),
                   Text(
                     card.titre,
-                    style: Styles.texteCorps.copyWith(
+                    style: texteCorps.copyWith(
                       color: card.type == "Revenu"
-                          ? Styles.couleurRevenu
-                          : Styles.couleurDepense,
+                          ? couleurRevenu
+                          : couleurDepense,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
