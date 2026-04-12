@@ -4,8 +4,8 @@ import 'package:suivi_budget/Core/body_texte.dart';
 import 'package:suivi_budget/Core/head_line_texte.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/Features/Accueil/Widgets/depenses_widgets.dart';
-import 'package:suivi_budget/Features/Accueil/Widgets/revenus_widgets.dart';
+import 'package:suivi_budget/Features/Accueil/presentation/widgets/depenses_widgets.dart';
+import 'package:suivi_budget/Features/Accueil/presentation/widgets/revenus_widgets.dart';
 
 class SoldeWidget extends StatelessWidget {
   const SoldeWidget({super.key});

@@ -39,7 +39,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: couleurbgSecondaire,
+          seedColor: couleurRevenu,
           brightness: Brightness.light,
         ),
       ),

@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/Features/Historique/historique_screen.dart';
+import 'package:suivi_budget/Features/Accueil/presentation/widgets/floating_button.dart';
+import 'package:suivi_budget/Features/chart/presentation/screens/chart_screen.dart';
 import 'package:suivi_budget/Services/Local%20Auth/local_auth.dart';
-import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/Features/Accueil/accueil_screen.dart';
+import 'package:suivi_budget/Features/Accueil/presentation/Screens/accueil_screen.dart';
 
 class NavigationWidget extends StatefulWidget {
   const NavigationWidget({super.key});
@@ -30,12 +30,14 @@ class _NavigationWidgetState extends State<NavigationWidget> {
     }
   }
 
-  static const List<Widget> pages = [AccueilScreen(), HistoriqueScreen()];
+  static const List<Widget> pages = [AccueilScreen(), ChartScreen()];
   int selectedPage = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingButton(),
       body: pages.elementAt(selectedPage),
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(30),

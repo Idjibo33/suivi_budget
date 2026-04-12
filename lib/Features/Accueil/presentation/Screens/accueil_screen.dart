@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/Core/body_texte.dart';
 import 'package:suivi_budget/Core/titre_texte.dart';
-import 'package:suivi_budget/Features/Accueil/Widgets/floating_button.dart';
+import 'package:suivi_budget/Features/Accueil/presentation/widgets/floating_button.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/Profil/profil_screen.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
-import 'package:suivi_budget/Features/Accueil/Widgets/list_transactions_widgets.dart';
-import 'package:suivi_budget/Features/Accueil/Widgets/solde_widget.dart';
+import 'package:suivi_budget/Features/Accueil/presentation/widgets/list_transactions_widgets.dart';
+import 'package:suivi_budget/Features/Accueil/presentation/widgets/solde_widget.dart';
 
 class AccueilScreen extends StatelessWidget {
   const AccueilScreen({super.key});
@@ -14,8 +14,6 @@ class AccueilScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingButton(),
       drawer: Drawer(
         width: double.infinity,
         child: Padding(
