@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/Core/constants.dart';
 import 'package:suivi_budget/models/categorie_card.dart';
 
 class CategorieCard extends StatelessWidget {
@@ -22,10 +22,14 @@ class CategorieCard extends StatelessWidget {
         child: GestureDetector(
           onTap: () => catChoisie(card.titre),
           child: Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(30),
+            ),
             shadowColor: card.type == "Revenu" ? couleurRevenu : couleurDepense,
             elevation: choisie ? 4 : 0,
             child: Padding(
-              padding: const EdgeInsets.all(4.0),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   Icon(

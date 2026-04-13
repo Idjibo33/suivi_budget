@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/models/categorie_card.dart';
-import 'package:suivi_budget/views/widgets/categorie_card.dart';
+import 'package:suivi_budget/Features/transactions/presentation/widgets/categorie_card.dart';
 
 class CategorieSection extends StatefulWidget {
   final Function(String? val) choixVal;

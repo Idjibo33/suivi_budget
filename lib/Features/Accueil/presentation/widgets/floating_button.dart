@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/Core/constants.dart';
 import 'package:suivi_budget/models/navigation/naviguer_ajouter_transaction_page.dart';
 
 class FloatingButton extends StatelessWidget {

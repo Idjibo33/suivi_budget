@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/Core/constants.dart';
 
 class CustomTextfieldWidget extends StatelessWidget {
   final IconData icone;
@@ -27,7 +27,7 @@ class CustomTextfieldWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         filled: true,
-        fillColor: couleurbgSecondaire,
+        fillColor: Colors.white,
       ),
     );
   }

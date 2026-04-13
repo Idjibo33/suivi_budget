@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/Core/constants.dart';
 
 class CustomMontantTextfield extends StatelessWidget {
   final TextEditingController montantController;
@@ -7,20 +7,19 @@ class CustomMontantTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 25),
       child: SizedBox(
-        width: double.infinity,
         child: TextField(
           textInputAction: TextInputAction.next,
           keyboardType: TextInputType.number,
           controller: montantController,
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.money),
+            prefixIcon: Icon(Icons.money, size: 30),
             filled: true,
-            fillColor: couleurbgSecondaire,
+            fillColor: Colors.white,
             contentPadding: EdgeInsets.symmetric(vertical: 25),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide.none,
             ),
             label: Text("Montant", style: texteCorps),

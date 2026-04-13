@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/Core/body_texte.dart';
-import 'package:suivi_budget/Core/titre_texte.dart';
-import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/Core/widgets/body_texte.dart';
+import 'package:suivi_budget/Core/widgets/titre_texte.dart';
+import 'package:suivi_budget/Core/constants.dart';
 
 class DepensesWidgets extends StatelessWidget {
   final bool chargement;

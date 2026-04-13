@@ -2,22 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
-import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/transaction.dart';
-import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
-import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
-import 'package:suivi_budget/views/Transactions/date_transaction_card.dart';
-import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
-import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
+import 'package:suivi_budget/Features/transactions/presentation/widgets/categorie_section.dart';
+import 'package:suivi_budget/Features/transactions/presentation/widgets/custom_montant_textfield.dart';
+import 'package:suivi_budget/Features/transactions/presentation/widgets/date_transaction_card.dart';
+import 'package:suivi_budget/Core/widgets/custom_filled_button_widget.dart';
+import 'package:suivi_budget/Core/widgets/custom_textfield_widget.dart';
 
-class AjouterRevenuView extends StatefulWidget {
-  const AjouterRevenuView({super.key});
+class AjouterRevenuScreen extends StatefulWidget {
+  const AjouterRevenuScreen({super.key});
 
   @override
-  State<AjouterRevenuView> createState() => _AjouterRevenuViewState();
+  State<AjouterRevenuScreen> createState() => _AjouterRevenuScreenState();
 }
 
-class _AjouterRevenuViewState extends State<AjouterRevenuView> {
+class _AjouterRevenuScreenState extends State<AjouterRevenuScreen> {
   final montantText = TextEditingController();
   final descriptionText = TextEditingController();
   // La categorie de revenu
@@ -40,40 +39,28 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
       child: ListView(
         children: [
           CustomMontantTextfield(montantController: montantText),
-          const Gap(12),
-          Align(
-            alignment: AlignmentGeometry.topLeft,
-            child: Text("Catégorie", style: texteTitre),
-          ),
-          const Gap(8),
+          const Gap(16),
+
           CategorieSection(
             typeCategorie: "Revenu",
             choixVal: (val) => setState(() {
               categorie = val;
             }),
           ),
-          const Gap(12),
-          Align(
-            alignment: AlignmentGeometry.topLeft,
-            child: Text("Description", style: texteTitre),
-          ),
-          const Gap(8),
+          const Gap(16),
+
           CustomTextfieldWidget(
             icone: Icons.text_fields_sharp,
             label: "Ajouter une description",
             typeInput: TextInputType.text,
             controlleurChamp: descriptionText,
           ),
-          const Gap(12),
-          Align(
-            alignment: AlignmentGeometry.topLeft,
-            child: Text("Date", style: texteTitre),
-          ),
-          const Gap(8),
+          const Gap(16),
+
           DateTransactionCard(
             changementDate: (datechoisie) => date = datechoisie,
           ),
-          const Gap(12),
+          const Gap(16),
           Consumer<DatabaseProvider>(
             builder: (context, database, child) => CustomFilledButtonWidget(
               texte: "Enregistrer transaction",

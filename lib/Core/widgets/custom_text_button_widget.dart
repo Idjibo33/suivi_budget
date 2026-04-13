@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/Core/constants.dart';
 
-class CustomFilledButtonWidget extends StatelessWidget {
-  final Color? couleur;
+class CustomTextButtonWidget extends StatelessWidget {
+  final Color? couleurTexte;
   final String texte;
   final VoidCallback action;
   final bool chargement;
-  const CustomFilledButtonWidget({
+  const CustomTextButtonWidget({
     super.key,
+    this.couleurTexte,
     required this.texte,
     required this.action,
     required this.chargement,
-    this.couleur,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: FilledButton(
-        style: FilledButton.styleFrom(backgroundColor: couleur),
+      child: TextButton(
         onPressed: chargement ? null : action,
-        child: chargement ? Text("Patientez") : Text(texte, style: texteTitre),
+        child: chargement
+            ? Text("Patientez")
+            : Text(texte, style: texteTitre.copyWith(color: couleurTexte)),
       ),
     );
   }

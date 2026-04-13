@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/Core/constants.dart';
 
 class BodyTexte extends StatelessWidget {
   final Color? couleure;

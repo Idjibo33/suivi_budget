@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/Core/titre_texte.dart';
+import 'package:suivi_budget/Core/widgets/titre_texte.dart';
 import 'package:suivi_budget/Features/chart/presentation/widgets/chart_widget.dart';
 
 class ChartScreen extends StatelessWidget {

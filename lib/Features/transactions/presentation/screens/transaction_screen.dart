@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/views/Transactions/Depenses/ajouter_depense_view.dart';
-import 'package:suivi_budget/views/Transactions/Revenus/ajouter_revenu_view.dart';
+import 'package:suivi_budget/Core/constants.dart';
+import 'package:suivi_budget/Features/transactions/presentation/widgets/ajouter_depense_view.dart';
+import 'package:suivi_budget/Features/transactions/presentation/widgets/ajouter_revenu_screen.dart';
 
 class AjouterTransaction extends StatefulWidget {
   const AjouterTransaction({super.key});
@@ -28,6 +28,7 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
           title: Text("Ajouter une transaction"),
           centerTitle: true,
           bottom: TabBar(
+            dividerHeight: 0,
             unselectedLabelStyle: texteCorps,
             tabs: [
               Text("Revenu", style: texteTitre),
@@ -36,7 +37,7 @@ class _AjouterTransactionState extends State<AjouterTransaction> {
           ),
         ),
         body: TabBarView(
-          children: [const AjouterRevenuView(), const AjouterDepenseView()],
+          children: [const AjouterRevenuScreen(), const AjouterDepenseView()],
         ),
       ),
     );

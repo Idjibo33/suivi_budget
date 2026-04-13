@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/Core/constants.dart';
 import 'package:intl/intl.dart';
 
 class DateTransactionCard extends StatefulWidget {
@@ -24,7 +24,6 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
             height: 250,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
@@ -46,7 +45,8 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
       child: SizedBox(
         width: double.infinity,
         child: Card(
-          color: couleurbgSecondaire,
+          elevation: 0,
+          color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
