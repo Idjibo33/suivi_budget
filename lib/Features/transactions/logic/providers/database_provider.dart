@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/Services/database/transaction_dao.dart';
+import 'package:suivi_budget/Features/transactions/data/services/transaction_dao.dart';
 import 'package:suivi_budget/models/helpers/error_snackbar.dart';
 import 'package:suivi_budget/models/helpers/success_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';

@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:suivi_budget/Features/Accueil/presentation/widgets/floating_button.dart';
 import 'package:suivi_budget/Features/chart/presentation/screens/chart_screen.dart';
-import 'package:suivi_budget/Services/Local%20Auth/local_auth.dart';
 import 'package:suivi_budget/Features/Accueil/presentation/Screens/accueil_screen.dart';
+import 'package:suivi_budget/shared/local_auth_provider.dart';
 
 class NavigationWidget extends StatefulWidget {
   const NavigationWidget({super.key});
@@ -22,9 +23,9 @@ class _NavigationWidgetState extends State<NavigationWidget> {
   }
 
   void authenticate() async {
-    final authentication = await LocalAuth().authenticated(
-      description: "Authentifier-vous pour continuer",
-    );
+    final authentication = await context
+        .read<LocalAuthProvider>()
+        .authenticate();
     if (!authentication) {
       exit(0);
     }

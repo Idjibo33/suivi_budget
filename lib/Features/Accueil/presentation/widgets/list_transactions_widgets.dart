@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Core/widgets/body_texte.dart';
 import 'package:suivi_budget/Core/widgets/titre_texte.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
+import 'package:suivi_budget/Features/transactions/logic/providers/database_provider.dart';
 import 'package:suivi_budget/Features/Accueil/presentation/widgets/transaction_card.dart';
 
 class ListTransactionsWidgets extends StatelessWidget {

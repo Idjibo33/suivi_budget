@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:suivi_budget/Core/helpers/format_date.dart';
 import 'package:suivi_budget/Core/widgets/body_texte.dart';
 import 'package:suivi_budget/Core/widgets/titre_texte.dart';
 import 'package:suivi_budget/Core/constants.dart';
@@ -58,7 +59,7 @@ class TransactionCard extends StatelessWidget {
                         ? couleurRevenu
                         : couleurDepense,
                   ),
-                  BodyTexte(texte: transaction.date.toString()),
+                  BodyTexte(texte: transaction.date),
                 ],
               ),
             ],

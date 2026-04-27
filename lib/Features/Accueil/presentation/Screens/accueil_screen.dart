@@ -28,7 +28,7 @@ class AccueilScreen extends StatelessWidget {
                     Row(
                       spacing: 8,
                       children: [
-                        const CustomLogoWidget(size: 30),
+                        const CustomLogoWidget(size: 50),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

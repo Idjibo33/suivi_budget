@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
+import 'package:suivi_budget/Core/helpers/format_date.dart';
+import 'package:suivi_budget/Features/transactions/logic/providers/database_provider.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/Features/transactions/presentation/widgets/categorie_section.dart';
 import 'package:suivi_budget/Features/transactions/presentation/widgets/custom_montant_textfield.dart';
@@ -72,7 +73,7 @@ class _AjouterRevenuScreenState extends State<AjouterRevenuScreen> {
                     category: categorie!,
                     description: descriptionText.text.trim(),
                     type: "Revenu",
-                    date: date.toString(),
+                    date: formateDate(date),
                   ),
                 );
                 montantText.clear();

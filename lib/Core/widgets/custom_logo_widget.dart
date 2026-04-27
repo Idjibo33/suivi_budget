@@ -12,9 +12,11 @@ class CustomLogoWidget extends StatelessWidget {
         shape: BoxShape.circle,
         color: couleurbgSecondaire,
       ),
-      child: Padding(
-        padding: EdgeInsets.all(size / 2),
-        child: Icon(Icons.wallet, size: size, color: couleurRevenu),
+      child: Image.asset(
+        "asset/logo/image.png",
+        fit: BoxFit.cover,
+        height: size,
+        width: size,
       ),
     );
   }
