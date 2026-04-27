@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/Core/helpers/format_date.dart';
 import 'package:suivi_budget/Core/widgets/body_texte.dart';
 import 'package:suivi_budget/Core/widgets/titre_texte.dart';
 import 'package:suivi_budget/Core/constants.dart';
 import 'package:suivi_budget/models/transaction.dart';
-import 'package:suivi_budget/views/widgets/transaction_details_view.dart';
+import 'package:suivi_budget/Features/transactions/presentation/widgets/transaction_details_view.dart';
 
 class TransactionCard extends StatelessWidget {
   final Transaction transaction;

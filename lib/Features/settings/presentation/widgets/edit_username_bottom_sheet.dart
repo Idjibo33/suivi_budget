@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:suivi_budget/Core/widgets/body_texte.dart';
 import 'package:suivi_budget/Core/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/Core/widgets/custom_textfield_widget.dart';
+import 'package:suivi_budget/Features/settings/logic/providers/user_prefs_provider.dart';
 
 class EditUsernameBottomSheet extends StatefulWidget {
   const EditUsernameBottomSheet({super.key});
@@ -47,10 +49,18 @@ class _EditUsernameBottomSheetState extends State<EditUsernameBottomSheet> {
                 icone: Icons.person,
               ),
               const Gap(12),
-              CustomFilledButtonWidget(
-                texte: "Enregistrer",
-                action: () {},
-                chargement: false,
+              Consumer<UserPrefsProvider>(
+                builder: (context, value, child) => CustomFilledButtonWidget(
+                  texte: "Enregistrer",
+                  action: () async {
+                    if (textController.text.isNotEmpty) {
+                      value.saveUserInfos(newData: textController.text);
+                      textController.clear();
+                      Navigator.pop(context);
+                    }
+                  },
+                  chargement: false,
+                ),
               ),
             ],
           ),

@@ -5,7 +5,7 @@ import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_
 import 'package:suivi_budget/Core/constants.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/Core/widgets/custom_text_button_widget.dart';
-import 'package:suivi_budget/views/widgets/modifier_transaction.dart';
+import 'package:suivi_budget/Features/transactions/presentation/widgets/modifier_transaction.dart';
 
 class TransactionDetailsView extends StatelessWidget {
   final Transaction transaction;

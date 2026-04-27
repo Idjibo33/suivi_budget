@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:suivi_budget/Core/widgets/body_texte.dart';
 import 'package:suivi_budget/Core/widgets/titre_texte.dart';
+import 'package:suivi_budget/Features/settings/logic/providers/user_prefs_provider.dart';
 import 'package:suivi_budget/Features/settings/presentation/screens/settings_screen.dart';
 import 'package:suivi_budget/Core/constants.dart';
 import 'package:suivi_budget/Core/widgets/custom_logo_widget.dart';
@@ -33,7 +35,11 @@ class AccueilScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const BodyTexte(texte: "Bienvenue"),
-                            const TitreTexte(texte: "Utilisateur"),
+                            Consumer<UserPrefsProvider>(
+                              builder: (context, value, child) => TitreTexte(
+                                texte: value.userInfos ?? "Non définit",
+                              ),
+                            ),
                           ],
                         ),
                       ],

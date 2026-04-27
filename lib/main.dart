@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Core/get_it.dart';
+import 'package:suivi_budget/Features/settings/logic/providers/user_prefs_provider.dart';
 import 'package:suivi_budget/shared/local_auth_provider.dart';
 import 'package:suivi_budget/shared/navigation_widget.dart';
-import 'package:suivi_budget/Providers/Auth%20provider/auth_provider.dart';
 import 'package:suivi_budget/Features/transactions/logic/providers/database_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
 import 'package:suivi_budget/Features/transactions/data/services/transaction_database.dart';
@@ -21,12 +21,14 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => ModifierTransactionViewProvider(),
         ),
-        ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(
           create: (context) =>
               DatabaseProvider(database: database)..listenTransactions(),
         ),
         ChangeNotifierProvider(create: (context) => LocalAuthProvider()),
+        ChangeNotifierProvider(
+          create: (context) => UserPrefsProvider()..getUserInfos(),
+        ),
       ],
       child: MainApp(),
     ),

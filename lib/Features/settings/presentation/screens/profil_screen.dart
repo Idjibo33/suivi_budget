@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:suivi_budget/Core/widgets/head_line_texte.dart';
+import 'package:suivi_budget/Features/settings/logic/providers/user_prefs_provider.dart';
 import 'package:suivi_budget/Features/settings/presentation/widgets/edit_username_bottom_sheet.dart';
 import 'package:suivi_budget/Core/constants.dart';
 import 'package:suivi_budget/Core/widgets/custom_filled_button_widget.dart';
@@ -25,7 +27,13 @@ class ProfilScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  HeadLineTexte(texte: "Nom prenom"),
+                  Consumer<UserPrefsProvider>(
+                    builder: (context, value, child) {
+                      return HeadLineTexte(
+                        texte: value.userInfos ?? "Non définit",
+                      );
+                    },
+                  ),
                   IconButton(
                     onPressed: () {
                       showModalBottomSheet(
