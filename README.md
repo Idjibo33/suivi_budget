@@ -22,7 +22,7 @@ Cette version de l'application privilégie la confidentialité et la rapidité e
 - **Gestion d'etat:** Provider
 
 ## Aperçu 
-<img src="assets/images/Accueil.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Profil.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Revenu.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Depense.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Details.png" width="250" alt="Capture d'écran"> | <img src="assets/images/Modifier.png" width="250" alt="Capture d'écran">
+<img src="asset/images/Accueil.png" width="250" alt="Capture d'écran"> | <img src="asset/images/Profil.png" width="250" alt="Capture d'écran"> | <img src="asset/images/Revenu.png" width="250" alt="Capture d'écran"> | <img src="asset/images/Depense.png" width="250" alt="Capture d'écran"> | <img src="asset/images/Details.png" width="250" alt="Capture d'écran"> | <img src="asset/images/Modifier.png" width="250" alt="Capture d'écran">
 
 
 ## Prochaines Étapes
