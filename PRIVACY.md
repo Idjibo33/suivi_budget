@@ -3,7 +3,7 @@
 **Dernière mise à jour : 17 septembre 2026**  
 **Application : Suivi Budget** (`com.suivibudget.app`) — version 1.0.0  
 **Éditeur : Suivi Budget (Ismaël)**  
-**Contact : ismael@[votre-domaine].com — remplacez par votre email support avant publication Play Store**
+**Contact : djiboismaelzeno@gmail.com — remplacez par votre email support avant publication Play Store**
 
 > **Résumé en une phrase :** Suivi Budget fonctionne **100% hors-ligne**. Aucune donnée n'est collectée, transmise ou stockée sur un serveur. Tout reste sur votre appareil.
 
