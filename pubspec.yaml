@@ -7,12 +7,8 @@ environment:
   sdk: ^3.10.0
 
 dependencies:
-  
- 
-  build_runner: ^2.4.13
   floor: ^1.5.0
-  floor_generator: ^1.5.0
-  sqflite_common_ffi_web: 
+  sqflite_common_ffi_web: ^0.4.5
   flutter:
     sdk: flutter
 
@@ -29,6 +25,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  build_runner: ^2.4.13
+  floor_generator: ^1.5.0
+  sqflite_common_ffi: ^2.4.0
+  sqlite3: ^3.1.6
 
 
 flutter:

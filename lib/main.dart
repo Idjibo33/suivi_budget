@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Auth%20provider/auth_provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/Services/database/database_factory.dart';
 import 'package:suivi_budget/Services/database/transaction_database.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/Accueil/accueil_screen.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final db = await TransactionDatabase.intialize();
+  configureDatabaseFactory();
+  Intl.defaultLocale = 'fr_FR';
+  await initializeDateFormatting('fr_FR');
+  final db = await TransactionDatabase.initialize();
   final database = db.transactionDao;
 
   runApp(
@@ -25,7 +31,7 @@ void main() async {
               DatabaseProvider(database: database)..listenTransactions(),
         ),
       ],
-      child: MainApp(),
+      child: const MainApp(),
     ),
   );
 }
@@ -40,7 +46,7 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Styles.couleurRevenu),
       ),
       debugShowCheckedModeBanner: false,
-      home: AccueilScreen(),
+      home: const AccueilScreen(),
     );
   }
 }

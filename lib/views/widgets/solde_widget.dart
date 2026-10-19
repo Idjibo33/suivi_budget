@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
@@ -37,20 +38,17 @@ class _SoldeWidgetState extends State<SoldeWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Stack(
-                    children: [
-                      Visibility(
-                        visible: visible,
-                        child: Text("******", style: Styles.texteCorps),
-                      ),
-                      Visibility(
-                        visible: !visible,
-                        child: Text(
-                          "${database.soldeTotal()} F CFA",
-                          style: Styles.texteTitre,
-                        ),
-                      ),
-                    ],
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: visible
+                          ? Text("******", style: Styles.texteCorps)
+                          : Text(
+                              "${database.soldeTotal()} F CFA",
+                              style: Styles.texteTitre,
+                            ),
+                    ),
                   ),
 
                   Stack(
@@ -76,13 +74,26 @@ class _SoldeWidgetState extends State<SoldeWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RevenusWidgets(
-                    totalRevenus: database.totalRevenus(),
-                    chargement: database.chargement,
+                  Flexible(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: RevenusWidgets(
+                        totalRevenus: database.totalRevenus(),
+                        chargement: database.chargement,
+                      ),
+                    ),
                   ),
-                  DepensesWidgets(
-                    totalDepenses: database.totalDepenses(),
-                    chargement: database.chargement,
+                  const Gap(8),
+                  Flexible(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: DepensesWidgets(
+                        totalDepenses: database.totalDepenses(),
+                        chargement: database.chargement,
+                      ),
+                    ),
                   ),
                 ],
               ),

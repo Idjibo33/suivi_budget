@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/helpers/check_solde.dart';
+import 'package:suivi_budget/models/helpers/error_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
 import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
@@ -80,9 +81,17 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
             builder: (context, database, child) => CustomFilledButtonWidget(
               texte: "Enregistrer transaction",
               action: () async {
+                final int? montant = int.tryParse(montantText.text.trim());
+                if (montant == null || montant <= 0) {
+                  showErrorSnackbar(
+                    context,
+                    "Veuillez saisir un montant valide",
+                  );
+                  return;
+                }
                 final checkBalance = balanceAvailable(
                   database.soldeTotal(),
-                  int.parse(montantText.text),
+                  montant,
                   context,
                 );
                 if (!checkBalance) {
@@ -91,7 +100,7 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
                 await database.addTransaction(
                   context,
                   transaction: Transaction(
-                    montant: int.parse(montantText.text.trim()),
+                    montant: montant,
                     category: categorie,
                     description: descriptionText.text.trim(),
                     type: "Depense",
@@ -101,7 +110,7 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
                 montantText.clear();
                 descriptionText.clear();
               },
-              chargement: false,
+              chargement: database.chargement,
             ),
           ),
         ],

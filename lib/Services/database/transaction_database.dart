@@ -10,7 +10,7 @@ part 'transaction_database.g.dart';
 abstract class TransactionDatabase extends FloorDatabase {
   TransactionDao get transactionDao;
 
-  static Future<TransactionDatabase> intialize() async {
+  static Future<TransactionDatabase> initialize() async {
     return await $FloorTransactionDatabase
         .databaseBuilder("transaction_database")
         .build();

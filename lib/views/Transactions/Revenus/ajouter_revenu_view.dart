@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/helpers/error_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
@@ -78,11 +79,19 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
             builder: (context, database, child) => CustomFilledButtonWidget(
               texte: "Enregistrer transaction",
               action: () async {
+                final int? montant = int.tryParse(montantText.text.trim());
+                if (montant == null || montant <= 0) {
+                  showErrorSnackbar(
+                    context,
+                    "Veuillez saisir un montant valide",
+                  );
+                  return;
+                }
                 await database.addTransaction(
                   context,
                   transaction: Transaction(
-                    montant: int.parse(montantText.text.trim()),
-                    category: categorie!,
+                    montant: montant,
+                    category: categorie ?? "",
                     description: descriptionText.text.trim(),
                     type: "Revenu",
                     date: date.toString(),

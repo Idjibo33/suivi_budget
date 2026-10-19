@@ -9,8 +9,16 @@ import 'package:suivi_budget/models/transaction.dart';
 class DatabaseProvider extends ChangeNotifier {
   final TransactionDao database;
   DatabaseProvider({required this.database});
+
   List<Transaction> _transactionsListe = [];
-  Stream<List<Transaction>> get transactions => database.getTransactions();
+  List<Transaction> get transactionsListe => _transactionsListe;
+
+  bool _listChargement = true;
+  bool get listChargement => _listChargement;
+
+  String? _listErreur;
+  String? get listErreur => _listErreur;
+
   bool _chargement = false;
   bool get chargement => _chargement;
   String _message = '';
@@ -74,10 +82,20 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   void listenTransactions() {
-    transactions.listen((event) {
-      _transactionsListe = event;
-      notifyListeners();
-    });
+    database.getTransactions().listen(
+      (event) {
+        _transactionsListe = event;
+        _listChargement = false;
+        _listErreur = null;
+        notifyListeners();
+      },
+      onError: (Object error) {
+        log('Error in listenTransactions: $error');
+        _listChargement = false;
+        _listErreur = "Impossible de charger les transactions";
+        notifyListeners();
+      },
+    );
   }
 
   // le total des revenus
