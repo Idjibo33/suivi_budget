@@ -163,7 +163,8 @@ class _$TransactionDao extends TransactionDao {
 
   @override
   Stream<List<Transaction>> getTransactions() {
-    return _queryAdapter.queryListStream('SELECT * FROM transactions_table',
+    return _queryAdapter.queryListStream(
+        'SELECT * FROM transactions_table ORDER BY date DESC',
         mapper: (Map<String, Object?> row) => Transaction(
             id: row['id'] as int?,
             montant: row['montant'] as int,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/models/helpers/error_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
 import 'package:suivi_budget/views/Transactions/date_transaction_card.dart';
@@ -21,6 +22,9 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
   TextEditingController montantText = TextEditingController();
   TextEditingController descriptionText = TextEditingController();
 
+  late DateTime date =
+      DateTime.tryParse(widget.transaction.date) ?? DateTime.now();
+
   @override
   void initState() {
     super.initState();
@@ -34,8 +38,6 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
     descriptionText.dispose();
     super.dispose();
   }
-
-  DateTime date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -60,20 +62,35 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
               Expanded(
                 child: TextButton(
                   onPressed: () => view.changer(),
-                  child: Text("Annuler"),
+                  child: const Text("Annuler"),
                 ),
               ),
               Expanded(
                 child: CustomFilledButtonWidget(
                   texte: "Enregistrer",
                   action: () async {
+                    final int? montant = int.tryParse(montantText.text.trim());
+                    if (montant == null || montant <= 0) {
+                      showErrorSnackbar(
+                        context,
+                        "Veuillez saisir un montant valide",
+                      );
+                      return;
+                    }
                     await database.updateTransaction(
                       context,
-                      transaction: widget.transaction,
+                      transaction: Transaction(
+                        id: widget.transaction.id,
+                        montant: montant,
+                        category: widget.transaction.category,
+                        description: descriptionText.text.trim(),
+                        type: widget.transaction.type,
+                        date: date.toString(),
+                      ),
                     );
                     view.changer();
                   },
-                  chargement: false,
+                  chargement: database.chargement,
                 ),
               ),
             ],

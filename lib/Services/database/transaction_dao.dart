@@ -12,6 +12,6 @@ abstract class TransactionDao {
   @Query('DELETE FROM transactions_table WHERE id = :id')
   Future<void> deleteTransaction(int id);
 
-  @Query("SELECT * FROM transactions_table")
+  @Query("SELECT * FROM transactions_table ORDER BY date DESC")
   Stream<List<Transaction>> getTransactions();
 }
