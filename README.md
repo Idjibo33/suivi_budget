@@ -1,10 +1,12 @@
 # suivi_budget
 
+[![Flutter CI](https://github.com/Idjibo33/suivi_budget/actions/workflows/flutter.yml/badge.svg?branch=local-storage)](https://github.com/Idjibo33/suivi_budget/actions/workflows/flutter.yml)
+
 **Branch actuelle :** local-storage 
 
 Cette version de l'application privilégie la confidentialité et la rapidité en stockant 100% des données sur l'appareil de l'utilisateur.
 
-- **Moteur :** Supabase AUTH & DATABASE .
+- **Moteur :** SQLite (Floor) + authentification locale (local_auth).
 
 ## Fonctionnalités :
 
