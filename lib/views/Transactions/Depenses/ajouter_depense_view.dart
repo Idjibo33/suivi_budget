@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/models/helpers/check_solde.dart';
+import 'package:suivi_budget/models/etats/validation_transaction.dart';
 import 'package:suivi_budget/models/helpers/error_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
@@ -20,12 +20,9 @@ class AjouterDepenseView extends StatefulWidget {
 }
 
 class _AjouterDepenseViewState extends State<AjouterDepenseView> {
-  //Les controlleurs des champs des textes
-  TextEditingController montantText = TextEditingController();
-  TextEditingController descriptionText = TextEditingController();
-  // Date de la transaction
+  final TextEditingController montantText = TextEditingController();
+  final TextEditingController descriptionText = TextEditingController();
   DateTime date = DateTime.now();
-  // La categorie de revenu
   String categorie = "";
 
   @override
@@ -37,7 +34,6 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
 
   @override
   Widget build(BuildContext context) {
-    // le solde du compte
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView(
@@ -50,10 +46,9 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
           ),
           const Gap(8),
           CategorieSection(
+            categorieChoisie: categorie,
             typeCategorie: "Depense",
-            choixVal: (val) => setState(() {
-              categorie = val!;
-            }),
+            choixVal: (val) => setState(() => categorie = val),
           ),
           const Gap(12),
           Align(
@@ -74,33 +69,29 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
           ),
           const Gap(8),
           DateTransactionCard(
-            changementDate: (dateChoisie) => date = dateChoisie,
+            date: date,
+            changementDate: (dateChoisie) => setState(() => date = dateChoisie),
           ),
           const Gap(12),
           Consumer<DatabaseProvider>(
             builder: (context, database, child) => CustomFilledButtonWidget(
               texte: "Enregistrer transaction",
               action: () async {
-                final int? montant = int.tryParse(montantText.text.trim());
-                if (montant == null || montant <= 0) {
+                final ResultatValidationMontant resultat = validerMontant(
+                  montantText.text,
+                  soldeDisponible: database.soldeTotal(),
+                );
+                if (resultat is! MontantValide) {
                   showErrorSnackbar(
                     context,
-                    "Veuillez saisir un montant valide",
+                    (resultat as MontantInvalide).message,
                   );
-                  return;
-                }
-                final checkBalance = balanceAvailable(
-                  database.soldeTotal(),
-                  montant,
-                  context,
-                );
-                if (!checkBalance) {
                   return;
                 }
                 await database.addTransaction(
                   context,
                   transaction: Transaction(
-                    montant: montant,
+                    montant: resultat.montant,
                     category: categorie,
                     description: descriptionText.text.trim(),
                     type: "Depense",

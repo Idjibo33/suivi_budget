@@ -93,4 +93,17 @@ void main() {
 
     expect(dao.updated, isEmpty);
   });
+
+  testWidgets('la carte de date affiche la date enregistrée', (tester) async {
+    final FakeTransactionDao dao = FakeTransactionDao();
+    addTearDown(dao.close);
+
+    await pumpModifier(
+      tester,
+      dao,
+      buildTransaction(date: '2026-10-19 08:00:00.000'),
+    );
+
+    expect(find.textContaining('19 octobre 2026'), findsOneWidget);
+  });
 }
