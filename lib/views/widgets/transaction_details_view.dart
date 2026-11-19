@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
@@ -9,14 +8,14 @@ import 'package:suivi_budget/views/widgets/custom_text_button_widget.dart';
 import 'package:suivi_budget/views/widgets/modifier_transaction.dart';
 
 class TransactionDetailsView extends StatelessWidget {
-  final TransactionModel transaction;
+  final Transaction transaction;
   const TransactionDetailsView({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {
     bool view = context.watch<ModifierTransactionViewProvider>().showview;
-    String dateTransaction =
-        "${DateFormat.yMMMMEEEEd().format(transaction.date)} à ${DateFormat.Hm().format(transaction.date)}";
+    //String dateTransaction =
+    //  "${DateFormat.yMMMMEEEEd().format(transaction.date)} à ${DateFormat.Hm().format(transaction.date)}";
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(
@@ -92,17 +91,23 @@ class TransactionDetailsView extends StatelessWidget {
                   ],
                 ),
                 Text(transaction.description, style: Styles.texteTitre),
-                Text(dateTransaction, style: Styles.texteCorps),
+                Text("", style: Styles.texteCorps),
                 !view
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Consumer<DatabaseProvider>(
-                            builder: (context, value, child) => Expanded(
+                            builder: (context, database, child) => Expanded(
                               child: CustomTextButtonWidget(
                                 couleurTexte: Styles.couleurDepense,
                                 texte: "Supprimer",
-                                action: () {},
+                                action: () async {
+                                  await database.delteTransaction(
+                                    context,
+                                    id: transaction.id!,
+                                  );
+                                  if (context.mounted) Navigator.pop(context);
+                                },
                                 chargement: false,
                               ),
                             ),

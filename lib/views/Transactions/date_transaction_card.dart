@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:suivi_budget/constants.dart';
 
 class DateTransactionCard extends StatefulWidget {
   final Function(DateTime) changementDate;
@@ -11,9 +11,9 @@ class DateTransactionCard extends StatefulWidget {
   State<DateTransactionCard> createState() => _DateTransactionCardState();
 }
 
-DateTime dateChoisie = DateTime.now();
-
 class _DateTransactionCardState extends State<DateTransactionCard> {
+  DateTime _dateChoisie = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -23,7 +23,7 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
           return Container(
             height: 250,
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30),
@@ -31,12 +31,12 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
               ),
             ),
             child: CupertinoDatePicker(
-              initialDateTime: DateTime.now(),
+              initialDateTime: _dateChoisie,
               onDateTimeChanged: (value) {
                 setState(() {
-                  dateChoisie = value;
+                  _dateChoisie = value;
                 });
-                widget.changementDate(dateChoisie);
+                widget.changementDate(_dateChoisie);
               },
               use24hFormat: true,
             ),
@@ -52,10 +52,14 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
             child: Row(
               spacing: 8,
               children: [
-                Icon(Icons.date_range),
-                Text(
-                  "${DateFormat.yMMMMEEEEd().format(dateChoisie)} à ${DateFormat.Hm().format(dateChoisie)}",
-                  style: Styles.texteTitre.copyWith(fontSize: 12),
+                const Icon(Icons.date_range),
+                Expanded(
+                  child: Text(
+                    "${DateFormat.yMMMMEEEEd('fr_FR').format(_dateChoisie)} à ${DateFormat.Hm().format(_dateChoisie)}",
+                    style: Styles.texteTitre.copyWith(fontSize: 12),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),

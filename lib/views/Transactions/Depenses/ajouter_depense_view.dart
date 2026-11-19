@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/helpers/check_solde.dart';
+import 'package:suivi_budget/models/helpers/error_snackbar.dart';
+import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
 import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
 import 'package:suivi_budget/views/Transactions/date_transaction_card.dart';
@@ -21,26 +23,21 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
   //Les controlleurs des champs des textes
   TextEditingController montantText = TextEditingController();
   TextEditingController descriptionText = TextEditingController();
+  // Date de la transaction
   DateTime date = DateTime.now();
+  // La categorie de revenu
+  String categorie = "";
+
   @override
   void dispose() {
     montantText.dispose();
     descriptionText.dispose();
-    date;
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     // le solde du compte
-    final int solde = context.watch<SoldeProvider>().soldeTotal();
-    // l'id de l'utilisateur actuel
-    final String idUtilisateur = "";
-    // La categorie de revenu
-    String? categorie = "";
-
-    // Date de la transaction
-    DateTime date = DateTime.now();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView(
@@ -55,7 +52,7 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
           CategorieSection(
             typeCategorie: "Depense",
             choixVal: (val) => setState(() {
-              categorie = val;
+              categorie = val!;
             }),
           ),
           const Gap(12),
@@ -81,10 +78,39 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
           ),
           const Gap(12),
           Consumer<DatabaseProvider>(
-            builder: (context, value, child) => CustomFilledButtonWidget(
+            builder: (context, database, child) => CustomFilledButtonWidget(
               texte: "Enregistrer transaction",
-              action: () {},
-              chargement: false,
+              action: () async {
+                final int? montant = int.tryParse(montantText.text.trim());
+                if (montant == null || montant <= 0) {
+                  showErrorSnackbar(
+                    context,
+                    "Veuillez saisir un montant valide",
+                  );
+                  return;
+                }
+                final checkBalance = balanceAvailable(
+                  database.soldeTotal(),
+                  montant,
+                  context,
+                );
+                if (!checkBalance) {
+                  return;
+                }
+                await database.addTransaction(
+                  context,
+                  transaction: Transaction(
+                    montant: montant,
+                    category: categorie,
+                    description: descriptionText.text.trim(),
+                    type: "Depense",
+                    date: date.toString(),
+                  ),
+                );
+                montantText.clear();
+                descriptionText.clear();
+              },
+              chargement: database.chargement,
             ),
           ),
         ],

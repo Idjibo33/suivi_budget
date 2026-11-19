@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
+import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
 import 'package:suivi_budget/views/widgets/revenus_widgets.dart';
 
-class SoldeWidget extends StatelessWidget {
+class SoldeWidget extends StatefulWidget {
   const SoldeWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Les informations de l'utilisateur
+  State<SoldeWidget> createState() => _SoldeWidgetState();
+}
 
-    return Consumer<SoldeProvider>(
-      builder: (context, value, child) => Card(
+class _SoldeWidgetState extends State<SoldeWidget> {
+  bool visible = false;
+
+  void changerVisibilite() {
+    setState(() {
+      visible = !visible;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<DatabaseProvider>(
+      builder: (context, database, child) => Card(
         elevation: 4,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -26,35 +38,32 @@ class SoldeWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Stack(
-                    children: [
-                      Visibility(
-                        visible: !value.visible,
-                        child: Text("******", style: Styles.texteCorps),
-                      ),
-                      Visibility(
-                        visible: value.visible,
-                        child: Text(
-                          "${value.soldeTotal().toString()} F CFA",
-                          style: Styles.texteTitre,
-                        ),
-                      ),
-                    ],
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: visible
+                          ? Text("******", style: Styles.texteCorps)
+                          : Text(
+                              "${database.soldeTotal()} F CFA",
+                              style: Styles.texteTitre,
+                            ),
+                    ),
                   ),
 
                   Stack(
                     children: [
                       Visibility(
-                        visible: !value.visible,
+                        visible: visible,
                         child: IconButton(
-                          onPressed: () => value.changervisiblite(),
+                          onPressed: () => changerVisibilite(),
                           icon: Icon(Icons.visibility),
                         ),
                       ),
                       Visibility(
-                        visible: value.visible,
+                        visible: !visible,
                         child: IconButton(
-                          onPressed: () => value.changervisiblite(),
+                          onPressed: () => changerVisibilite(),
                           icon: Icon(Icons.visibility_off),
                         ),
                       ),
@@ -65,13 +74,26 @@ class SoldeWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RevenusWidgets(
-                    totalRevenus: value.totalRevenus(),
-                    chargement: value.chargement,
+                  Flexible(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: RevenusWidgets(
+                        totalRevenus: database.totalRevenus(),
+                        chargement: database.chargement,
+                      ),
+                    ),
                   ),
-                  DepensesWidgets(
-                    totalDepenses: value.totalDepenses(),
-                    chargement: value.chargement,
+                  const Gap(8),
+                  Flexible(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: DepensesWidgets(
+                        totalDepenses: database.totalDepenses(),
+                        chargement: database.chargement,
+                      ),
+                    ),
                   ),
                 ],
               ),

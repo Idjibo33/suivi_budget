@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/solde_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/helpers/error_snackbar.dart';
+import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
 import 'package:suivi_budget/views/Transactions/date_transaction_card.dart';
@@ -18,8 +19,10 @@ class AjouterRevenuView extends StatefulWidget {
 }
 
 class _AjouterRevenuViewState extends State<AjouterRevenuView> {
-  TextEditingController montantText = TextEditingController();
-  TextEditingController descriptionText = TextEditingController();
+  final montantText = TextEditingController();
+  final descriptionText = TextEditingController();
+  // La categorie de revenu
+  String? categorie = "";
   // Date de la transaction
   DateTime date = DateTime.now();
 
@@ -33,11 +36,6 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
 
   @override
   Widget build(BuildContext context) {
-    // l'id de l'utilisateur actuel
-    final String idUtilisateur = "";
-    // La categorie de revenu
-    String? categorie = "";
-    final int solde = context.watch<SoldeProvider>().soldeTotal();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView(
@@ -78,10 +76,31 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
           ),
           const Gap(12),
           Consumer<DatabaseProvider>(
-            builder: (context, value, child) => CustomFilledButtonWidget(
+            builder: (context, database, child) => CustomFilledButtonWidget(
               texte: "Enregistrer transaction",
-              action: () {},
-              chargement: false,
+              action: () async {
+                final int? montant = int.tryParse(montantText.text.trim());
+                if (montant == null || montant <= 0) {
+                  showErrorSnackbar(
+                    context,
+                    "Veuillez saisir un montant valide",
+                  );
+                  return;
+                }
+                await database.addTransaction(
+                  context,
+                  transaction: Transaction(
+                    montant: montant,
+                    category: categorie ?? "",
+                    description: descriptionText.text.trim(),
+                    type: "Revenu",
+                    date: date.toString(),
+                  ),
+                );
+                montantText.clear();
+                descriptionText.clear();
+              },
+              chargement: database.chargement,
             ),
           ),
         ],
