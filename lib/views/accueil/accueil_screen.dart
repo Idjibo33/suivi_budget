@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:suivi_budget/Services/Local%20Auth/local_auth.dart';
+import 'package:suivi_budget/services/local_auth.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/etats/etat_authentification.dart';
 import 'package:suivi_budget/models/navigation/naviguer_ajouter_transaction_page.dart';
-import 'package:suivi_budget/views/Profil/profil_screen.dart';
+import 'package:suivi_budget/views/profil/profil_screen.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
 import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
 import 'package:suivi_budget/views/widgets/max_width_container.dart';

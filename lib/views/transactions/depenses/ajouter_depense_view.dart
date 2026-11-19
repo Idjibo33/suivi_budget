@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
+import 'package:suivi_budget/providers/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/etats/validation_transaction.dart';
 import 'package:suivi_budget/models/helpers/error_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
-import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
-import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
-import 'package:suivi_budget/views/Transactions/date_transaction_card.dart';
+import 'package:suivi_budget/views/transactions/custom_montant_textfield.dart';
+import 'package:suivi_budget/views/transactions/depenses/categorie_section.dart';
+import 'package:suivi_budget/views/transactions/date_transaction_card.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
 

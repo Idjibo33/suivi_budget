@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/providers/modifier_transaction_view_provider.dart';
 import 'package:suivi_budget/models/etats/etat_authentification.dart';
 import 'package:suivi_budget/models/etats/etat_detail_transaction.dart';
 import 'package:suivi_budget/models/etats/etat_liste_transactions.dart';

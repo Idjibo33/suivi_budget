@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
+import 'package:suivi_budget/providers/database_provider.dart';
 import 'package:suivi_budget/models/etats/etat_liste_transactions.dart';
 import 'package:suivi_budget/views/widgets/transaction_card.dart';
 

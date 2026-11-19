@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
-import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
-import 'package:suivi_budget/views/Accueil/accueil_screen.dart';
+import 'package:suivi_budget/providers/database_provider.dart';
+import 'package:suivi_budget/providers/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/views/accueil/accueil_screen.dart';
 
 import 'fixtures/fakes.dart';
 

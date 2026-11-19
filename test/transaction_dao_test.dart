@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart' hide Transaction;
-import 'package:suivi_budget/Services/database/transaction_dao.dart';
-import 'package:suivi_budget/Services/database/transaction_database.dart';
+import 'package:suivi_budget/services/database/transaction_dao.dart';
+import 'package:suivi_budget/services/database/transaction_database.dart';
 import 'package:suivi_budget/models/transaction.dart';
 
 import 'fixtures/fakes.dart';

@@ -2,8 +2,19 @@
 
 ## Branche et périmètre
 
-- `main` est la vitrine/documentation ; le code de l'app vit sur `local-storage` (branche actuelle). Créer les branches de travail depuis `local-storage` et laisser `main` intact. Ne pas pusher, merger ou déployer sans accord explicite. La production branch Vercel doit rester `local-storage` (réglage dashboard, hors dépôt).
+- `main` = production, `develop` = développement : une seule version de l'app (100 % locale, Floor/SQLite), présente sur les deux branches. Créer les branches de travail depuis `develop` ; les PR destinées à la prod visent `main`.
+- Les anciennes branches backend (`backend-firebase`, `backend-supabase`, `feature/navigators`) et les branches de travail obsolètes ont été supprimées localement et sur `origin`. Ne pas les recréer : le projet n'a plus de version cloud.
+- Ne pas pusher, merger ou déployer sans accord explicite.
+- **Action manuelle hors dépôt :** la production branch Vercel doit être alignée sur `main` dans le dashboard (elle pointait sur l'ancienne branche `local-storage`, désormais supprimée). Tant que ce réglage n'est pas changé, le déploiement échouera.
 - Repo, UI et commentaires en français : répondre en français, commits Conventional Commits en français (cf. historique).
+
+## Architecture
+
+- `lib/providers/` : providers Provider (authentification, base de données, vue de détail).
+- `lib/services/` : authentification locale et accès aux données (`lib/services/database/`).
+- `lib/models/etats/` : machines à états explicites (voir règle plus bas).
+- `lib/views/` : écrans (`accueil/`, `authentification/`, `profil/`, `transactions/`) et composants partagés (`widgets/`).
+- Tous les dossiers sont en `snake_case` minuscule, sans espace : importer avec `package:suivi_budget/...`.
 
 ## Vérification (ordre de la CI, `.github/workflows/flutter.yml`)
 
@@ -24,7 +35,7 @@ flutter build web --release
 - `AccueilScreen` porte l'authentification locale elle-même (`LocalAuth.authenticated`) et la court-circuite sur le web (`kIsWeb`). `lib/auth_gate.dart` et les pages connexion/inscription existent mais ne sont pas sur le chemin de démarrage.
 - Données Floor : table `transactions_table`, `@Database(version: 1)`, DAO exposant un `Stream` trié par `date DESC`. `montant` est un `int` ; `type` vaut exactement `"Revenu"` ou `"Depense"` (chaîne utilisée telle quelle pour les totaux).
 - Web : `database_factory.dart` exporte conditionnellement `database_factory_web.dart` (`dart.library.js_interop`), qui installe `databaseFactoryFfiWeb`. `web/sqlite3.wasm` et `web/sqflite_sw.js` sont versionnés et nécessaires au stockage IndexedDB.
-- Codegen : après une modification de `@Entity`, `@dao` ou `@Database`, lancer `dart run build_runner build --delete-conflicting-outputs` ; `lib/Services/database/transaction_database.g.dart` est commité. Un changement de schéma exige de bump la version du `@Database` et une migration (aucune définie aujourd'hui).
+- Codegen : après une modification de `@Entity`, `@dao` ou `@Database`, lancer `dart run build_runner build --delete-conflicting-outputs` ; `lib/services/database/transaction_database.g.dart` est commité. Un changement de schéma exige de bump la version du `@Database` et une migration (aucune définie aujourd'hui).
 
 ## Règle de conception (à appliquer toujours)
 
@@ -33,4 +44,4 @@ flutter build web --release
 ## Dette confirmée
 
 - `flutter_dotenv` est déclaré mais inutilisé (aucun appel Dart, `.env` ignoré) : aucune configuration par variables d'environnement n'est en place.
-- `PROMPT_INITIAL.md` est un prompt de session daté (22/10/2026) : ses règles de branche et de commit restent valables, son plan d'audit ponctuel non.
+- `PROMPT_INITIAL.md` est un prompt de session daté (22/10/2026) conservé tel quel : ses références à `local-storage` et son plan d'audit ponctuel sont obsolètes ; seules ses règles de commit restent valables.
