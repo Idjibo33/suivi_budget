@@ -46,6 +46,14 @@ void main() {
     expect(provider.listErreur, 'Impossible de charger les transactions');
   });
 
+  test('erreur du flux : les totaux gardent la dernière liste reçue', () async {
+    await dao.emit([buildTransaction(montant: 1000, type: 'Revenu')]);
+    await dao.emitError(Exception('db error'));
+
+    expect(provider.listErreur, 'Impossible de charger les transactions');
+    expect(provider.soldeTotal(), 1000);
+  });
+
   test('liste vide après émission : plus de chargement, pas d\'erreur',
       () async {
     await dao.emit([]);

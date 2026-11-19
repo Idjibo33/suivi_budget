@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/etats/etat_visibilite_solde.dart';
 import 'package:suivi_budget/views/widgets/depenses_widgets.dart';
 import 'package:suivi_budget/views/widgets/revenus_widgets.dart';
 
@@ -14,12 +15,10 @@ class SoldeWidget extends StatefulWidget {
 }
 
 class _SoldeWidgetState extends State<SoldeWidget> {
-  bool visible = false;
+  EtatVisibiliteSolde _etat = EtatVisibiliteSolde.visible;
 
   void changerVisibilite() {
-    setState(() {
-      visible = !visible;
-    });
+    setState(() => _etat = _etat.basculer());
   }
 
   @override
@@ -42,7 +41,7 @@ class _SoldeWidgetState extends State<SoldeWidget> {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       alignment: Alignment.centerLeft,
-                      child: visible
+                      child: _etat.estMasque
                           ? Text("******", style: Styles.texteCorps)
                           : Text(
                               "${database.soldeTotal()} F CFA",
@@ -54,14 +53,14 @@ class _SoldeWidgetState extends State<SoldeWidget> {
                   Stack(
                     children: [
                       Visibility(
-                        visible: visible,
+                        visible: _etat.estMasque,
                         child: IconButton(
                           onPressed: () => changerVisibilite(),
                           icon: Icon(Icons.visibility),
                         ),
                       ),
                       Visibility(
-                        visible: !visible,
+                        visible: !_etat.estMasque,
                         child: IconButton(
                           onPressed: () => changerVisibilite(),
                           icon: Icon(Icons.visibility_off),

@@ -119,4 +119,36 @@ void main() {
 
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('réessayer après un refus rouvre le budget', (tester) async {
+    final FakeTransactionDao dao = FakeTransactionDao();
+    addTearDown(dao.close);
+    final FakeLocalAuth auth = FakeLocalAuth(result: false);
+
+    await pumpAccueil(tester, dao: dao, auth: auth);
+    expect(find.text('Authentification requise'), findsOneWidget);
+
+    auth.result = true;
+    await tester.tap(find.text('Réessayer'));
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('Suivi budget'), findsOneWidget);
+    expect(find.text('Authentification requise'), findsNothing);
+    expect(auth.authenticationCalls, 2);
+  });
+
+  testWidgets('le solde se masque avec la bonne icône', (tester) async {
+    final FakeTransactionDao dao = FakeTransactionDao();
+    addTearDown(dao.close);
+
+    await pumpAccueil(tester, dao: dao, auth: FakeLocalAuth(result: true));
+
+    expect(find.byIcon(Icons.visibility_off), findsOneWidget);
+    await tester.tap(find.byIcon(Icons.visibility_off));
+    await tester.pump();
+
+    expect(find.text('******'), findsOneWidget);
+    expect(find.byIcon(Icons.visibility), findsOneWidget);
+  });
 }

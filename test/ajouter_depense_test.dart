@@ -80,4 +80,41 @@ void main() {
 
     await tester.pump(const Duration(seconds: 4));
   });
+
+  testWidgets('solde insuffisant : aucun ajout', (tester) async {
+    final FakeTransactionDao dao = FakeTransactionDao();
+    addTearDown(dao.close);
+
+    await pumpDepense(tester, dao);
+    await dao.emit([buildTransaction(montant: 1000, type: 'Revenu')]);
+    await tester.pump();
+
+    await tester.enterText(find.byType(TextField).first, '2000');
+    await tester.tap(find.text('Enregistrer transaction'));
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 4));
+
+    expect(dao.added, isEmpty);
+  });
+
+  testWidgets('catégorie choisie : enregistrée avec la transaction',
+      (tester) async {
+    final FakeTransactionDao dao = FakeTransactionDao();
+    addTearDown(dao.close);
+
+    await pumpDepense(tester, dao);
+    await dao.emit([buildTransaction(montant: 10000, type: 'Revenu')]);
+    await tester.pump();
+
+    await tester.tap(find.text('Courses'));
+    await tester.enterText(find.byType(TextField).first, '5000');
+    await tester.tap(find.text('Enregistrer transaction'));
+    await tester.pump();
+    await tester.pump();
+
+    expect(dao.added, hasLength(1));
+    expect(dao.added.single.category, 'Courses');
+
+    await tester.pump(const Duration(seconds: 4));
+  });
 }

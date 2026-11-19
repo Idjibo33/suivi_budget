@@ -3,10 +3,11 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/etats/validation_transaction.dart';
 import 'package:suivi_budget/models/helpers/error_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
-import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
 import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
+import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
 import 'package:suivi_budget/views/Transactions/date_transaction_card.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
@@ -19,18 +20,15 @@ class AjouterRevenuView extends StatefulWidget {
 }
 
 class _AjouterRevenuViewState extends State<AjouterRevenuView> {
-  final montantText = TextEditingController();
-  final descriptionText = TextEditingController();
-  // La categorie de revenu
+  final TextEditingController montantText = TextEditingController();
+  final TextEditingController descriptionText = TextEditingController();
   String? categorie = "";
-  // Date de la transaction
   DateTime date = DateTime.now();
 
   @override
   void dispose() {
     montantText.dispose();
     descriptionText.dispose();
-    date;
     super.dispose();
   }
 
@@ -48,10 +46,9 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
           ),
           const Gap(8),
           CategorieSection(
+            categorieChoisie: categorie,
             typeCategorie: "Revenu",
-            choixVal: (val) => setState(() {
-              categorie = val;
-            }),
+            choixVal: (val) => setState(() => categorie = val),
           ),
           const Gap(12),
           Align(
@@ -72,25 +69,27 @@ class _AjouterRevenuViewState extends State<AjouterRevenuView> {
           ),
           const Gap(8),
           DateTransactionCard(
-            changementDate: (datechoisie) => date = datechoisie,
+            date: date,
+            changementDate: (dateChoisie) => setState(() => date = dateChoisie),
           ),
           const Gap(12),
           Consumer<DatabaseProvider>(
             builder: (context, database, child) => CustomFilledButtonWidget(
               texte: "Enregistrer transaction",
               action: () async {
-                final int? montant = int.tryParse(montantText.text.trim());
-                if (montant == null || montant <= 0) {
+                final ResultatValidationMontant resultat =
+                    validerMontant(montantText.text);
+                if (resultat is! MontantValide) {
                   showErrorSnackbar(
                     context,
-                    "Veuillez saisir un montant valide",
+                    (resultat as MontantInvalide).message,
                   );
                   return;
                 }
                 await database.addTransaction(
                   context,
                   transaction: Transaction(
-                    montant: montant,
+                    montant: resultat.montant,
                     category: categorie ?? "",
                     description: descriptionText.text.trim(),
                     type: "Revenu",
