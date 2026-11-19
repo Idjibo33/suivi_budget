@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Auth%20provider/auth_provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
-import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
-import 'package:suivi_budget/Services/database/database_factory.dart';
-import 'package:suivi_budget/Services/database/transaction_database.dart';
+import 'package:suivi_budget/providers/auth_provider.dart';
+import 'package:suivi_budget/providers/database_provider.dart';
+import 'package:suivi_budget/providers/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/services/database/database_factory.dart';
+import 'package:suivi_budget/services/database/transaction_database.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/views/Accueil/accueil_screen.dart';
+import 'package:suivi_budget/views/accueil/accueil_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

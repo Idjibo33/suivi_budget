@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:suivi_budget/Services/Local%20Auth/local_auth.dart';
+import 'package:suivi_budget/services/local_auth.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/etats/etat_authentification.dart';
 import 'package:suivi_budget/models/navigation/naviguer_ajouter_transaction_page.dart';
-import 'package:suivi_budget/views/Profil/profil_screen.dart';
+import 'package:suivi_budget/views/profil/profil_screen.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
 import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
 import 'package:suivi_budget/views/widgets/max_width_container.dart';
@@ -20,8 +21,10 @@ class AccueilScreen extends StatefulWidget {
 
 class _AccueilScreenState extends State<AccueilScreen> {
   late final LocalAuth localAuth = widget.localAuth ?? LocalAuth();
-  bool verificationEnCours = true;
-  bool authentifie = false;
+
+  EtatAuthentification _etat = demarrerAuthentification(
+    contournerVerification: kIsWeb,
+  );
 
   @override
   void initState() {
@@ -30,26 +33,22 @@ class _AccueilScreenState extends State<AccueilScreen> {
   }
 
   Future<void> authentifier() async {
-    final bool resultat = kIsWeb
-        ? true
-        : await localAuth.authenticated(
-            description: "Authentifiez-vous pour continuer",
-          );
+    setState(() {
+      _etat = demarrerAuthentification(contournerVerification: kIsWeb);
+    });
+    if (kIsWeb) {
+      return;
+    }
+    final bool resultat = await localAuth.authenticated(
+      description: "Authentifiez-vous pour continuer",
+    );
     if (!mounted) {
       return;
     }
-    setState(() {
-      authentifie = resultat;
-      verificationEnCours = false;
-    });
+    setState(() => _etat = resultatAuthentification(resultat));
   }
 
-  void reessayer() {
-    setState(() {
-      verificationEnCours = true;
-    });
-    authentifier();
-  }
+  void reessayer() => authentifier();
 
   Widget ecranVerrouille() {
     return Scaffold(
@@ -84,16 +83,7 @@ class _AccueilScreenState extends State<AccueilScreen> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (verificationEnCours) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-    if (!authentifie) {
-      return ecranVerrouille();
-    }
+  Widget ecranPrincipal() {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Styles.couleurbgSecondaire,
@@ -199,5 +189,16 @@ class _AccueilScreenState extends State<AccueilScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (_etat) {
+      EtatAuthentificationVerification() => const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        ),
+      EtatAuthentificationRefusee() => ecranVerrouille(),
+      EtatAuthentificationAccordee() => ecranPrincipal(),
+    };
   }
 }

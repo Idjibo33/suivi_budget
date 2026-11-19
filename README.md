@@ -1,8 +1,8 @@
 # suivi_budget
 
-[![Flutter CI](https://github.com/Idjibo33/suivi_budget/actions/workflows/flutter.yml/badge.svg?branch=local-storage)](https://github.com/Idjibo33/suivi_budget/actions/workflows/flutter.yml)
+[![Flutter CI](https://github.com/Idjibo33/suivi_budget/actions/workflows/flutter.yml/badge.svg?branch=main)](https://github.com/Idjibo33/suivi_budget/actions/workflows/flutter.yml)
 
-**Branch actuelle :** local-storage 
+**Branches :** `main` (production) · `develop` (développement). Une seule version de l'app : 100 % locale, sans backend.
 
 Cette version de l'application privilégie la confidentialité et la rapidité en stockant 100% des données sur l'appareil de l'utilisateur.
 

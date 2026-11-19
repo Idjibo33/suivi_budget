@@ -1,32 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
+import 'package:suivi_budget/providers/database_provider.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/models/helpers/check_solde.dart';
+import 'package:suivi_budget/models/etats/validation_transaction.dart';
 import 'package:suivi_budget/models/helpers/error_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
-import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
-import 'package:suivi_budget/views/Transactions/Depenses/categorie_section.dart';
-import 'package:suivi_budget/views/Transactions/date_transaction_card.dart';
+import 'package:suivi_budget/views/transactions/custom_montant_textfield.dart';
+import 'package:suivi_budget/views/transactions/depenses/categorie_section.dart';
+import 'package:suivi_budget/views/transactions/date_transaction_card.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
 
-class AjouterDepenseView extends StatefulWidget {
-  const AjouterDepenseView({super.key});
+class AjouterRevenuView extends StatefulWidget {
+  const AjouterRevenuView({super.key});
 
   @override
-  State<AjouterDepenseView> createState() => _AjouterDepenseViewState();
+  State<AjouterRevenuView> createState() => _AjouterRevenuViewState();
 }
 
-class _AjouterDepenseViewState extends State<AjouterDepenseView> {
-  //Les controlleurs des champs des textes
-  TextEditingController montantText = TextEditingController();
-  TextEditingController descriptionText = TextEditingController();
-  // Date de la transaction
+class _AjouterRevenuViewState extends State<AjouterRevenuView> {
+  final TextEditingController montantText = TextEditingController();
+  final TextEditingController descriptionText = TextEditingController();
+  String? categorie = "";
   DateTime date = DateTime.now();
-  // La categorie de revenu
-  String categorie = "";
 
   @override
   void dispose() {
@@ -37,7 +34,6 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
 
   @override
   Widget build(BuildContext context) {
-    // le solde du compte
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView(
@@ -50,10 +46,9 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
           ),
           const Gap(8),
           CategorieSection(
-            typeCategorie: "Depense",
-            choixVal: (val) => setState(() {
-              categorie = val!;
-            }),
+            categorieChoisie: categorie,
+            typeCategorie: "Revenu",
+            choixVal: (val) => setState(() => categorie = val),
           ),
           const Gap(12),
           Align(
@@ -74,36 +69,30 @@ class _AjouterDepenseViewState extends State<AjouterDepenseView> {
           ),
           const Gap(8),
           DateTransactionCard(
-            changementDate: (dateChoisie) => date = dateChoisie,
+            date: date,
+            changementDate: (dateChoisie) => setState(() => date = dateChoisie),
           ),
           const Gap(12),
           Consumer<DatabaseProvider>(
             builder: (context, database, child) => CustomFilledButtonWidget(
               texte: "Enregistrer transaction",
               action: () async {
-                final int? montant = int.tryParse(montantText.text.trim());
-                if (montant == null || montant <= 0) {
+                final ResultatValidationMontant resultat =
+                    validerMontant(montantText.text);
+                if (resultat is! MontantValide) {
                   showErrorSnackbar(
                     context,
-                    "Veuillez saisir un montant valide",
+                    (resultat as MontantInvalide).message,
                   );
-                  return;
-                }
-                final checkBalance = balanceAvailable(
-                  database.soldeTotal(),
-                  montant,
-                  context,
-                );
-                if (!checkBalance) {
                   return;
                 }
                 await database.addTransaction(
                   context,
                   transaction: Transaction(
-                    montant: montant,
-                    category: categorie,
+                    montant: resultat.montant,
+                    category: categorie ?? "",
                     description: descriptionText.text.trim(),
-                    type: "Depense",
+                    type: "Revenu",
                     date: date.toString(),
                   ),
                 );

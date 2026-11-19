@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
+import 'package:suivi_budget/providers/database_provider.dart';
 
 import 'fixtures/fakes.dart';
 
@@ -44,6 +44,14 @@ void main() {
 
     expect(provider.listChargement, isFalse);
     expect(provider.listErreur, 'Impossible de charger les transactions');
+  });
+
+  test('erreur du flux : les totaux gardent la dernière liste reçue', () async {
+    await dao.emit([buildTransaction(montant: 1000, type: 'Revenu')]);
+    await dao.emitError(Exception('db error'));
+
+    expect(provider.listErreur, 'Impossible de charger les transactions');
+    expect(provider.soldeTotal(), 1000);
   });
 
   test('liste vide après émission : plus de chargement, pas d\'erreur',

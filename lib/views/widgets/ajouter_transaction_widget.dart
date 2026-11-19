@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/views/Transactions/Depenses/ajouter_depense_view.dart';
-import 'package:suivi_budget/views/Transactions/Revenus/ajouter_revenu_view.dart';
+import 'package:suivi_budget/views/transactions/depenses/ajouter_depense_view.dart';
+import 'package:suivi_budget/views/transactions/revenus/ajouter_revenu_view.dart';
 
 class AjouterTransaction extends StatefulWidget {
   const AjouterTransaction({super.key});

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:suivi_budget/Services/Local%20Auth/local_auth.dart';
-import 'package:suivi_budget/Services/database/transaction_dao.dart';
+import 'package:suivi_budget/services/local_auth.dart';
+import 'package:suivi_budget/services/database/transaction_dao.dart';
 import 'package:suivi_budget/models/transaction.dart';
 
 class FakeTransactionDao implements TransactionDao {

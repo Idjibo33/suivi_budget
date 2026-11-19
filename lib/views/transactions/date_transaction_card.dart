@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:suivi_budget/constants.dart';
 
-class DateTransactionCard extends StatefulWidget {
-  final Function(DateTime) changementDate;
-  const DateTransactionCard({super.key, required this.changementDate});
+/// La date choisie appartient au formulaire parent : ce widget l'affiche
+/// et notifie les changements sans dupliquer l'état.
+class DateTransactionCard extends StatelessWidget {
+  final DateTime date;
+  final ValueChanged<DateTime> changementDate;
 
-  @override
-  State<DateTransactionCard> createState() => _DateTransactionCardState();
-}
-
-class _DateTransactionCardState extends State<DateTransactionCard> {
-  DateTime _dateChoisie = DateTime.now();
+  const DateTransactionCard({
+    super.key,
+    required this.date,
+    required this.changementDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +32,8 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
               ),
             ),
             child: CupertinoDatePicker(
-              initialDateTime: _dateChoisie,
-              onDateTimeChanged: (value) {
-                setState(() {
-                  _dateChoisie = value;
-                });
-                widget.changementDate(_dateChoisie);
-              },
+              initialDateTime: date,
+              onDateTimeChanged: changementDate,
               use24hFormat: true,
             ),
           );
@@ -55,7 +51,7 @@ class _DateTransactionCardState extends State<DateTransactionCard> {
                 const Icon(Icons.date_range),
                 Expanded(
                   child: Text(
-                    "${DateFormat.yMMMMEEEEd('fr_FR').format(_dateChoisie)} à ${DateFormat.Hm().format(_dateChoisie)}",
+                    "${DateFormat.yMMMMEEEEd('fr_FR').format(date)} à ${DateFormat.Hm().format(date)}",
                     style: Styles.texteTitre.copyWith(fontSize: 12),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

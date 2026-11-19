@@ -14,7 +14,7 @@
 Suivi Budget est une application de gestion budgétaire locale (`lib/Services/database/transaction_database.dart:9`, `floor` + `sqflite`).  
 - Pas de création de compte, pas de serveur, pas de SDK analytics/publicitaire.  
 - Pas de permission `INTERNET` déclarée (`android/app/src/main/AndroidManifest.xml`).  
-- Aucun transfert réseau n'est effectué dans la branche `local-storage`.
+- Aucun transfert réseau n'est effectué dans cette version 100 % locale.
 
 ## 2. Données que vous saisissez
 
@@ -94,7 +94,7 @@ Toute mise à jour de cette politique sera publiée dans ce fichier avec nouvell
 
 ### English Summary (for Play Console reviewers)
 
-**Suivi Budget is fully offline.** All budget data (amount, category, description, type, date) is stored locally with `Floor/sqflite` and never sent to any server. No account, no internet permission, no analytics, no ads, no Firebase in `local-storage` branch. Only optional `USE_BIOMETRIC` for local authentication. Data stays on device until user deletes it or uninstalls the app.
+**Suivi Budget is fully offline.** All budget data (amount, category, description, type, date) is stored locally with `Floor/sqflite` and never sent to any server. No account, no internet permission, no analytics, no ads, no backend. Only optional `USE_BIOMETRIC` for local authentication. Data stays on device until user deletes it or uninstalls the app.
 
 ---
 

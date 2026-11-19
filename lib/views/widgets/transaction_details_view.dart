@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
-import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/providers/database_provider.dart';
+import 'package:suivi_budget/providers/modifier_transaction_view_provider.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/etats/etat_detail_transaction.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/widgets/custom_text_button_widget.dart';
 import 'package:suivi_budget/views/widgets/modifier_transaction.dart';
@@ -13,7 +14,9 @@ class TransactionDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool view = context.watch<ModifierTransactionViewProvider>().showview;
+    final bool enEdition =
+        context.watch<ModifierTransactionViewProvider>().etat ==
+        EtatDetailTransaction.edition;
     //String dateTransaction =
     //  "${DateFormat.yMMMMEEEEd().format(transaction.date)} à ${DateFormat.Hm().format(transaction.date)}";
     return SafeArea(
@@ -92,7 +95,7 @@ class TransactionDetailsView extends StatelessWidget {
                 ),
                 Text(transaction.description, style: Styles.texteTitre),
                 Text("", style: Styles.texteCorps),
-                !view
+                !enEdition
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -108,14 +111,14 @@ class TransactionDetailsView extends StatelessWidget {
                                   );
                                   if (context.mounted) Navigator.pop(context);
                                 },
-                                chargement: false,
+                                chargement: database.chargement,
                               ),
                             ),
                           ),
                           Consumer<ModifierTransactionViewProvider>(
                             builder: (context, value, child) => Expanded(
                               child: FilledButton(
-                                onPressed: () => value.changer(),
+                                onPressed: () => value.afficherEdition(),
                                 child: Text("Modifier"),
                               ),
                             ),
@@ -123,8 +126,8 @@ class TransactionDetailsView extends StatelessWidget {
                         ],
                       )
                     : SizedBox(),
-                view ? Divider() : SizedBox(),
-                view
+                enEdition ? Divider() : SizedBox(),
+                enEdition
                     ? ModifierTransaction(transaction: transaction)
                     : SizedBox(),
               ],

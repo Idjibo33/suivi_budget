@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:suivi_budget/Providers/Database%20provider/database_provider.dart';
-import 'package:suivi_budget/Providers/modification_view_provider.dart/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/providers/database_provider.dart';
+import 'package:suivi_budget/providers/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/models/etats/validation_transaction.dart';
 import 'package:suivi_budget/models/helpers/error_snackbar.dart';
 import 'package:suivi_budget/models/transaction.dart';
-import 'package:suivi_budget/views/Transactions/custom_montant_textfield.dart';
-import 'package:suivi_budget/views/Transactions/date_transaction_card.dart';
+import 'package:suivi_budget/views/transactions/custom_montant_textfield.dart';
+import 'package:suivi_budget/views/transactions/date_transaction_card.dart';
 import 'package:suivi_budget/views/widgets/custom_filled_button_widget.dart';
 import 'package:suivi_budget/views/widgets/custom_textfield_widget.dart';
 
@@ -18,9 +19,8 @@ class ModifierTransaction extends StatefulWidget {
 }
 
 class _ModifierTransactionState extends State<ModifierTransaction> {
-  //Les controlleurs des champs des textes pour modifier
-  TextEditingController montantText = TextEditingController();
-  TextEditingController descriptionText = TextEditingController();
+  final TextEditingController montantText = TextEditingController();
+  final TextEditingController descriptionText = TextEditingController();
 
   late DateTime date =
       DateTime.tryParse(widget.transaction.date) ?? DateTime.now();
@@ -45,7 +45,6 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
       spacing: 8,
       children: [
         CustomMontantTextfield(montantController: montantText),
-
         CustomTextfieldWidget(
           label: "Description",
           typeInput: TextInputType.text,
@@ -53,7 +52,8 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
           icone: Icons.text_fields_rounded,
         ),
         DateTransactionCard(
-          changementDate: (dateChoisie) => date = dateChoisie,
+          date: date,
+          changementDate: (dateChoisie) => setState(() => date = dateChoisie),
         ),
         Consumer2<ModifierTransactionViewProvider, DatabaseProvider>(
           builder: (context, view, database, child) => Row(
@@ -61,7 +61,7 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
             children: [
               Expanded(
                 child: TextButton(
-                  onPressed: () => view.changer(),
+                  onPressed: () => view.afficherConsultation(),
                   child: const Text("Annuler"),
                 ),
               ),
@@ -69,11 +69,12 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
                 child: CustomFilledButtonWidget(
                   texte: "Enregistrer",
                   action: () async {
-                    final int? montant = int.tryParse(montantText.text.trim());
-                    if (montant == null || montant <= 0) {
+                    final ResultatValidationMontant resultat =
+                        validerMontant(montantText.text);
+                    if (resultat is! MontantValide) {
                       showErrorSnackbar(
                         context,
-                        "Veuillez saisir un montant valide",
+                        (resultat as MontantInvalide).message,
                       );
                       return;
                     }
@@ -81,14 +82,14 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
                       context,
                       transaction: Transaction(
                         id: widget.transaction.id,
-                        montant: montant,
+                        montant: resultat.montant,
                         category: widget.transaction.category,
                         description: descriptionText.text.trim(),
                         type: widget.transaction.type,
                         date: date.toString(),
                       ),
                     );
-                    view.changer();
+                    view.afficherConsultation();
                   },
                   chargement: database.chargement,
                 ),
