@@ -5,7 +5,7 @@
 - `main` = production, `develop` = développement : une seule version de l'app (100 % locale, Floor/SQLite), présente sur les deux branches. Créer les branches de travail depuis `develop` ; les PR destinées à la prod visent `main`.
 - Les anciennes branches backend (`backend-firebase`, `backend-supabase`, `feature/navigators`) et les branches de travail obsolètes ont été supprimées localement et sur `origin`. Ne pas les recréer : le projet n'a plus de version cloud.
 - Ne pas pusher, merger ou déployer sans accord explicite.
-- **Action manuelle hors dépôt :** la production branch Vercel doit être alignée sur `main` dans le dashboard (elle pointait sur l'ancienne branche `local-storage`, désormais supprimée). Tant que ce réglage n'est pas changé, le déploiement échouera.
+- **Déploiement :** projet Vercel `suivi-budget-local` (scope `idjibo33s-projects`), Production Branch = `main`, vérifié avec `vercel project inspect suivi-budget-local`.
 - Repo, UI et commentaires en français : répondre en français, commits Conventional Commits en français (cf. historique).
 
 ## Architecture
