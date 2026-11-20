@@ -1,3 +1,5 @@
+import 'package:suivi_budget/models/helpers/format_montant.dart';
+
 /// Résultat d'une validation de montant : valide ou invalide avec message.
 sealed class ResultatValidationMontant {
   const ResultatValidationMontant();
@@ -23,7 +25,7 @@ ResultatValidationMontant validerMontant(
   String saisie, {
   int? soldeDisponible,
 }) {
-  final int? montant = int.tryParse(saisie.trim());
+  final int? montant = FormatMontant.lire(saisie.trim());
   if (montant == null || montant <= 0) {
     return const MontantInvalide(messageMontantInvalide);
   }

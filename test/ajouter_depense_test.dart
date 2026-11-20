@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:suivi_budget/models/helpers/format_montant.dart';
 import 'package:suivi_budget/providers/database_provider.dart';
 import 'package:suivi_budget/views/transactions/depenses/ajouter_depense_view.dart';
 
@@ -77,6 +78,33 @@ void main() {
     expect(dao.added, hasLength(1));
     expect(dao.added.single.montant, 5000);
     expect(dao.added.single.type, 'Depense');
+
+    await tester.pump(const Duration(seconds: 4));
+  });
+
+  testWidgets('un montant suggéré remplit le champ et est enregistré',
+      (tester) async {
+    final FakeTransactionDao dao = FakeTransactionDao();
+    addTearDown(dao.close);
+
+    await pumpDepense(tester, dao);
+    await dao.emit([buildTransaction(montant: 50000, type: 'Revenu')]);
+    await tester.pump();
+
+    await tester.tap(find.text(FormatMontant.afficher(10000)));
+    await tester.pump();
+
+    final TextField champ = tester.widget<TextField>(
+      find.byType(TextField).first,
+    );
+    expect(champ.controller?.text, FormatMontant.pourSaisie(10000));
+
+    await tester.tap(find.text('Enregistrer transaction'));
+    await tester.pump();
+    await tester.pump();
+
+    expect(dao.added, hasLength(1));
+    expect(dao.added.single.montant, 10000);
 
     await tester.pump(const Duration(seconds: 4));
   });

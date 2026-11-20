@@ -10,11 +10,13 @@ import 'package:suivi_budget/models/transaction.dart';
 
 void main() {
   group('EtatAuthentification', () {
-    test('le web entre directement dans l’état accordé', () {
-      expect(
-        demarrerAuthentification(contournerVerification: true),
-        isA<EtatAuthentificationAccordee>(),
+    test('le web entre directement dans l’état ignoré', () {
+      final EtatAuthentification etat = demarrerAuthentification(
+        contournerVerification: true,
       );
+      expect(etat, isA<EtatAuthentificationIgnoree>());
+      expect(etat.accueilAccessible, isTrue);
+      expect(etat.authentifie, isFalse);
     });
 
     test('le natif vérifie puis applique le résultat', () {
@@ -26,6 +28,17 @@ void main() {
       expect(resultatAuthentification(false), isA<EtatAuthentificationRefusee>());
     });
 
+    test('la biométrie indisponible ignore la vérification', () {
+      expect(
+        resultatDisponibiliteBiometrie(false),
+        isA<EtatAuthentificationIgnoree>(),
+      );
+      expect(
+        resultatDisponibiliteBiometrie(true),
+        isA<EtatAuthentificationVerification>(),
+      );
+    });
+
     test('les alias booléens restent cohérents', () {
       expect(
         demarrerAuthentification(contournerVerification: false).enVerification,
@@ -33,6 +46,8 @@ void main() {
       );
       expect(resultatAuthentification(true).authentifie, isTrue);
       expect(resultatAuthentification(false).authentifie, isFalse);
+      expect(resultatAuthentification(false).accueilAccessible, isFalse);
+      expect(resultatDisponibiliteBiometrie(false).accueilAccessible, isTrue);
     });
   });
 
@@ -150,6 +165,12 @@ void main() {
     test('accepte un montant sans contrôle de solde', () {
       final ResultatValidationMontant resultat = validerMontant('2500');
       expect((resultat as MontantValide).montant, 2500);
+    });
+
+    test('accepte un montant formaté issu d’un choix rapide', () {
+      final ResultatValidationMontant resultat = validerMontant('10\u202F000');
+      expect(resultat, isA<MontantValide>());
+      expect((resultat as MontantValide).montant, 10000);
     });
   });
 }

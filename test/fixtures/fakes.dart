@@ -43,16 +43,24 @@ class FakeTransactionDao implements TransactionDao {
 }
 
 class FakeLocalAuth extends LocalAuth {
-  FakeLocalAuth({this.result = true});
+  FakeLocalAuth({this.result = true, this.estDisponible = false});
 
   bool result;
+  bool estDisponible;
   int authenticationCalls = 0;
+  int disponibiliteCalls = 0;
 
   @override
-  Future<bool> checkLocalAuthAvailable() async => result;
+  Future<bool> estUtilisable() async {
+    disponibiliteCalls++;
+    return estDisponible;
+  }
 
   @override
-  Future<bool> authenticated({required String description}) async {
+  Future<bool> authenticated({
+    required String description,
+    bool verifierDisponibilite = true,
+  }) async {
     authenticationCalls++;
     return result;
   }

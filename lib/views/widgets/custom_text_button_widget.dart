@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
 
 class CustomTextButtonWidget extends StatelessWidget {
   final Color? couleurTexte;
@@ -19,13 +18,11 @@ class CustomTextButtonWidget extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: TextButton(
+        style: couleurTexte == null
+            ? null
+            : TextButton.styleFrom(foregroundColor: couleurTexte),
         onPressed: chargement ? null : action,
-        child: chargement
-            ? Text("Patientez")
-            : Text(
-                texte,
-                style: Styles.texteTitre.copyWith(color: couleurTexte),
-              ),
+        child: Text(chargement ? "Patientez" : texte),
       ),
     );
   }

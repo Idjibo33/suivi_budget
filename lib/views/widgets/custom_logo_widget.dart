@@ -15,11 +15,15 @@ class CustomLogoWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Styles.couleurbgSecondaire,
+        color: Styles.surfaceSecondaire(context),
       ),
       child: Padding(
         padding: EdgeInsets.all(padding),
-        child: Icon(Icons.wallet, size: size, color: Styles.couleurRevenu),
+        child: Icon(
+          Icons.wallet_outlined,
+          size: size,
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }
