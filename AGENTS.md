@@ -14,6 +14,7 @@
 - `lib/services/` : authentification locale et accès aux données (`lib/services/database/`).
 - `lib/models/etats/` : machines à états explicites (voir règle plus bas).
 - `lib/views/` : écrans (`accueil/`, `authentification/`, `profil/`, `transactions/`) et composants partagés (`widgets/`).
+- `lib/constants.dart` : source unique de la palette et des thèmes (`AppTheme.clair`, `AppTheme.sombre`, `Styles`). Design volontairement limité au noir, blanc et teal ; ne pas introduire de vert/rouge (le signe `+`/`-` et l'icône portent le sens des montants).
 - Tous les dossiers sont en `snake_case` minuscule, sans espace : importer avec `package:suivi_budget/...`.
 
 ## Vérification (ordre de la CI, `.github/workflows/flutter.yml`)

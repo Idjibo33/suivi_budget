@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/categorie_card.dart';
 
@@ -15,38 +16,47 @@ class CategorieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme couleurs = Theme.of(context).colorScheme;
+    final Color accent = choisie ? couleurs.primary : couleurs.onSurfaceVariant;
+
     return SizedBox(
-      width: 90,
+      width: 92,
       child: Tooltip(
         message: card.titre,
-        child: GestureDetector(
+        child: InkWell(
           onTap: () => catChoisie(card.titre),
-          child: Card(
-            shadowColor: card.type == "Revenu"
-                ? Styles.couleurRevenu
-                : Styles.couleurDepense,
-            elevation: choisie ? 4 : 0,
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.money_outlined,
-                    color: card.type == "Revenu"
-                        ? Styles.couleurRevenu
-                        : Styles.couleurDepense,
-                  ),
-                  Text(
-                    card.titre,
-                    style: Styles.texteCorps.copyWith(
-                      color: card.type == "Revenu"
-                          ? Styles.couleurRevenu
-                          : Styles.couleurDepense,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+            decoration: BoxDecoration(
+              color: choisie
+                  ? couleurs.primaryContainer
+                  : Styles.surfaceSecondaire(context),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: choisie ? couleurs.primary : Colors.transparent,
               ),
+            ),
+            child: Column(
+              children: [
+                Icon(
+                  card.type == "Revenu"
+                      ? Icons.arrow_upward
+                      : Icons.arrow_downward,
+                  size: 20,
+                  color: accent,
+                ),
+                const Gap(4),
+                Text(
+                  card.titre,
+                  style: Styles.texteCorps.copyWith(
+                    fontSize: 11,
+                    color: accent,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
           ),
         ),
