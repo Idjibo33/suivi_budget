@@ -22,6 +22,9 @@ jobs:
       # les warnings bloquants, sans faire échouer la CI sur ces infos.
       - run: flutter analyze --no-fatal-infos
       - run: flutter test
+      # sqflite_common_ffi_web télécharge un wasm figé (2.4.6) incompatible avec
+      # la version de sqlite3 résolue : on régénère des binaires cohérents.
+      - run: python3 scripts/setup_web_sqlite.py
       - run: flutter build web --release
 
   # La saveur est déduite de la branche poussée : main → prod, develop → dev.
@@ -128,6 +131,8 @@ jobs:
           cache: true
       - name: Identifiant court
         run: echo "SHORT_SHA=$(echo '${{ github.sha }}' | cut -c1-7)" >> "$GITHUB_ENV"
+      - name: Prépare les binaires SQLite Web
+        run: python3 scripts/setup_web_sqlite.py
       - name: Build Web
         shell: bash
         run: |
