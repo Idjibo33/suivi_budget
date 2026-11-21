@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/providers/database_provider.dart';
@@ -26,7 +25,6 @@ Future<void> pumpListe(WidgetTester tester, FakeTransactionDao dao) async {
 
 void main() {
   setUpAll(() async {
-    GoogleFonts.config.allowRuntimeFetching = false;
     await initializeDateFormatting('fr_FR');
   });
 

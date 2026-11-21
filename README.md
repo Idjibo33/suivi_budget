@@ -33,7 +33,15 @@ Un push sur `main` ou `develop` déclenche le workflow GitHub Actions qui :
 2. Construit les artifacts pour chaque plateforme avec le flavor déduit de la branche.
 3. Déploie le Web sur GitHub Pages : racine pour `main`, `/dev/` pour `develop` (les fichiers existants sont conservés).
 
-Le numéro de build est fourni par `github.run_number` ; la version applicative reste `1.0.0`.
+Le numéro de build est fourni par `github.run_number` : la version effective est `1.0.0+<numéro du run>`. Les artifacts sont conservés 14 jours.
+
+### Identité visuelle
+
+Le logo, la police **Poppins** (licence OFL dans `assets/fonts/`) et les icônes de toutes les plateformes dérivent d'une seule marque géométrique. `scripts/generate_brand_assets.py` (Pillow) les régénère à l'identique ; les fichiers sont versionnés, la CI n'a rien à générer.
+
+### Stockage Web
+
+`scripts/setup_web_sqlite.py` aligne `sqlite3.wasm` et le worker `sqflite_sw.js` sur la version de `sqlite3` résolue dans `pubspec.lock`. La CI l'exécute avant chaque build Web ; en local, le relancer après toute mise à jour de `sqlite3`.
 
 ## Fonctionnalités
 
