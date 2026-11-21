@@ -17,6 +17,7 @@ void main() {
     );
 
     expect(find.text('Profil'), findsOneWidget);
+    expect(find.text('MyBudget'), findsOneWidget);
     expect(find.text('Apparence'), findsOneWidget);
     expect(find.text('Système'), findsOneWidget);
     expect(find.text('Clair'), findsOneWidget);

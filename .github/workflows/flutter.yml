@@ -17,9 +17,204 @@ jobs:
           cache: true
       - run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev
       - run: flutter pub get
-      # Avec Flutter 3.50, flutter analyze émet ~57 infos deprecated_member_use
+      # Avec Flutter 3.50, flutter analyze émet des infos deprecated_member_use
       # venant du SDK lui-même et sort avec le code 1. On garde les erreurs et
       # les warnings bloquants, sans faire échouer la CI sur ces infos.
       - run: flutter analyze --no-fatal-infos
       - run: flutter test
       - run: flutter build web --release
+
+  # La saveur est déduite de la branche poussée : main → prod, develop → dev.
+  # Les jobs de release ne tournent que sur push (jamais sur PR).
+  release-android:
+    if: github.event_name == 'push'
+    needs: analyze-test-build
+    runs-on: ubuntu-latest
+    env:
+      FLAVOR: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Identifiant court
+        run: echo "SHORT_SHA=$(echo '${{ github.sha }}' | cut -c1-7)" >> "$GITHUB_ENV"
+      - name: Restaure le keystore de release
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          test -n "$ANDROID_KEYSTORE_BASE64" || { echo "Secret ANDROID_KEYSTORE_BASE64 manquant"; exit 1; }
+          test -n "$ANDROID_KEYSTORE_PASSWORD" || { echo "Secret ANDROID_KEYSTORE_PASSWORD manquant"; exit 1; }
+          test -n "$ANDROID_KEY_ALIAS" || { echo "Secret ANDROID_KEY_ALIAS manquant"; exit 1; }
+          test -n "$ANDROID_KEY_PASSWORD" || { echo "Secret ANDROID_KEY_PASSWORD manquant"; exit 1; }
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/mybudget-release.jks"
+          echo "ANDROID_KEYSTORE_FILE=$RUNNER_TEMP/mybudget-release.jks" >> "$GITHUB_ENV"
+          echo "ANDROID_KEYSTORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD" >> "$GITHUB_ENV"
+          echo "ANDROID_KEY_ALIAS=$ANDROID_KEY_ALIAS" >> "$GITHUB_ENV"
+          echo "ANDROID_KEY_PASSWORD=$ANDROID_KEY_PASSWORD" >> "$GITHUB_ENV"
+      - name: Build Android (AAB prod / APK dev)
+        shell: bash
+        run: |
+          if [ "$FLAVOR" = "prod" ]; then
+            flutter build appbundle --release --flavor prod \
+              --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=prod
+          else
+            flutter build apk --release --flavor dev \
+              --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=dev
+          fi
+      - name: Upload Android
+        uses: actions/upload-artifact@v4
+        with:
+          name: mybudget-${{ env.FLAVOR }}-android-${{ env.SHORT_SHA }}
+          path: |
+            build/app/outputs/bundle/prodRelease/*.aab
+            build/app/outputs/flutter-apk/app-dev-release.apk
+          if-no-files-found: error
+
+  release-ios:
+    if: github.event_name == 'push'
+    needs: analyze-test-build
+    runs-on: macos-latest
+    env:
+      FLAVOR: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Identifiant court
+        run: echo "SHORT_SHA=$(echo '${{ github.sha }}' | cut -c1-7)" >> "$GITHUB_ENV"
+      - name: Build iOS simulateur (non signé)
+        run: |
+          flutter build ios --release --simulator --no-codesign \
+            --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR="$FLAVOR"
+      - name: Ajuste l'identité du .app pour le flavor dev
+        if: env.FLAVOR == 'dev'
+        run: |
+          PLIST="build/ios/iphonesimulator/Runner.app/Info.plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName MyBudget Dev" "$PLIST"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleName MyBudget Dev" "$PLIST"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.mybudget.app.dev" "$PLIST"
+      - name: Archive le .app
+        run: |
+          cd build/ios/iphonesimulator
+          zip -q -r "$GITHUB_WORKSPACE/mybudget-${FLAVOR}-ios-simulator-${SHORT_SHA}.zip" Runner.app
+      - name: Upload iOS
+        uses: actions/upload-artifact@v4
+        with:
+          name: mybudget-${{ env.FLAVOR }}-ios-simulator-${{ env.SHORT_SHA }}
+          path: mybudget-*-ios-simulator-*.zip
+          if-no-files-found: error
+
+  release-web:
+    if: github.event_name == 'push'
+    needs: analyze-test-build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      FLAVOR: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Identifiant court
+        run: echo "SHORT_SHA=$(echo '${{ github.sha }}' | cut -c1-7)" >> "$GITHUB_ENV"
+      - name: Build Web
+        shell: bash
+        run: |
+          if [ "$FLAVOR" = "prod" ]; then
+            flutter build web --release --base-href=/suivi_budget/ \
+              --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=prod
+          else
+            flutter build web --release --base-href=/suivi_budget/dev/ \
+              --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=dev
+            python3 scripts/patch_web_dev.py build/web
+          fi
+          cp PRIVACY.md build/web/PRIVACY.md
+      - name: Upload Web
+        uses: actions/upload-artifact@v4
+        with:
+          name: mybudget-${{ env.FLAVOR }}-web-${{ env.SHORT_SHA }}
+          path: build/web/**
+          if-no-files-found: error
+      - name: Déploie sur GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: build/web
+          destination_dir: ${{ env.FLAVOR == 'dev' && 'dev' || '' }}
+          keep_files: true
+
+  release-linux:
+    if: github.event_name == 'push'
+    needs: analyze-test-build
+    runs-on: ubuntu-latest
+    env:
+      FLAVOR: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Dépendances Linux
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build libgtk-3-dev pkg-config libsqlite3-dev
+      - name: Identifiant court
+        run: echo "SHORT_SHA=$(echo '${{ github.sha }}' | cut -c1-7)" >> "$GITHUB_ENV"
+      - name: Build Linux
+        run: |
+          flutter build linux --release \
+            --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR="$FLAVOR"
+      - name: Archive Linux
+        run: |
+          cd build/linux/x64/release
+          tar -czf "$GITHUB_WORKSPACE/mybudget-${FLAVOR}-linux-${SHORT_SHA}.tar.gz" bundle
+      - name: Upload Linux
+        uses: actions/upload-artifact@v4
+        with:
+          name: mybudget-${{ env.FLAVOR }}-linux-${{ env.SHORT_SHA }}
+          path: mybudget-*-linux-*.tar.gz
+          if-no-files-found: error
+
+  release-windows:
+    if: github.event_name == 'push'
+    needs: analyze-test-build
+    runs-on: windows-latest
+    env:
+      FLAVOR: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Identifiant court
+        shell: pwsh
+        run: |
+          $short = "${{ github.sha }}".Substring(0, 7)
+          "SHORT_SHA=$short" >> $env:GITHUB_ENV
+      - name: Build Windows
+        shell: pwsh
+        run: |
+          flutter build windows --release --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=$env:FLAVOR
+      - name: Archive Windows
+        shell: pwsh
+        run: |
+          Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath "mybudget-$env:FLAVOR-windows-$env:SHORT_SHA.zip"
+      - name: Upload Windows
+        uses: actions/upload-artifact@v4
+        with:
+          name: mybudget-${{ env.FLAVOR }}-windows-${{ env.SHORT_SHA }}
+          path: mybudget-*-windows-*.zip
+          if-no-files-found: error

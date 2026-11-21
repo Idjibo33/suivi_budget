@@ -1,17 +1,17 @@
-# Politique de Confidentialité — Suivi Budget
+# Politique de Confidentialité — MyBudget
 
 **Dernière mise à jour : 17 septembre 2026**  
-**Application : Suivi Budget** (`com.suivibudget.app`) — version 1.0.0  
-**Éditeur : Suivi Budget (Ismaël)**  
-**Contact : djiboismaelzeno@gmail.com — remplacez par votre email support avant publication Play Store**
+**Application : MyBudget** (`com.mybudget.app`) — version 1.0.0  
+**Éditeur : MyBudget (Ismaël)**  
+**Contact : djiboismaelzeno@gmail.com**
 
-> **Résumé en une phrase :** Suivi Budget fonctionne **100% hors-ligne**. Aucune donnée n'est collectée, transmise ou stockée sur un serveur. Tout reste sur votre appareil.
+> **Résumé en une phrase :** MyBudget fonctionne **100% hors-ligne**. Aucune donnée n'est collectée, transmise ou stockée sur un serveur. Tout reste sur votre appareil.
 
 ---
 
 ## 1. Principe — Offline-first
 
-Suivi Budget est une application de gestion budgétaire locale (`lib/Services/database/transaction_database.dart:9`, `floor` + `sqflite`).  
+MyBudget est une application de gestion budgétaire locale (`lib/Services/database/transaction_database.dart:9`, `floor` + `sqflite`).  
 - Pas de création de compte, pas de serveur, pas de SDK analytics/publicitaire.  
 - Pas de permission `INTERNET` déclarée (`android/app/src/main/AndroidManifest.xml`).  
 - Aucun transfert réseau n'est effectué dans cette version 100 % locale.
@@ -72,7 +72,7 @@ Le fichier `android/app/google-services.json` présent historiquement sur `main`
 Puisque aucune donnée n'est transmise à l'éditeur, les droits d'accès/suppression s'exercent **localement** sur l'appareil :
 - Consulter : liste `Transactions récents` (`lib/views/widgets/list_transactions_widgets.dart`)
 - Supprimer : swipe → Supprimer ou détail → Supprimer
-- Tout effacer : Paramètres Android > Applications > Suivi Budget > Effacer les données
+- Tout effacer : Paramètres Android > Applications > MyBudget > Effacer les données
 
 Pour toute question RGPD : contactez l'email ci-dessus. Réponse sous 30 jours.
 
@@ -86,7 +86,7 @@ Toute mise à jour de cette politique sera publiée dans ce fichier avec nouvell
 
 ## 11. Contact & Responsable
 
-**Responsable de traitement :** Ismaël — Éditeur Suivi Budget  
+**Responsable de traitement :** Ismaël — Éditeur MyBudget  
 **Email :** `ismael@[votre-domaine].com`  
 **Adresse postale :** [À compléter avant publication — requis Play Console > Fiche > Coordonnées]
 
@@ -94,20 +94,19 @@ Toute mise à jour de cette politique sera publiée dans ce fichier avec nouvell
 
 ### English Summary (for Play Console reviewers)
 
-**Suivi Budget is fully offline.** All budget data (amount, category, description, type, date) is stored locally with `Floor/sqflite` and never sent to any server. No account, no internet permission, no analytics, no ads, no backend. Only optional `USE_BIOMETRIC` for local authentication. Data stays on device until user deletes it or uninstalls the app.
+**MyBudget is fully offline.** All budget data (amount, category, description, type, date) is stored locally with `Floor/sqflite` and never sent to any server. No account, no internet permission, no analytics, no ads, no backend. Only optional `USE_BIOMETRIC` for local authentication. Data stays on device until user deletes it or uninstalls the app.
 
 ---
 
 ### Hébergement requis Play Store
 
 Play Console exige une **URL publique** pour cette politique. Hébergez ce fichier tel quel sur :
-- GitHub Pages (ex: `https://[username].github.io/suivi_budget/PRIVACY.html`)
-- ou votre site `https://suivibudget.app/privacy`
+- GitHub Pages : `https://idjibo33.github.io/suivi_budget/PRIVACY.md`
 
 Puis coller l'URL dans **Play Console > Fiche Play Store > Politique de confidentialité**.
 
 ### Checklist avant envoi
 
-- [ ] Remplacer `ismael@[votre-domaine].com` et adresse
-- [ ] Vérifier `com.suivibudget.app` (`android/app/build.gradle.kts:18`)
+- [x] Identité `com.mybudget.app` (`android/app/build.gradle.kts`)
+- [x] Contact renseigné
 - [ ] Conserver ce fichier en UTF-8, ne pas renommer après soumission URL

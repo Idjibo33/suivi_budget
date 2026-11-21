@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:gap/gap.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/helpers/format_montant.dart';
+import 'package:suivi_budget/models/helpers/responsive.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/widgets/transaction_details_view.dart';
 
@@ -18,6 +19,29 @@ class TransactionCard extends StatelessWidget {
     return DateFormat('dd/MM/yyyy', 'fr_FR').format(dateTime);
   }
 
+  void ouvrirDetails(BuildContext context) {
+    final Widget details = TransactionDetailsView(transaction: transaction);
+
+    if (Responsive.estGrandEcran(context)) {
+      showDialog(
+        context: context,
+        builder: (context) => Dialog(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: details,
+          ),
+        ),
+      );
+      return;
+    }
+
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => details,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool estRevenu = transaction.type == "Revenu";
@@ -26,11 +50,7 @@ class TransactionCard extends StatelessWidget {
         : Styles.couleurDepense(context);
 
     return InkWell(
-      onTap: () => showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (context) => TransactionDetailsView(transaction: transaction),
-      ),
+      onTap: () => ouvrirDetails(context),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         decoration: BoxDecoration(
