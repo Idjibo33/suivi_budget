@@ -1,7 +1,7 @@
 name: suivi_budget
-description: "A new Flutter project."
+description: "MyBudget — gestion de budget personnelle, 100 % locale et hors ligne."
 publish_to: 'none'
-version: 0.1.0
+version: 1.0.0+1
 
 environment:
   sdk: ^3.10.0
@@ -21,14 +21,15 @@ dependencies:
   skeletonizer: ^2.1.3
   top_snackbar_flutter: ^3.3.0
   sqflite: ^2.4.2
+  # Nécessaires au runtime desktop (Linux/Windows) via sqflite_common_ffi.
+  sqflite_common_ffi: ^2.4.0
+  sqlite3: ^3.1.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
   build_runner: ^2.4.13
   floor_generator: ^1.5.0
-  sqflite_common_ffi: ^2.4.0
-  sqlite3: ^3.1.6
 
 
 flutter:

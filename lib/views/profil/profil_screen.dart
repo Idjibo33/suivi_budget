@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/etats/etat_theme.dart';
+import 'package:suivi_budget/models/etats/saveur_application.dart';
 import 'package:suivi_budget/providers/theme_provider.dart';
 import 'package:suivi_budget/views/widgets/head_text_widget.dart';
 
@@ -104,7 +105,7 @@ class ProfilScreen extends StatelessWidget {
             const Gap(24),
             Center(
               child: Text(
-                'Suivi budget',
+                saveurApplication.nomAffiche,
                 style: Styles.texteCorps.copyWith(
                   color: Styles.texteSecondaire(context),
                 ),

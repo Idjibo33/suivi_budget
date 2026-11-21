@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 <key>NSFaceIDUsageDescription</key>
-<string>My app needs Face Id to ensure security for the app</string>
+<string>MyBudget utilise Face ID pour protéger l’accès à vos données locales.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Suivi Budget</string>
+	<string>MyBudget</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>suivi_budget</string>
+	<string>MyBudget</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

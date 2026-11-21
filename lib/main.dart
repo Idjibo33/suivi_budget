@@ -9,7 +9,7 @@ import 'package:suivi_budget/providers/theme_provider.dart';
 import 'package:suivi_budget/services/database/database_factory.dart';
 import 'package:suivi_budget/services/database/transaction_database.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/views/accueil/accueil_screen.dart';
+import 'package:suivi_budget/views/widgets/responsive_shell.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +50,7 @@ class MainApp extends StatelessWidget {
       darkTheme: AppTheme.sombre,
       themeMode: themeMode,
       debugShowCheckedModeBanner: false,
-      home: const AccueilScreen(),
+      home: const ResponsiveShell(),
     );
   }
 }

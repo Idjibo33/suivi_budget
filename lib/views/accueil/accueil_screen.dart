@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:suivi_budget/services/local_auth.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/etats/etat_authentification.dart';
+import 'package:suivi_budget/models/etats/saveur_application.dart';
 import 'package:suivi_budget/models/navigation/naviguer_ajouter_transaction_page.dart';
 import 'package:suivi_budget/views/profil/profil_screen.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
@@ -15,7 +16,10 @@ class AccueilScreen extends StatefulWidget {
   /// Injectable pour les tests ; l'application utilise la biométrie réelle.
   final LocalAuth? localAuth;
 
-  const AccueilScreen({super.key, this.localAuth});
+  /// Clé optionnelle pour ouvrir le profil depuis la navigation responsive.
+  final GlobalKey<ScaffoldState>? scaffoldKey;
+
+  const AccueilScreen({super.key, this.localAuth, this.scaffoldKey});
 
   @override
   State<AccueilScreen> createState() => _AccueilScreenState();
@@ -98,13 +102,15 @@ class _AccueilScreenState extends State<AccueilScreen> {
   }
 
   Widget ecranPrincipal(BuildContext context) {
+    final double largeurEcran = MediaQuery.sizeOf(context).width;
     return Scaffold(
+      key: widget.scaffoldKey,
       floatingActionButton: FloatingActionButton(
         onPressed: () => naviguerAjouterTransactionPage(context),
         child: const Icon(Icons.add),
       ),
       drawer: Drawer(
-        width: double.infinity,
+        width: largeurEcran < 600 ? double.infinity : 420.0,
         child: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
           child: ProfilScreen(),
@@ -127,7 +133,7 @@ class _AccueilScreenState extends State<AccueilScreen> {
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Suivi budget",
+                          saveurApplication.nomAffiche,
                           style: Styles.texteEnTete,
                         ),
                       ),

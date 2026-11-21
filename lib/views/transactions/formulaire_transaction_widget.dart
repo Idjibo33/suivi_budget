@@ -82,50 +82,62 @@ class _FormulaireTransactionWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DatabaseProvider>(
-      builder: (context, database, child) {
-        return ListView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
-          children: [
-            libelle('MONTANT'),
-            const Gap(8),
-            CustomMontantTextfield(montantController: montantText),
-            const Gap(12),
-            libelle('MONTANTS FRÉQUENTS'),
-            const Gap(8),
-            MontantsSuggeresWidget(controleur: montantText),
-            const Gap(24),
-            libelle('CATÉGORIE'),
-            const Gap(8),
-            CategorieSection(
-              categorieChoisie: categorie,
-              typeCategorie: widget.type,
-              choixVal: (val) => setState(() => categorie = val),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double largeur = constraints.maxWidth < 720
+            ? constraints.maxWidth
+            : 720.0;
+        return Center(
+          child: SizedBox(
+            width: largeur,
+            child: Consumer<DatabaseProvider>(
+              builder: (context, database, child) {
+                return ListView(
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+                  children: [
+                    libelle('MONTANT'),
+                    const Gap(8),
+                    CustomMontantTextfield(montantController: montantText),
+                    const Gap(12),
+                    libelle('MONTANTS FRÉQUENTS'),
+                    const Gap(8),
+                    MontantsSuggeresWidget(controleur: montantText),
+                    const Gap(24),
+                    libelle('CATÉGORIE'),
+                    const Gap(8),
+                    CategorieSection(
+                      categorieChoisie: categorie,
+                      typeCategorie: widget.type,
+                      choixVal: (val) => setState(() => categorie = val),
+                    ),
+                    const Gap(24),
+                    libelle('DESCRIPTION'),
+                    const Gap(8),
+                    CustomTextfieldWidget(
+                      icone: Icons.text_fields_outlined,
+                      label: "Ajouter une description",
+                      typeInput: TextInputType.text,
+                      controlleurChamp: descriptionText,
+                    ),
+                    const Gap(24),
+                    libelle('DATE'),
+                    const Gap(8),
+                    DateTransactionCard(
+                      date: date,
+                      changementDate: (dateChoisie) =>
+                          setState(() => date = dateChoisie),
+                    ),
+                    const Gap(28),
+                    CustomFilledButtonWidget(
+                      texte: "Enregistrer transaction",
+                      action: () => enregistrer(database),
+                      chargement: database.chargement,
+                    ),
+                  ],
+                );
+              },
             ),
-            const Gap(24),
-            libelle('DESCRIPTION'),
-            const Gap(8),
-            CustomTextfieldWidget(
-              icone: Icons.text_fields_outlined,
-              label: "Ajouter une description",
-              typeInput: TextInputType.text,
-              controlleurChamp: descriptionText,
-            ),
-            const Gap(24),
-            libelle('DATE'),
-            const Gap(8),
-            DateTransactionCard(
-              date: date,
-              changementDate: (dateChoisie) =>
-                  setState(() => date = dateChoisie),
-            ),
-            const Gap(28),
-            CustomFilledButtonWidget(
-              texte: "Enregistrer transaction",
-              action: () => enregistrer(database),
-              chargement: database.chargement,
-            ),
-          ],
+          ),
         );
       },
     );

@@ -1,12 +1,12 @@
 {
-    "name": "suivi_budget",
-    "short_name": "suivi_budget",
+    "name": "MyBudget",
+    "short_name": "MyBudget",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "background_color": "#FFFFFF",
+    "theme_color": "#00796B",
+    "description": "MyBudget — gestion de budget personnelle, 100 % locale et hors ligne.",
+    "orientation": "any",
     "prefer_related_applications": false,
     "icons": [
         {

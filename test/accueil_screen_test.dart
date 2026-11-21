@@ -52,7 +52,7 @@ void main() {
 
     await pumpAccueil(tester, dao: dao, auth: auth);
 
-    expect(find.text('Suivi budget'), findsOneWidget);
+    expect(find.text('MyBudget'), findsOneWidget);
     expect(find.text('Transactions récents'), findsOneWidget);
     expect(find.text('Authentification requise'), findsNothing);
     expect(find.text('Réessayer'), findsNothing);
@@ -70,7 +70,7 @@ void main() {
 
     await pumpAccueil(tester, dao: dao, auth: auth);
 
-    expect(find.text('Suivi budget'), findsOneWidget);
+    expect(find.text('MyBudget'), findsOneWidget);
     expect(find.text('Authentification requise'), findsNothing);
     expect(auth.disponibiliteCalls, 1);
     expect(auth.authenticationCalls, 1);
@@ -89,7 +89,7 @@ void main() {
 
     expect(find.text('Authentification requise'), findsOneWidget);
     expect(find.text('Réessayer'), findsOneWidget);
-    expect(find.text('Suivi budget'), findsNothing);
+    expect(find.text('MyBudget'), findsNothing);
     expect(auth.authenticationCalls, 1);
   });
 
@@ -110,7 +110,7 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    expect(find.text('Suivi budget'), findsOneWidget);
+    expect(find.text('MyBudget'), findsOneWidget);
     expect(find.text('Authentification requise'), findsNothing);
     expect(auth.authenticationCalls, 2);
   });
