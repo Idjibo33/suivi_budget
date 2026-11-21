@@ -62,12 +62,16 @@ jobs:
       - name: Build Android (AAB prod / APK dev)
         shell: bash
         run: |
+          # Les symboles sont retirés du binaire et archivés à part pour
+          # pouvoir symboliser les stack traces avec `flutter symbolize`.
           if [ "$FLAVOR" = "prod" ]; then
             flutter build appbundle --release --flavor prod \
-              --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=prod
+              --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=prod \
+              --obfuscate --split-debug-info="$GITHUB_WORKSPACE/symbols/android-$FLAVOR"
           else
             flutter build apk --release --flavor dev \
-              --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=dev
+              --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=dev \
+              --obfuscate --split-debug-info="$GITHUB_WORKSPACE/symbols/android-$FLAVOR"
           fi
       - name: Upload Android
         uses: actions/upload-artifact@v7
@@ -76,6 +80,13 @@ jobs:
           path: |
             build/app/outputs/bundle/prodRelease/*.aab
             build/app/outputs/flutter-apk/app-dev-release.apk
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload symboles Android
+        uses: actions/upload-artifact@v7
+        with:
+          name: mybudget-${{ env.FLAVOR }}-android-symbols-${{ env.SHORT_SHA }}
+          path: symbols/android-${{ env.FLAVOR }}/
           if-no-files-found: error
           retention-days: 14
 
@@ -148,6 +159,15 @@ jobs:
             python3 scripts/patch_web_dev.py build/web
           fi
           cp PRIVACY.md build/web/PRIVACY.md
+          # Flutter copie toujours canvaskit/ dans build/web, mais avec le CDN
+          # actif (défaut) l'app charge ces fichiers depuis gstatic.com. On les
+          # retire pour ne pas publier ~37 Mo inutilisés. Le service worker ne
+          # les pré-cache pas ; on garde le dossier si le CDN n'est pas utilisé.
+          if grep -q "gstatic.com" build/web/flutter_bootstrap.js; then
+            rm -rf build/web/canvaskit
+          else
+            echo "CDN non détecté : canvaskit conservé"
+          fi
       - name: Upload Web
         uses: actions/upload-artifact@v7
         with:
@@ -185,7 +205,8 @@ jobs:
       - name: Build Linux
         run: |
           flutter build linux --release \
-            --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR="$FLAVOR"
+            --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR="$FLAVOR" \
+            --obfuscate --split-debug-info="$GITHUB_WORKSPACE/symbols/linux-$FLAVOR"
       - name: Archive Linux
         run: |
           cd build/linux/x64/release
@@ -195,6 +216,13 @@ jobs:
         with:
           name: mybudget-${{ env.FLAVOR }}-linux-${{ env.SHORT_SHA }}
           path: mybudget-*-linux-*.tar.gz
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload symboles Linux
+        uses: actions/upload-artifact@v7
+        with:
+          name: mybudget-${{ env.FLAVOR }}-linux-symbols-${{ env.SHORT_SHA }}
+          path: symbols/linux-${{ env.FLAVOR }}/
           if-no-files-found: error
           retention-days: 14
 
@@ -218,7 +246,9 @@ jobs:
       - name: Build Windows
         shell: pwsh
         run: |
-          flutter build windows --release --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=$env:FLAVOR
+          $symbols = Join-Path $env:GITHUB_WORKSPACE "symbols\windows-$env:FLAVOR"
+          flutter build windows --release --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=$env:FLAVOR `
+            --obfuscate --split-debug-info="$symbols"
       - name: Archive Windows
         shell: pwsh
         run: |
@@ -228,5 +258,12 @@ jobs:
         with:
           name: mybudget-${{ env.FLAVOR }}-windows-${{ env.SHORT_SHA }}
           path: mybudget-*-windows-*.zip
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload symboles Windows
+        uses: actions/upload-artifact@v7
+        with:
+          name: mybudget-${{ env.FLAVOR }}-windows-symbols-${{ env.SHORT_SHA }}
+          path: symbols/windows-${{ env.FLAVOR }}/
           if-no-files-found: error
           retention-days: 14
