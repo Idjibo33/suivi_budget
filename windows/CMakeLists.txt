@@ -32,6 +32,11 @@ set(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS_RELEASE}")
 # Use Unicode for all projects.
 add_definitions(-DUNICODE -D_UNICODE)
 
+# MSVC 14.5x (VS 2025) traite l'en-tête <experimental/coroutine> comme une
+# erreur (STL1011) ; le plugin local_auth_windows l'inclut encore. La define
+# ci-dessous s'applique aussi aux plugins, inclus plus bas dans ce fichier.
+add_definitions(-D_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS)
+
 # Compilation settings that should be applied to most targets.
 #
 # Be cautious about adding new options here, as plugins use this function by

@@ -91,7 +91,8 @@ jobs:
         run: echo "SHORT_SHA=$(echo '${{ github.sha }}' | cut -c1-7)" >> "$GITHUB_ENV"
       - name: Build iOS simulateur (non signé)
         run: |
-          flutter build ios --release --simulator --no-codesign \
+          # Le mode release n'est pas supporté pour les simulateurs iOS.
+          flutter build ios --simulator --no-codesign \
             --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR="$FLAVOR"
       - name: Ajuste l'identité du .app pour le flavor dev
         if: env.FLAVOR == 'dev'
