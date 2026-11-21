@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
 
+/// Marque MyBudget : glyphe blanc sur un disque teal.
+///
+/// Le fichier est généré par `scripts/generate_brand_assets.py` et embarqué
+/// dans l'application : aucun téléchargement au runtime, y compris sur le web.
 class CustomLogoWidget extends StatelessWidget {
   final double padding;
   final double size;
+
   const CustomLogoWidget({
     super.key,
     required this.padding,
@@ -13,16 +18,18 @@ class CustomLogoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        color: Styles.surfaceSecondaire(context),
+        color: AppCouleurs.teal,
       ),
       child: Padding(
         padding: EdgeInsets.all(padding),
-        child: Icon(
-          Icons.wallet_outlined,
-          size: size,
-          color: Theme.of(context).colorScheme.primary,
+        child: Image.asset(
+          'assets/images/logo_foreground.png',
+          width: size,
+          height: size,
+          fit: BoxFit.contain,
+          excludeFromSemantics: true,
         ),
       ),
     );

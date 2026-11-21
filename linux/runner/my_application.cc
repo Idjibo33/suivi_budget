@@ -1,5 +1,8 @@
 #include "my_application.h"
 
+#include <limits.h>
+#include <unistd.h>
+
 #include <flutter_linux/flutter_linux.h>
 
 #include "flutter/generated_plugin_registrant.h"
@@ -33,7 +36,24 @@ static void my_application_activate(GApplication* application) {
   // gtk_header_bar_set_show_close_button(header_bar, TRUE);
   // gtk_window_set_titlebar(window, GTK_WIDGET(header_bar));
 
-  gtk_window_set_title(window, "suivi_budget");
+  gtk_window_set_title(window, "MyBudget");
+
+  // L'icône est installée dans le bundle relocalisable (data/icons/...). On
+  // résout le chemin depuis l'exécutable pour rester indépendant du répertoire
+  // courant de lancement.
+  char executable[PATH_MAX];
+  const ssize_t longueur =
+      readlink("/proc/self/exe", executable, sizeof(executable) - 1);
+  if (longueur > 0) {
+    executable[longueur] = '\0';
+    g_autofree gchar* dossier = g_path_get_dirname(executable);
+    g_autofree gchar* icone = g_build_filename(
+        dossier, "data", "icons", "hicolor", "512x512", "apps",
+        "com.mybudget.app.png", nullptr);
+    if (g_file_test(icone, G_FILE_TEST_EXISTS)) {
+      gtk_window_set_icon_from_file(window, icone, nullptr);
+    }
+  }
 
   g_autoptr(FlDartProject) project = fl_dart_project_new();
   fl_dart_project_set_dart_entrypoint_arguments(

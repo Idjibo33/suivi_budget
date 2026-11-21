@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=MyBudget
+GenericName=Budget personnel
+Comment=Gestion de budget personnelle, 100 % locale et hors ligne
+Exec=my_budget
+Icon=com.mybudget.app
+Terminal=false
+Categories=Office;Finance;
+StartupWMClass=com.mybudget.app
+Keywords=budget;finance;depenses;revenus;
