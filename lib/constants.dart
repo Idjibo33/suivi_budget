@@ -110,7 +110,7 @@ abstract final class AppTheme {
           fontSize: 12,
           color: scheme.onSurface,
         ),
-      ),
+      ).apply(fontFamily: Styles.police),
       appBarTheme: AppBarTheme(
         backgroundColor: scheme.surface,
         foregroundColor: scheme.onSurface,
@@ -204,23 +204,31 @@ abstract final class AppTheme {
 /// Styles typographiques partagés. Les couleurs ne sont pas figées ici :
 /// elles viennent du [Theme] courant pour fonctionner en clair comme en sombre.
 abstract final class Styles {
-  // Police système : aucun téléchargement au runtime, rendu identique
-  // dans les tests, le web et les applications natives.
+  /// Police embarquée : aucun téléchargement au runtime, rendu identique
+  /// dans les tests, le web et les applications natives.
+  static const String police = 'Poppins';
+
   static const TextStyle texteEnTete = TextStyle(
+    fontFamily: police,
     fontSize: 22,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.6,
   );
 
   static const TextStyle texteTitre = TextStyle(
+    fontFamily: police,
     fontSize: 16,
     fontWeight: FontWeight.w600,
     letterSpacing: -0.2,
   );
 
-  static const TextStyle texteCorps = TextStyle(fontSize: 14);
+  static const TextStyle texteCorps = TextStyle(
+    fontFamily: police,
+    fontSize: 14,
+  );
 
   static const TextStyle texteMontant = TextStyle(
+    fontFamily: police,
     fontSize: 36,
     fontWeight: FontWeight.w700,
     letterSpacing: -1.5,
@@ -228,6 +236,7 @@ abstract final class Styles {
   );
 
   static const TextStyle texteMontantCompact = TextStyle(
+    fontFamily: police,
     fontSize: 18,
     fontWeight: FontWeight.w700,
     fontFeatures: [FontFeature.tabularFigures()],

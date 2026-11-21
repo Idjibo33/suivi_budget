@@ -121,6 +121,15 @@ install(CODE "
 install(DIRECTORY "${PROJECT_BUILD_DIR}/${FLUTTER_ASSET_DIR_NAME}"
   DESTINATION "${INSTALL_BUNDLE_DATA_DIR}" COMPONENT Runtime)
 
+# Identité MyBudget : icône hicolor et lanceur desktop du bundle.
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/runner/resources/icons/hicolor/512x512/apps/com.mybudget.app.png"
+  DESTINATION "${INSTALL_BUNDLE_DATA_DIR}/icons/hicolor/512x512/apps"
+  COMPONENT Runtime)
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/runner/com.mybudget.app.desktop"
+  DESTINATION "${INSTALL_BUNDLE_DATA_DIR}/applications"
+  COMPONENT Runtime)
+
 # Install the AOT library on non-Debug builds only.
 if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
   install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"

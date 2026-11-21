@@ -22,6 +22,9 @@ jobs:
       # les warnings bloquants, sans faire échouer la CI sur ces infos.
       - run: flutter analyze --no-fatal-infos
       - run: flutter test
+      # sqflite_common_ffi_web télécharge un wasm figé (2.4.6) incompatible avec
+      # la version de sqlite3 résolue : on régénère des binaires cohérents.
+      - run: python3 scripts/setup_web_sqlite.py
       - run: flutter build web --release
 
   # La saveur est déduite de la branche poussée : main → prod, develop → dev.
@@ -74,6 +77,7 @@ jobs:
             build/app/outputs/bundle/prodRelease/*.aab
             build/app/outputs/flutter-apk/app-dev-release.apk
           if-no-files-found: error
+          retention-days: 14
 
   release-ios:
     if: github.event_name == 'push'
@@ -111,6 +115,7 @@ jobs:
           name: mybudget-${{ env.FLAVOR }}-ios-simulator-${{ env.SHORT_SHA }}
           path: mybudget-*-ios-simulator-*.zip
           if-no-files-found: error
+          retention-days: 14
 
   release-web:
     if: github.event_name == 'push'
@@ -126,8 +131,11 @@ jobs:
         with:
           channel: stable
           cache: true
+      - run: flutter pub get
       - name: Identifiant court
         run: echo "SHORT_SHA=$(echo '${{ github.sha }}' | cut -c1-7)" >> "$GITHUB_ENV"
+      - name: Prépare les binaires SQLite Web
+        run: python3 scripts/setup_web_sqlite.py
       - name: Build Web
         shell: bash
         run: |
@@ -146,6 +154,7 @@ jobs:
           name: mybudget-${{ env.FLAVOR }}-web-${{ env.SHORT_SHA }}
           path: build/web/**
           if-no-files-found: error
+          retention-days: 14
       - name: Déploie sur GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -187,6 +196,7 @@ jobs:
           name: mybudget-${{ env.FLAVOR }}-linux-${{ env.SHORT_SHA }}
           path: mybudget-*-linux-*.tar.gz
           if-no-files-found: error
+          retention-days: 14
 
   release-windows:
     if: github.event_name == 'push'
@@ -219,3 +229,4 @@ jobs:
           name: mybudget-${{ env.FLAVOR }}-windows-${{ env.SHORT_SHA }}
           path: mybudget-*-windows-*.zip
           if-no-files-found: error
+          retention-days: 14
