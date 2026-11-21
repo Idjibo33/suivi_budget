@@ -5,7 +5,7 @@
 - `main` = production, `develop` = développement : une seule version de l'app (100 % locale, Floor/SQLite), présente sur les deux branches. Créer les branches de travail depuis `develop` ; les PR destinées à la prod visent `main`.
 - Les anciennes branches backend (`backend-firebase`, `backend-supabase`, `feature/navigators`) et les branches de travail obsolètes ont été supprimées localement et sur `origin`. Ne pas les recréer : le projet n'a plus de version cloud.
 - Ne pas pusher, merger ou déployer sans accord explicite.
-- **Déploiement :** projet Vercel `suivi-budget-local` (scope `idjibo33s-projects`), Production Branch = `main`, vérifié avec `vercel project inspect suivi-budget-local`. L'Ignore Command ne déclenche un build que sur `main` : `if [ "$VERCEL_GIT_COMMIT_REF" == "main" ]; then exit 1; else exit 0; fi` (exit 0 = ignorer le build).
+- **Déploiement :** GitHub Pages, source `gh-pages` (branche poussée séparément). Prod : `https://idjibo33.github.io/suivi_budget/` (push `main`) ; dev : `https://idjibo33.github.io/suivi_budget/dev/` (push `develop`). Déploiement assuré par `.github/workflows/flutter.yml` via `peaceiris/actions-gh-pages@v4` avec `keep_files: true`. Vercel est déconnecté du dépôt (projet conservé mais plus de lien Git).
 - Repo, UI et commentaires en français : répondre en français, commits Conventional Commits en français (cf. historique).
 
 ## Architecture
@@ -14,6 +14,7 @@
 - `lib/services/` : authentification locale et accès aux données (`lib/services/database/`).
 - `lib/models/etats/` : machines à états explicites (voir règle plus bas).
 - `lib/views/` : écrans (`accueil/`, `authentification/`, `profil/`, `transactions/`) et composants partagés (`widgets/`).
+- `lib/constants.dart` : source unique de la palette et des thèmes (`AppTheme.clair`, `AppTheme.sombre`, `Styles`). Design volontairement limité au noir, blanc et teal ; ne pas introduire de vert/rouge (le signe `+`/`-` et l'icône portent le sens des montants).
 - Tous les dossiers sont en `snake_case` minuscule, sans espace : importer avec `package:suivi_budget/...`.
 
 ## Vérification (ordre de la CI, `.github/workflows/flutter.yml`)

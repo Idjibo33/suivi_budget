@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
 
 class CustomFilledButtonWidget extends StatelessWidget {
   final Color? couleur;
@@ -19,11 +18,11 @@ class CustomFilledButtonWidget extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: FilledButton(
-        style: FilledButton.styleFrom(backgroundColor: couleur),
+        style: couleur == null
+            ? null
+            : FilledButton.styleFrom(backgroundColor: couleur),
         onPressed: chargement ? null : action,
-        child: chargement
-            ? Text("Patientez")
-            : Text(texte, style: Styles.texteTitre),
+        child: Text(chargement ? "Patientez" : texte),
       ),
     );
   }

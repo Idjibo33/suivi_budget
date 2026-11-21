@@ -4,6 +4,7 @@ import 'package:suivi_budget/providers/database_provider.dart';
 import 'package:suivi_budget/providers/modifier_transaction_view_provider.dart';
 import 'package:suivi_budget/models/etats/validation_transaction.dart';
 import 'package:suivi_budget/models/helpers/error_snackbar.dart';
+import 'package:suivi_budget/models/helpers/format_montant.dart';
 import 'package:suivi_budget/models/transaction.dart';
 import 'package:suivi_budget/views/transactions/custom_montant_textfield.dart';
 import 'package:suivi_budget/views/transactions/date_transaction_card.dart';
@@ -28,7 +29,7 @@ class _ModifierTransactionState extends State<ModifierTransaction> {
   @override
   void initState() {
     super.initState();
-    montantText.text = widget.transaction.montant.toString();
+    montantText.text = FormatMontant.pourSaisie(widget.transaction.montant);
     descriptionText.text = widget.transaction.description;
   }
 

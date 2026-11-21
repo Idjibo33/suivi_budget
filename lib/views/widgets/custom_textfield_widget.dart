@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
 
 class CustomTextfieldWidget extends StatelessWidget {
   final IconData icone;
@@ -20,14 +19,8 @@ class CustomTextfieldWidget extends StatelessWidget {
       keyboardType: typeInput,
       controller: controlleurChamp,
       decoration: InputDecoration(
-        prefixIcon: Icon(icone),
-        label: Text(label, style: Styles.texteCorps),
-        border: UnderlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        filled: true,
-        fillColor: Styles.couleurbgSecondaire,
+        prefixIcon: Icon(icone, size: 20),
+        labelText: label,
       ),
     );
   }

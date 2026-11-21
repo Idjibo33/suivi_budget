@@ -7,6 +7,10 @@ void main() {
     expect(await LocalAuth().checkLocalAuthAvailable(), isFalse);
   });
 
+  test('estUtilisable retourne false sans binding initialisé', () async {
+    expect(await LocalAuth().estUtilisable(), isFalse);
+  });
+
   test('authenticated retourne false quand la biométrie est indisponible',
       () async {
     expect(await LocalAuth().authenticated(description: 'test'), isFalse);

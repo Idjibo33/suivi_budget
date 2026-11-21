@@ -5,10 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:suivi_budget/providers/auth_provider.dart';
 import 'package:suivi_budget/providers/database_provider.dart';
 import 'package:suivi_budget/providers/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/providers/theme_provider.dart';
 import 'package:suivi_budget/services/database/database_factory.dart';
 import 'package:suivi_budget/services/database/transaction_database.dart';
 import 'package:suivi_budget/constants.dart';
-import 'package:suivi_budget/views/accueil/accueil_screen.dart';
+import 'package:suivi_budget/views/widgets/responsive_shell.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,7 @@ Future<void> main() async {
           create: (context) => ModifierTransactionViewProvider(),
         ),
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(
           create: (context) =>
               DatabaseProvider(database: database)..listenTransactions(),
@@ -41,12 +43,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeMode themeMode = context.watch<ThemeProvider>().themeMode;
+
     return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Styles.couleurRevenu),
-      ),
+      theme: AppTheme.clair,
+      darkTheme: AppTheme.sombre,
+      themeMode: themeMode,
       debugShowCheckedModeBanner: false,
-      home: const AccueilScreen(),
+      home: const ResponsiveShell(),
     );
   }
 }

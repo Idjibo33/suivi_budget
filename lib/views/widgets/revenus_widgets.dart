@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:suivi_budget/constants.dart';
+import 'package:suivi_budget/models/helpers/format_montant.dart';
 
 class RevenusWidgets extends StatelessWidget {
   final bool chargement;
@@ -13,21 +14,30 @@ class RevenusWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Revenus", style: Styles.texteCorps),
-          Skeletonizer(
-            enabled: chargement,
-            containersColor: Colors.grey,
-            child: Text(
-              "${totalRevenus.toString()} F CFA",
-              style: Styles.texteTitre.copyWith(color: Styles.couleurRevenu),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Revenus",
+          style: Styles.texteCorps.copyWith(
+            color: Styles.texteSecondaire(context),
+          ),
+        ),
+        Skeletonizer(
+          enabled: chargement,
+          containersColor: Styles.surfaceSecondaire(context),
+          child: Text(
+            FormatMontant.afficherAvecSigne(
+              totalRevenus,
+              estRevenu: true,
+              devise: false,
+            ),
+            style: Styles.texteMontantCompact.copyWith(
+              color: Styles.couleurRevenu(context),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:suivi_budget/constants.dart';
+import 'package:gap/gap.dart';
+import 'package:suivi_budget/models/etats/etat_onglet_transaction.dart';
 import 'package:suivi_budget/views/transactions/depenses/ajouter_depense_view.dart';
 import 'package:suivi_budget/views/transactions/revenus/ajouter_revenu_view.dart';
 
+/// Formulaire d'ajout avec deux onglets explicites.
+///
+/// L'ancien `TabController` provoquait une assertion lors d'un changement de
+/// thème pendant la reconstruction du `TabBarView`. Un état simple et un
+/// `switch` exhaustif évitent toute animation de contrôleur.
 class AjouterTransaction extends StatefulWidget {
   const AjouterTransaction({super.key});
 
@@ -11,32 +17,55 @@ class AjouterTransaction extends StatefulWidget {
 }
 
 class _AjouterTransactionState extends State<AjouterTransaction> {
-  // le controlleur du champ d'entrée du montant
-  final TextEditingController montanttexte = TextEditingController();
-  @override
-  void dispose() {
-    montanttexte.dispose();
-    super.dispose();
+  EtatOngletTransaction _onglet = EtatOngletTransaction.revenu;
+
+  /// Transition nommée : un choix identique ne reconstruit pas l'écran.
+  void choisirOnglet(EtatOngletTransaction nouvelOnglet) {
+    if (nouvelOnglet == _onglet) {
+      return;
+    }
+    setState(() => _onglet = nouvelOnglet);
   }
+
+  Widget vueSelectionnee() => switch (_onglet) {
+    EtatOngletTransaction.revenu => const AjouterRevenuView(),
+    EtatOngletTransaction.depense => const AjouterDepenseView(),
+  };
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Ajouter une transaction"),
-          centerTitle: true,
-          bottom: TabBar(
-            unselectedLabelStyle: Styles.texteCorps,
-            tabs: [
-              Text("Revenu", style: Styles.texteTitre),
-              Text("Dépense", style: Styles.texteTitre),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [const AjouterRevenuView(), const AjouterDepenseView()],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Ajouter une transaction"),
+        centerTitle: true,
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: SegmentedButton<EtatOngletTransaction>(
+                  showSelectedIcon: false,
+                  segments: [
+                    for (final EtatOngletTransaction onglet
+                        in EtatOngletTransaction.values)
+                      ButtonSegment<EtatOngletTransaction>(
+                        value: onglet,
+                        label: Text(onglet.libelle),
+                        icon: Icon(onglet.icone, size: 18),
+                      ),
+                  ],
+                  selected: {_onglet},
+                  onSelectionChanged: (Set<EtatOngletTransaction> selection) =>
+                      choisirOnglet(selection.first),
+                ),
+              ),
+            ),
+            const Gap(4),
+            Expanded(child: vueSelectionnee()),
+          ],
         ),
       ),
     );

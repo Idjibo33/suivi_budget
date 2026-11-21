@@ -12,7 +12,7 @@ import 'fixtures/fakes.dart';
 Future<void> pumpAccueil(
   WidgetTester tester, {
   required FakeTransactionDao dao,
-  required FakeLocalAuth auth,
+  FakeLocalAuth? auth,
   Size size = const Size(390, 844),
   double textScale = 1.0,
 }) async {
@@ -35,6 +35,7 @@ Future<void> pumpAccueil(
   );
   await tester.pump();
   await tester.pump();
+  await tester.pump();
 }
 
 void main() {
@@ -43,28 +44,75 @@ void main() {
     await initializeDateFormatting('fr_FR');
   });
 
-  testWidgets('affiche le budget quand l\'authentification réussit',
+  testWidgets('ouvre le budget sans vérifier quand la biométrie est indisponible',
       (tester) async {
     final FakeTransactionDao dao = FakeTransactionDao();
     addTearDown(dao.close);
+    final FakeLocalAuth auth = FakeLocalAuth(estDisponible: false);
 
-    await pumpAccueil(tester, dao: dao, auth: FakeLocalAuth(result: true));
+    await pumpAccueil(tester, dao: dao, auth: auth);
 
-    expect(find.text('Suivi budget'), findsOneWidget);
+    expect(find.text('MyBudget'), findsOneWidget);
     expect(find.text('Transactions récents'), findsOneWidget);
     expect(find.text('Authentification requise'), findsNothing);
+    expect(find.text('Réessayer'), findsNothing);
+    expect(auth.disponibiliteCalls, 1);
+    expect(auth.authenticationCalls, 0);
   });
 
-  testWidgets('affiche l\'écran verrouillé quand l\'authentification échoue',
+  testWidgets('affiche le budget quand l’empreinte est validée', (tester) async {
+    final FakeTransactionDao dao = FakeTransactionDao();
+    addTearDown(dao.close);
+    final FakeLocalAuth auth = FakeLocalAuth(
+      estDisponible: true,
+      result: true,
+    );
+
+    await pumpAccueil(tester, dao: dao, auth: auth);
+
+    expect(find.text('MyBudget'), findsOneWidget);
+    expect(find.text('Authentification requise'), findsNothing);
+    expect(auth.disponibiliteCalls, 1);
+    expect(auth.authenticationCalls, 1);
+  });
+
+  testWidgets('affiche l’écran verrouillé quand l’empreinte est refusée',
       (tester) async {
     final FakeTransactionDao dao = FakeTransactionDao();
     addTearDown(dao.close);
+    final FakeLocalAuth auth = FakeLocalAuth(
+      estDisponible: true,
+      result: false,
+    );
 
-    await pumpAccueil(tester, dao: dao, auth: FakeLocalAuth(result: false));
+    await pumpAccueil(tester, dao: dao, auth: auth);
 
     expect(find.text('Authentification requise'), findsOneWidget);
     expect(find.text('Réessayer'), findsOneWidget);
-    expect(find.text('Suivi budget'), findsNothing);
+    expect(find.text('MyBudget'), findsNothing);
+    expect(auth.authenticationCalls, 1);
+  });
+
+  testWidgets('réessayer après un refus rouvre le budget', (tester) async {
+    final FakeTransactionDao dao = FakeTransactionDao();
+    addTearDown(dao.close);
+    final FakeLocalAuth auth = FakeLocalAuth(
+      estDisponible: true,
+      result: false,
+    );
+
+    await pumpAccueil(tester, dao: dao, auth: auth);
+    expect(find.text('Authentification requise'), findsOneWidget);
+
+    auth.result = true;
+    await tester.tap(find.text('Réessayer'));
+    await tester.pump();
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('MyBudget'), findsOneWidget);
+    expect(find.text('Authentification requise'), findsNothing);
+    expect(auth.authenticationCalls, 2);
   });
 
   testWidgets('contenu borné à 600 px et centré sur grand écran',
@@ -75,7 +123,7 @@ void main() {
     await pumpAccueil(
       tester,
       dao: dao,
-      auth: FakeLocalAuth(result: true),
+      auth: FakeLocalAuth(estDisponible: false),
       size: const Size(1440, 900),
     );
 
@@ -92,7 +140,7 @@ void main() {
     await pumpAccueil(
       tester,
       dao: dao,
-      auth: FakeLocalAuth(result: true),
+      auth: FakeLocalAuth(estDisponible: false),
       size: const Size(360, 640),
     );
 
@@ -110,7 +158,7 @@ void main() {
     await pumpAccueil(
       tester,
       dao: dao,
-      auth: FakeLocalAuth(result: true),
+      auth: FakeLocalAuth(estDisponible: false),
       size: const Size(320, 700),
       textScale: 1.3,
     );
@@ -120,29 +168,15 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('réessayer après un refus rouvre le budget', (tester) async {
-    final FakeTransactionDao dao = FakeTransactionDao();
-    addTearDown(dao.close);
-    final FakeLocalAuth auth = FakeLocalAuth(result: false);
-
-    await pumpAccueil(tester, dao: dao, auth: auth);
-    expect(find.text('Authentification requise'), findsOneWidget);
-
-    auth.result = true;
-    await tester.tap(find.text('Réessayer'));
-    await tester.pump();
-    await tester.pump();
-
-    expect(find.text('Suivi budget'), findsOneWidget);
-    expect(find.text('Authentification requise'), findsNothing);
-    expect(auth.authenticationCalls, 2);
-  });
-
   testWidgets('le solde se masque avec la bonne icône', (tester) async {
     final FakeTransactionDao dao = FakeTransactionDao();
     addTearDown(dao.close);
 
-    await pumpAccueil(tester, dao: dao, auth: FakeLocalAuth(result: true));
+    await pumpAccueil(
+      tester,
+      dao: dao,
+      auth: FakeLocalAuth(estDisponible: false),
+    );
 
     expect(find.byIcon(Icons.visibility_off), findsOneWidget);
     await tester.tap(find.byIcon(Icons.visibility_off));

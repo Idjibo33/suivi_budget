@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:suivi_budget/services/local_auth.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/etats/etat_authentification.dart';
+import 'package:suivi_budget/models/etats/saveur_application.dart';
 import 'package:suivi_budget/models/navigation/naviguer_ajouter_transaction_page.dart';
 import 'package:suivi_budget/views/profil/profil_screen.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
@@ -12,8 +13,13 @@ import 'package:suivi_budget/views/widgets/max_width_container.dart';
 import 'package:suivi_budget/views/widgets/solde_widget.dart';
 
 class AccueilScreen extends StatefulWidget {
+  /// Injectable pour les tests ; l'application utilise la biométrie réelle.
   final LocalAuth? localAuth;
-  const AccueilScreen({super.key, this.localAuth});
+
+  /// Clé optionnelle pour ouvrir le profil depuis la navigation responsive.
+  final GlobalKey<ScaffoldState>? scaffoldKey;
+
+  const AccueilScreen({super.key, this.localAuth, this.scaffoldKey});
 
   @override
   State<AccueilScreen> createState() => _AccueilScreenState();
@@ -29,18 +35,30 @@ class _AccueilScreenState extends State<AccueilScreen> {
   @override
   void initState() {
     super.initState();
-    authentifier();
+    verifierDisponibilite();
   }
 
-  Future<void> authentifier() async {
-    setState(() {
-      _etat = demarrerAuthentification(contournerVerification: kIsWeb);
-    });
+  /// Ouvre l'accueil directement si l'appareil ne peut pas authentifier.
+  Future<void> verifierDisponibilite() async {
     if (kIsWeb) {
       return;
     }
+    final bool disponible = await localAuth.estUtilisable();
+    if (!mounted) {
+      return;
+    }
+    if (!disponible) {
+      setState(() => _etat = resultatDisponibiliteBiometrie(false));
+      return;
+    }
+    await authentifier();
+  }
+
+  Future<void> authentifier() async {
+    setState(() => _etat = const EtatAuthentificationVerification());
     final bool resultat = await localAuth.authenticated(
       description: "Authentifiez-vous pour continuer",
+      verifierDisponibilite: false,
     );
     if (!mounted) {
       return;
@@ -48,9 +66,10 @@ class _AccueilScreenState extends State<AccueilScreen> {
     setState(() => _etat = resultatAuthentification(resultat));
   }
 
-  void reessayer() => authentifier();
+  void reessayer() => verifierDisponibilite();
 
   Widget ecranVerrouille() {
+    final ColorScheme couleurs = Theme.of(context).colorScheme;
     return Scaffold(
       body: Center(
         child: Padding(
@@ -58,24 +77,23 @@ class _AccueilScreenState extends State<AccueilScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.lock_outline, size: 48),
-              const Gap(16),
+              Icon(Icons.lock_outline, size: 40, color: couleurs.primary),
+              const Gap(20),
               Text(
                 "Authentification requise",
-                style: Styles.texteTitre,
+                style: Styles.texteEnTete,
                 textAlign: TextAlign.center,
               ),
               const Gap(8),
               Text(
                 "Impossible de vérifier votre identité sur cet appareil.",
-                style: Styles.texteCorps,
+                style: Styles.texteCorps.copyWith(
+                  color: Styles.texteSecondaire(context),
+                ),
                 textAlign: TextAlign.center,
               ),
-              const Gap(16),
-              FilledButton(
-                onPressed: reessayer,
-                child: const Text("Réessayer"),
-              ),
+              const Gap(24),
+              FilledButton(onPressed: reessayer, child: const Text("Réessayer")),
             ],
           ),
         ),
@@ -83,18 +101,16 @@ class _AccueilScreenState extends State<AccueilScreen> {
     );
   }
 
-  Widget ecranPrincipal() {
+  Widget ecranPrincipal(BuildContext context) {
+    final double largeurEcran = MediaQuery.sizeOf(context).width;
     return Scaffold(
+      key: widget.scaffoldKey,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Styles.couleurbgSecondaire,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(30),
-        ),
         onPressed: () => naviguerAjouterTransactionPage(context),
         child: const Icon(Icons.add),
       ),
       drawer: Drawer(
-        width: double.infinity,
+        width: largeurEcran < 600 ? double.infinity : 420.0,
         child: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
           child: ProfilScreen(),
@@ -107,38 +123,28 @@ class _AccueilScreenState extends State<AccueilScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8.0,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    const CustomLogoWidget(padding: 8.0, size: 20),
+                    const Gap(10),
                     Expanded(
-                      child: Row(
-                        children: [
-                          const CustomLogoWidget(padding: 7.0, size: 25),
-                          Expanded(
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Suivi budget",
-                                style: Styles.texteEnTete,
-                              ),
-                            ),
-                          ),
-                        ],
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          saveurApplication.nomAffiche,
+                          style: Styles.texteEnTete,
+                        ),
                       ),
                     ),
                     Builder(
-                      builder: (context) => GestureDetector(
-                        onTap: () {
-                          Scaffold.of(context).openDrawer();
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: Styles.couleurbgSecondaire,
-                          child: const Icon(Icons.person_2_outlined),
+                      builder: (context) => IconButton(
+                        tooltip: 'Profil',
+                        onPressed: () => Scaffold.of(context).openDrawer(),
+                        icon: const Icon(Icons.person_outline),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Styles.surfaceSecondaire(context),
                         ),
                       ),
                     ),
@@ -146,12 +152,12 @@ class _AccueilScreenState extends State<AccueilScreen> {
                 ),
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: SoldeWidget(),
               ),
-              const Gap(12),
+              const Gap(28),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -165,22 +171,17 @@ class _AccueilScreenState extends State<AccueilScreen> {
                         ),
                       ),
                     ),
-                    Flexible(
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text("voir tout", style: Styles.texteTitre),
-                        ),
-                      ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text("voir tout"),
                     ),
                   ],
                 ),
               ),
-              const Expanded(
+              const Gap(4),
+              Expanded(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: ListTransactionsWidgets(),
                 ),
               ),
@@ -198,7 +199,8 @@ class _AccueilScreenState extends State<AccueilScreen> {
           body: Center(child: CircularProgressIndicator()),
         ),
       EtatAuthentificationRefusee() => ecranVerrouille(),
-      EtatAuthentificationAccordee() => ecranPrincipal(),
+      EtatAuthentificationIgnoree() => ecranPrincipal(context),
+      EtatAuthentificationAccordee() => ecranPrincipal(context),
     };
   }
 }
