@@ -10,7 +10,7 @@ jobs:
   analyze-test-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -33,7 +33,7 @@ jobs:
     env:
       FLAVOR: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -67,7 +67,7 @@ jobs:
               --build-number ${{ github.run_number }} --dart-define=APP_FLAVOR=dev
           fi
       - name: Upload Android
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mybudget-${{ env.FLAVOR }}-android-${{ env.SHORT_SHA }}
           path: |
@@ -82,7 +82,7 @@ jobs:
     env:
       FLAVOR: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -106,7 +106,7 @@ jobs:
           cd build/ios/iphonesimulator
           zip -q -r "$GITHUB_WORKSPACE/mybudget-${FLAVOR}-ios-simulator-${SHORT_SHA}.zip" Runner.app
       - name: Upload iOS
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mybudget-${{ env.FLAVOR }}-ios-simulator-${{ env.SHORT_SHA }}
           path: mybudget-*-ios-simulator-*.zip
@@ -121,7 +121,7 @@ jobs:
     env:
       FLAVOR: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -141,7 +141,7 @@ jobs:
           fi
           cp PRIVACY.md build/web/PRIVACY.md
       - name: Upload Web
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mybudget-${{ env.FLAVOR }}-web-${{ env.SHORT_SHA }}
           path: build/web/**
@@ -162,7 +162,7 @@ jobs:
     env:
       FLAVOR: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -182,7 +182,7 @@ jobs:
           cd build/linux/x64/release
           tar -czf "$GITHUB_WORKSPACE/mybudget-${FLAVOR}-linux-${SHORT_SHA}.tar.gz" bundle
       - name: Upload Linux
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mybudget-${{ env.FLAVOR }}-linux-${{ env.SHORT_SHA }}
           path: mybudget-*-linux-*.tar.gz
@@ -195,7 +195,7 @@ jobs:
     env:
       FLAVOR: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -214,7 +214,7 @@ jobs:
         run: |
           Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath "mybudget-$env:FLAVOR-windows-$env:SHORT_SHA.zip"
       - name: Upload Windows
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mybudget-${{ env.FLAVOR }}-windows-${{ env.SHORT_SHA }}
           path: mybudget-*-windows-*.zip
