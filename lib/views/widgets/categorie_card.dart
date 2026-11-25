@@ -44,7 +44,10 @@ class CategorieCard extends StatelessWidget {
                       ? Icons.arrow_upward
                       : Icons.arrow_downward,
                   size: 20,
-                  color: accent,
+                  // La direction de la flèche indique le type de transaction.
+                  color: card.type == "Depense"
+                      ? Styles.couleurDepense(context)
+                      : accent,
                 ),
                 const Gap(4),
                 Text(

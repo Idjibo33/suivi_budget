@@ -1,4 +1,4 @@
-package com.example.suivi_budget
+package com.mybudget.app
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine

@@ -20,10 +20,14 @@ void main() {
 
     await tester.pumpWidget(
       ChangeNotifierProvider(
-        create: (_) => DatabaseProvider(database: dao)..listenTransactions(),
+        create: (_) => DatabaseProvider(database: dao)
+          ..listenTransactions()
+          ..listenDonneesV2(),
         child: const MaterialApp(home: AjouterTransaction()),
       ),
     );
+    await tester.pump();
+    await emitDonneesV2ParDefaut(dao);
     await tester.pump();
   }
 

@@ -38,7 +38,7 @@ void main() {
     await initializeDateFormatting('fr_FR');
   });
 
-  test('le thème clair se limite au noir, blanc et teal', () {
+  test('le thème clair garde des rôles neutres', () {
     final ColorScheme scheme = AppTheme.clair.colorScheme;
 
     expect(scheme.primary, AppCouleurs.teal);

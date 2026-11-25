@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart' hide Transaction;
 import 'package:suivi_budget/services/database/transaction_dao.dart';
 import 'package:suivi_budget/services/database/transaction_database.dart';
+import 'package:suivi_budget/models/budget.dart';
+import 'package:suivi_budget/models/categorie.dart';
 import 'package:suivi_budget/models/transaction.dart';
 
 import 'fixtures/fakes.dart';
@@ -19,6 +21,10 @@ void main() {
     database = await $FloorTransactionDatabase.inMemoryDatabaseBuilder()
         .build();
     dao = database.transactionDao;
+    await dao.addCategorie(
+      Categorie(nom: 'Salaire', type: 'Revenu', famille: 'Revenus'),
+    );
+    await dao.addBudget(Budget(nom: 'Général', alloue: 100000));
   });
 
   tearDown(() async {

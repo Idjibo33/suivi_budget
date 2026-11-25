@@ -22,7 +22,10 @@ dependencies:
   # Nécessaires au runtime desktop (Linux/Windows) via sqflite_common_ffi.
   sqflite_common_ffi: ^2.4.0
   sqlite3: ^3.1.6
+  package_info_plus: ^10.2.2
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0

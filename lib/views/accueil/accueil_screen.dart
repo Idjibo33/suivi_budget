@@ -1,3 +1,4 @@
+import 'package:suivi_budget/models/etats/etat_onglet_transaction.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -6,9 +7,12 @@ import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/etats/etat_authentification.dart';
 import 'package:suivi_budget/models/etats/saveur_application.dart';
 import 'package:suivi_budget/models/navigation/naviguer_ajouter_transaction_page.dart';
+import 'package:suivi_budget/views/accueil/widgets/section_enveloppes.dart';
+import 'package:suivi_budget/views/budgets/budgets_screen.dart';
 import 'package:suivi_budget/views/profil/profil_screen.dart';
 import 'package:suivi_budget/views/widgets/custom_logo_widget.dart';
 import 'package:suivi_budget/views/widgets/list_transactions_widgets.dart';
+import 'package:suivi_budget/views/widgets/liste_transactions_sheet.dart';
 import 'package:suivi_budget/views/widgets/max_width_container.dart';
 import 'package:suivi_budget/views/widgets/solde_widget.dart';
 
@@ -93,7 +97,10 @@ class _AccueilScreenState extends State<AccueilScreen> {
                 textAlign: TextAlign.center,
               ),
               const Gap(24),
-              FilledButton(onPressed: reessayer, child: const Text("Réessayer")),
+              FilledButton(
+                onPressed: reessayer,
+                child: const Text("Réessayer"),
+              ),
             ],
           ),
         ),
@@ -105,10 +112,6 @@ class _AccueilScreenState extends State<AccueilScreen> {
     final double largeurEcran = MediaQuery.sizeOf(context).width;
     return Scaffold(
       key: widget.scaffoldKey,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => naviguerAjouterTransactionPage(context),
-        child: const Icon(Icons.add),
-      ),
       drawer: Drawer(
         width: largeurEcran < 600 ? double.infinity : 420.0,
         child: const Padding(
@@ -123,7 +126,10 @@ class _AccueilScreenState extends State<AccueilScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 child: Row(
                   children: [
                     const CustomLogoWidget(padding: 8.0, size: 20),
@@ -138,51 +144,128 @@ class _AccueilScreenState extends State<AccueilScreen> {
                         ),
                       ),
                     ),
-                    Builder(
-                      builder: (context) => IconButton(
-                        tooltip: 'Profil',
-                        onPressed: () => Scaffold.of(context).openDrawer(),
-                        icon: const Icon(Icons.person_outline),
+                    if (largeurEcran >= 600)
+                      IconButton(
+                        tooltip: 'Budgets',
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (context) => const BudgetsScreen(),
+                          ),
+                        ),
+                        icon: const Icon(Icons.pie_chart_outline),
                         style: IconButton.styleFrom(
                           backgroundColor: Styles.surfaceSecondaire(context),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: SoldeWidget(),
-              ),
-              const Gap(28),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Transactions récents",
-                          style: Styles.texteTitre,
+                    if (largeurEcran >= 600)
+                      Builder(
+                        builder: (context) => IconButton(
+                          tooltip: 'Profil',
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                          icon: const Icon(Icons.person_outline),
+                          style: IconButton.styleFrom(
+                            backgroundColor: Styles.surfaceSecondaire(context),
+                          ),
                         ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text("voir tout"),
-                    ),
                   ],
                 ),
               ),
-              const Gap(4),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: ListTransactionsWidgets(),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: SoldeWidget(),
+                      ),
+                      const Gap(12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: LayoutBuilder(
+                          builder: (context, contraintes) {
+                            final largeur = contraintes.maxWidth;
+                            final boutonsCoteACote =
+                                largeur >=
+                                380 * MediaQuery.textScalerOf(context).scale(1);
+                            final largeurBouton = boutonsCoteACote
+                                ? (largeur - 10) / 2
+                                : largeur;
+                            return Wrap(
+                              spacing: 10,
+                              runSpacing: 8,
+                              children: [
+                                SizedBox(
+                                  width: largeurBouton,
+                                  child: FilledButton.icon(
+                                    onPressed: () =>
+                                        naviguerAjouterTransactionPage(
+                                          context,
+                                          initial:
+                                              EtatOngletTransaction.depense,
+                                        ),
+                                    icon: const Icon(Icons.arrow_downward),
+                                    label: const Text('Ajouter une dépense'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: largeurBouton,
+                                  child: OutlinedButton.icon(
+                                    onPressed: () =>
+                                        naviguerAjouterTransactionPage(
+                                          context,
+                                          initial: EtatOngletTransaction.revenu,
+                                        ),
+                                    icon: const Icon(Icons.arrow_upward),
+                                    label: const Text('Ajouter un revenu'),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                      const Gap(24),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: SectionEnveloppes(),
+                      ),
+                      const Gap(24),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Transactions récentes",
+                                  style: Styles.texteTitre,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () =>
+                                  ListeTransactionsSheet.afficher(context),
+                              child: const Text("Voir tout"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Gap(4),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: SizedBox(
+                          height: 320,
+                          child: ListTransactionsWidgets(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -196,8 +279,8 @@ class _AccueilScreenState extends State<AccueilScreen> {
   Widget build(BuildContext context) {
     return switch (_etat) {
       EtatAuthentificationVerification() => const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        ),
+        body: Center(child: CircularProgressIndicator()),
+      ),
       EtatAuthentificationRefusee() => ecranVerrouille(),
       EtatAuthentificationIgnoree() => ecranPrincipal(context),
       EtatAuthentificationAccordee() => ecranPrincipal(context),

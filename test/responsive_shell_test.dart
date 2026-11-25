@@ -4,6 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/providers/database_provider.dart';
 import 'package:suivi_budget/providers/modifier_transaction_view_provider.dart';
+import 'package:suivi_budget/providers/theme_provider.dart';
 import 'package:suivi_budget/views/widgets/responsive_shell.dart';
 
 import 'fixtures/fakes.dart';
@@ -23,7 +24,10 @@ Future<void> pomperCoque(
         ChangeNotifierProvider(
           create: (_) => DatabaseProvider(database: dao)..listenTransactions(),
         ),
-        ChangeNotifierProvider(create: (_) => ModifierTransactionViewProvider()),
+        ChangeNotifierProvider(
+          create: (_) => ModifierTransactionViewProvider(),
+        ),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: MaterialApp(
         home: ResponsiveShell(localAuth: FakeLocalAuth(estDisponible: false)),
@@ -59,6 +63,7 @@ void main() {
     await pomperCoque(tester, dao: dao, taille: const Size(820, 1180));
 
     expect(find.byType(NavigationRail), findsOneWidget);
+    expect(find.byType(NavigationBar), findsNothing);
     expect(find.text('Accueil'), findsOneWidget);
     expect(
       tester.getSize(find.byKey(const ValueKey('home_content'))).width,
@@ -66,16 +71,19 @@ void main() {
     );
   });
 
-  testWidgets('le desktop affiche un rail étendu avec toutes les destinations',
-      (tester) async {
-    final FakeTransactionDao dao = FakeTransactionDao();
-    addTearDown(dao.close);
+  testWidgets(
+    'le desktop affiche un rail étendu avec toutes les destinations',
+    (tester) async {
+      final FakeTransactionDao dao = FakeTransactionDao();
+      addTearDown(dao.close);
 
-    await pomperCoque(tester, dao: dao, taille: const Size(1440, 900));
+      await pomperCoque(tester, dao: dao, taille: const Size(1440, 900));
 
-    expect(find.byType(NavigationRail), findsOneWidget);
-    expect(find.text('Accueil'), findsOneWidget);
-    expect(find.text('Ajouter'), findsOneWidget);
-    expect(find.text('Profil'), findsOneWidget);
-  });
+      expect(find.byType(NavigationRail), findsOneWidget);
+      expect(find.byType(NavigationBar), findsNothing);
+      expect(find.text('Accueil'), findsOneWidget);
+      expect(find.text('Ajouter'), findsOneWidget);
+      expect(find.text('Profil'), findsOneWidget);
+    },
+  );
 }

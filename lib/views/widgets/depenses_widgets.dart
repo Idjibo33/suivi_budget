@@ -6,10 +6,12 @@ import 'package:suivi_budget/models/helpers/format_montant.dart';
 class DepensesWidgets extends StatelessWidget {
   final bool chargement;
   final int totalDepenses;
+  final bool masque;
   const DepensesWidgets({
     super.key,
     required this.totalDepenses,
     required this.chargement,
+    this.masque = false,
   });
 
   @override
@@ -27,11 +29,13 @@ class DepensesWidgets extends StatelessWidget {
           enabled: chargement,
           containersColor: Styles.surfaceSecondaire(context),
           child: Text(
-            FormatMontant.afficherAvecSigne(
-              totalDepenses,
-              estRevenu: false,
-              devise: false,
-            ),
+            masque
+                ? '******'
+                : FormatMontant.afficherAvecSigne(
+                    totalDepenses,
+                    estRevenu: false,
+                    devise: false,
+                  ),
             style: Styles.texteMontantCompact.copyWith(
               color: Styles.couleurDepense(context),
             ),

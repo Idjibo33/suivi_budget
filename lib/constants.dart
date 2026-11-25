@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// Palette volontairement réduite à trois teintes : noir, blanc et teal.
-/// Les gris sont des neutres (shades de noir/blanc), pas des couleurs
-/// supplémentaires. Aucune couleur de statut verte ou rouge n'est utilisée :
-/// le signe du montant et l'icône portent l'information.
+/// Palette noir, blanc et teal. Les gris sont des nuances neutres.
+/// Le signe du montant et la direction de la flèche distinguent les dépenses.
 abstract final class AppCouleurs {
   static const Color teal = Color(0xFF00796B);
   static const Color tealClair = Color(0xFF2DD4BF);
@@ -18,6 +16,16 @@ abstract final class AppCouleurs {
   static const Color bordureSombre = Color(0xFF2B2B2B);
   static const Color grisClair = Color(0xFF767676);
   static const Color grisSombre = Color(0xFFA3A3A3);
+
+  /// Nuances utilisées uniquement pour distinguer les parts d'un graphique.
+  /// Elles restent dérivées du thème : aucune couleur de statut n'est ajoutée.
+  static List<Color> paletteRepartition(ColorScheme couleurs) => [
+        couleurs.primary,
+        Color.lerp(couleurs.primary, couleurs.onSurface, 0.3)!,
+        couleurs.onSurface,
+        Color.lerp(couleurs.primary, couleurs.onSurfaceVariant, 0.4)!,
+        Color.lerp(couleurs.primary, couleurs.onSurface, 0.6)!,
+      ];
 }
 
 /// Thème unique de l'application, dérivé d'un [ColorScheme] explicite.
@@ -242,11 +250,15 @@ abstract final class Styles {
     fontFeatures: [FontFeature.tabularFigures()],
   );
 
-  /// Revenu : seul accent coloré. Dépense : couleur de texte neutre.
+  /// Revenu en teal, dépense dans la couleur du texte courant.
   static Color couleurRevenu(BuildContext context) =>
       Theme.of(context).colorScheme.primary;
 
   static Color couleurDepense(BuildContext context) =>
+      Theme.of(context).colorScheme.onSurface;
+
+  /// Actions neutres, dont « Supprimer ».
+  static Color couleurNeutreAction(BuildContext context) =>
       Theme.of(context).colorScheme.onSurface;
 
   static Color surfaceSecondaire(BuildContext context) =>

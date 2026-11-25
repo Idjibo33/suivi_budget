@@ -103,8 +103,17 @@ class _DetailsBody extends StatelessWidget {
               ),
               const Gap(20),
               const Divider(),
-              _ligne(context, 'Type', transaction.type, couleurMontant),
-              _ligne(context, 'Catégorie', transaction.category, couleurMontant),
+              // En édition, le formulaire affiche le type issu de la
+              // catégorie choisie : ne pas afficher ici l'ancien type.
+              if (!enEdition) ...[
+                _ligne(context, 'Type', transaction.type, couleurMontant),
+                _ligne(
+                  context,
+                  'Catégorie',
+                  transaction.category,
+                  couleurMontant,
+                ),
+              ],
               if (transaction.description.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -138,14 +147,14 @@ class _DetailsBody extends StatelessWidget {
                       child: Consumer<DatabaseProvider>(
                         builder: (context, database, child) =>
                             CustomTextButtonWidget(
-                          couleurTexte: Styles.couleurDepense(context),
+                          couleurTexte: Styles.couleurNeutreAction(context),
                           texte: "Supprimer",
                           action: () async {
-                            await database.delteTransaction(
-                              context,
-                              id: transaction.id!,
-                            );
-                            if (context.mounted) Navigator.pop(context);
+                            final bool supprimee = await database
+                                .delteTransaction(context, id: transaction.id!);
+                            if (supprimee && context.mounted) {
+                              Navigator.pop(context);
+                            }
                           },
                           chargement: database.chargement,
                         ),
