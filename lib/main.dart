@@ -29,8 +29,12 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(
-          create: (context) =>
-              DatabaseProvider(database: database)..listenTransactions(),
+          create: (context) => DatabaseProvider(database: database)
+            ..listenTransactions()
+            ..listenDonneesV2()
+            ..chargerModeleEtatVide()
+            ..chargerPlafonds()
+            ..chargerModelesBudget(),
         ),
       ],
       child: const MainApp(),

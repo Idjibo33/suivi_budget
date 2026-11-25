@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:suivi_budget/constants.dart';
 import 'package:suivi_budget/models/etats/etat_theme.dart';
 import 'package:suivi_budget/models/etats/saveur_application.dart';
+import 'package:suivi_budget/models/version_application.dart';
 import 'package:suivi_budget/providers/theme_provider.dart';
 import 'package:suivi_budget/views/widgets/head_text_widget.dart';
 
-/// Page de profil affichée dans le tiroir de l'accueil.
+/// Page de profil affichée dans le tiroir de l'accueil ou comme onglet de la
+/// navigation mobile.
 ///
 /// Elle rassemble l'identité locale, le choix d'apparence et les informations
 /// de confidentialité, sans bouton sans action.
 class ProfilScreen extends StatelessWidget {
-  const ProfilScreen({super.key});
+  /// Valeur injectable pour les tests : lorsqu'elle est fournie, aucune
+  /// dépendance à la plateforme n'est requise.
+  final String? version;
+
+  /// Fermeture propre à l'usage en onglet mobile. Sans callback, le bouton
+  /// ferme le tiroir qui contient l'écran.
+  final VoidCallback? onFermer;
+
+  const ProfilScreen({super.key, this.version, this.onFermer});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +41,8 @@ class ProfilScreen extends StatelessWidget {
                 headTextWidget(texte: "Profil"),
                 IconButton(
                   tooltip: 'Fermer',
-                  onPressed: () => Scaffold.of(context).closeDrawer(),
+                  onPressed:
+                      onFermer ?? () => Scaffold.of(context).closeDrawer(),
                   icon: const Icon(Icons.close),
                 ),
               ],
@@ -103,16 +115,67 @@ class ProfilScreen extends StatelessWidget {
               ),
             ),
             const Gap(24),
-            Center(
-              child: Text(
-                saveurApplication.nomAffiche,
-                style: Styles.texteCorps.copyWith(
-                  color: Styles.texteSecondaire(context),
-                ),
-              ),
-            ),
+            _VersionApplication(version: version),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Affiche le nom et la version de l'application.
+///
+/// La version injectée est utilisée telle quelle (tests, aperçus). Sinon, on
+/// interroge `PackageInfo` et on retombe sur [VersionApplication.libelleParDefaut]
+/// si la plateforme n'est pas disponible.
+class _VersionApplication extends StatefulWidget {
+  final String? version;
+
+  const _VersionApplication({this.version});
+
+  @override
+  State<_VersionApplication> createState() => _VersionApplicationState();
+}
+
+class _VersionApplicationState extends State<_VersionApplication> {
+  late String _libelle = widget.version ?? VersionApplication.libelleParDefaut;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.version == null) {
+      _chargerVersionPlateforme();
+    }
+  }
+
+  Future<void> _chargerVersionPlateforme() async {
+    try {
+      final PackageInfo info = await PackageInfo.fromPlatform();
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _libelle = VersionApplication.formater(info.version, info.buildNumber);
+      });
+    } catch (_) {
+      // Pas de canal plateforme (tests, web non initialisé) : on conserve la
+      // valeur par défaut documentée, déjà affichée.
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle style = Styles.texteCorps.copyWith(
+      color: Styles.texteSecondaire(context),
+    );
+    return Center(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(saveurApplication.nomAffiche, style: style),
+          const Gap(4),
+          Text('· v$_libelle', style: style),
+        ],
       ),
     );
   }

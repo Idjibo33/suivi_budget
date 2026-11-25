@@ -10,14 +10,19 @@ import 'package:suivi_budget/views/transactions/revenus/ajouter_revenu_view.dart
 /// thème pendant la reconstruction du `TabBarView`. Un état simple et un
 /// `switch` exhaustif évitent toute animation de contrôleur.
 class AjouterTransaction extends StatefulWidget {
-  const AjouterTransaction({super.key});
+  const AjouterTransaction({
+    super.key,
+    this.ongletInitial = EtatOngletTransaction.revenu,
+  });
+
+  final EtatOngletTransaction ongletInitial;
 
   @override
   State<AjouterTransaction> createState() => _AjouterTransactionState();
 }
 
 class _AjouterTransactionState extends State<AjouterTransaction> {
-  EtatOngletTransaction _onglet = EtatOngletTransaction.revenu;
+  late EtatOngletTransaction _onglet = widget.ongletInitial;
 
   /// Transition nommée : un choix identique ne reconstruit pas l'écran.
   void choisirOnglet(EtatOngletTransaction nouvelOnglet) {

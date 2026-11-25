@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:suivi_budget/constants.dart';
 
 /// Notification monochrome : le teal marque la réussite, le contraste marque
-/// l'erreur. Aucune couleur de statut verte ou rouge n'est introduite.
+/// l’erreur.
 class MessageSnackbar extends StatelessWidget {
   final String message;
   final bool erreur;
